@@ -1,0 +1,7 @@
+# Runtime state from bring-up.sh and the openclaw gateway/paperclip
+# server. Contains bearer tokens, live API keys, and per-host state
+# that has no business in source control.
+.openclaw/
+logs/
+node_modules/
+.DS_Store
