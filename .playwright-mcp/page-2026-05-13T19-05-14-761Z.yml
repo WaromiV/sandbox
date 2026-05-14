@@ -1,0 +1,195 @@
+- generic [ref=e64]:
+  - banner [ref=e65]:
+    - generic [ref=e66]:
+      - generic [ref=e70]:
+        - link "OpenClaw" [ref=e71] [cursor=pointer]:
+          - /url: /overview
+        - generic [ref=e72]:
+          - generic [ref=e73]: ›
+          - generic "main" [ref=e74]
+        - generic [ref=e75]: ›
+        - generic [ref=e76]: Issue Manager
+      - generic [ref=e77]:
+        - button "Open command palette" [ref=e78] [cursor=pointer]:
+          - generic [ref=e79]: Search
+          - generic [ref=e80]: ⌘K
+        - group "Color mode" [ref=e82]:
+          - 'button "Color mode: System" [ref=e83] [cursor=pointer]':
+            - img [ref=e84]
+          - 'button "Color mode: Light" [ref=e88] [cursor=pointer]':
+            - img [ref=e89]
+          - 'button "Color mode: Dark" [pressed] [ref=e99] [cursor=pointer]':
+            - img [ref=e100]
+  - complementary [ref=e103]:
+    - generic [ref=e104]:
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - img "OpenClaw" [ref=e107]
+          - generic [ref=e108]:
+            - generic [ref=e109]: Control
+            - generic [ref=e110]: OpenClaw
+        - button "Collapse sidebar" [ref=e111] [cursor=pointer]:
+          - img [ref=e113]
+      - navigation [ref=e118]:
+        - generic [ref=e119]:
+          - button "Chat" [expanded] [ref=e120] [cursor=pointer]:
+            - generic [ref=e121]: Chat
+            - img [ref=e123]
+          - link "Chat" [ref=e126] [cursor=pointer]:
+            - /url: /chat
+            - img [ref=e128]
+            - generic [ref=e130]: Chat
+        - generic [ref=e131]:
+          - button "Issues" [expanded] [ref=e132] [cursor=pointer]:
+            - generic [ref=e133]: Issues
+            - img [ref=e135]
+          - link "Issue Manager" [ref=e138] [cursor=pointer]:
+            - /url: /issues
+            - img [ref=e140]
+            - generic [ref=e147]: Issue Manager
+        - generic [ref=e148]:
+          - button "Editor" [expanded] [ref=e149] [cursor=pointer]:
+            - generic [ref=e150]: Editor
+            - img [ref=e152]
+          - link "Agent Space Editor" [ref=e155] [cursor=pointer]:
+            - /url: /editor
+            - img [ref=e157]
+            - generic [ref=e161]: Agent Space Editor
+        - generic [ref=e162]:
+          - button "Control" [expanded] [ref=e163] [cursor=pointer]:
+            - generic [ref=e164]: Control
+            - img [ref=e166]
+          - generic [ref=e168]:
+            - link "Overview" [ref=e169] [cursor=pointer]:
+              - /url: /overview
+              - img [ref=e171]
+              - generic [ref=e175]: Overview
+            - link "Channels" [ref=e176] [cursor=pointer]:
+              - /url: /channels
+              - img [ref=e178]
+              - generic [ref=e181]: Channels
+            - link "Instances" [ref=e182] [cursor=pointer]:
+              - /url: /instances
+              - img [ref=e184]
+              - generic [ref=e187]: Instances
+            - link "Sessions" [ref=e188] [cursor=pointer]:
+              - /url: /sessions
+              - img [ref=e190]
+              - generic [ref=e196]: Sessions
+            - link "Usage" [ref=e197] [cursor=pointer]:
+              - /url: /usage
+              - img [ref=e199]
+              - generic [ref=e203]: Usage
+            - link "Cron Jobs" [ref=e204] [cursor=pointer]:
+              - /url: /cron
+              - img [ref=e206]
+              - generic [ref=e215]: Cron Jobs
+        - generic [ref=e216]:
+          - button "Agent" [expanded] [ref=e217] [cursor=pointer]:
+            - generic [ref=e218]: Agent
+            - img [ref=e220]
+          - generic [ref=e222]:
+            - link "Agents" [ref=e223] [cursor=pointer]:
+              - /url: /agents
+              - img [ref=e225]
+              - generic [ref=e227]: Agents
+            - link "Skills" [ref=e228] [cursor=pointer]:
+              - /url: /skills
+              - img [ref=e230]
+              - generic [ref=e232]: Skills
+            - link "Nodes" [ref=e233] [cursor=pointer]:
+              - /url: /nodes
+              - img [ref=e235]
+              - generic [ref=e239]: Nodes
+            - link "Dreaming" [ref=e240] [cursor=pointer]:
+              - /url: /dreaming
+              - img [ref=e242]
+              - generic [ref=e244]: Dreaming
+        - generic [ref=e245]:
+          - button "Settings" [expanded] [ref=e246] [cursor=pointer]:
+            - generic [ref=e247]: Settings
+            - img [ref=e249]
+          - generic [ref=e251]:
+            - link "Config" [ref=e252] [cursor=pointer]:
+              - /url: /config
+              - img [ref=e254]
+              - generic [ref=e257]: Config
+            - link "Communications" [ref=e258] [cursor=pointer]:
+              - /url: /communications
+              - img [ref=e260]
+              - generic [ref=e263]: Communications
+            - link "Appearance" [ref=e264] [cursor=pointer]:
+              - /url: /appearance
+              - img [ref=e266]
+              - generic [ref=e268]: Appearance
+            - link "Automation" [ref=e269] [cursor=pointer]:
+              - /url: /automation
+              - img [ref=e271]
+              - generic [ref=e274]: Automation
+            - link "Infrastructure" [ref=e275] [cursor=pointer]:
+              - /url: /infrastructure
+              - img [ref=e277]
+              - generic [ref=e281]: Infrastructure
+            - link "AI & Agents" [ref=e282] [cursor=pointer]:
+              - /url: /ai-agents
+              - img [ref=e284]
+              - generic [ref=e294]: AI & Agents
+            - link "Debug" [ref=e295] [cursor=pointer]:
+              - /url: /debug
+              - img [ref=e297]
+              - generic [ref=e309]: Debug
+            - link "Logs" [ref=e310] [cursor=pointer]:
+              - /url: /logs
+              - img [ref=e312]
+              - generic [ref=e317]: Logs
+      - link "Docs" [ref=e320] [cursor=pointer]:
+        - /url: https://docs.openclaw.ai
+        - img [ref=e322]
+        - generic [ref=e324]: Docs
+        - img [ref=e326]
+  - main [ref=e329]:
+    - generic [ref=e331]:
+      - generic [ref=e332]: Issue Manager
+      - generic [ref=e333]: Projects, tasks, and governance.
+    - region "Issue Manager" [ref=e336]:
+      - iframe [active] [ref=e337]:
+        - generic [ref=f16e1]:
+          - generic [ref=f16e4]:
+            - heading "Create your first company" [level=1] [ref=f16e5]
+            - paragraph [ref=f16e6]: Get started by creating a company and your first agent.
+            - button "Start Onboarding" [ref=f16e8]
+          - generic [ref=f16e10]:
+            - button "Close" [ref=f16e11]:
+              - img [ref=f16e12]
+              - generic [ref=f16e15]: Close
+            - generic [ref=f16e17]:
+              - generic [ref=f16e18]:
+                - button "Company" [ref=f16e19] [cursor=pointer]:
+                  - img [ref=f16e20]
+                  - text: Company
+                - button "Agent" [ref=f16e26] [cursor=pointer]:
+                  - img [ref=f16e27]
+                  - text: Agent
+                - button "Task" [ref=f16e34] [cursor=pointer]:
+                  - img [ref=f16e35]
+                  - text: Task
+                - button "Launch" [ref=f16e41] [cursor=pointer]:
+                  - img [ref=f16e42]
+                  - text: Launch
+              - generic [ref=f16e47]:
+                - generic [ref=f16e48]:
+                  - img [ref=f16e50]
+                  - generic [ref=f16e56]:
+                    - heading "Name your company" [level=3] [ref=f16e57]
+                    - paragraph [ref=f16e58]: This is the organization your agents will work for.
+                - generic [ref=f16e59]:
+                  - generic [ref=f16e60]: Company name
+                  - textbox "Acme Corp" [active] [ref=f16e61]
+                - generic [ref=f16e62]:
+                  - generic [ref=f16e63]: Mission / goal (optional)
+                  - textbox "What is this company trying to achieve?" [ref=f16e64]
+              - generic [ref=f16e66]:
+                - button "Next" [disabled]:
+                  - img
+                  - text: Next
+            - generic [ref=f16e68]: . . ........ ....... .······· ··▪····▪ .▪▪▪▪▪▪▪ .▪○▫▫▫▫○ ..○○╭────╮ .▫╭╯╭──╮│ .▫│▫│·▫││ ·▫│▫│·▫││ ▫│▫│▪▫││ ▫│○│▫○││ ○│▫╰──╯│ ╰─────╯ ▪ ╭ │ │ │ │ │ │ ╰ . . ......... ▪▪····▪▪·.. ╭─────╮▪▪·.. │╭──╮╰╮▪·... ││▪·│▪│▪·... ││▪·│▪│▪·... ││▪·│▪│▪·... ││▪▪│▪│▪·.. │╰──╯▪│▪· ╰────╯▪

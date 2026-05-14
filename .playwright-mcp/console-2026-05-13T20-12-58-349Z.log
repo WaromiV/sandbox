@@ -1,0 +1,384 @@
+[      33ms] [LOG]  INFO [lifecycle] onBeforeUnload triggered and handled with veto support @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[      58ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.disconnectRemote) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[      63ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatSessionStore) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[      63ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatEditingSession) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[     265ms] [WARNING]  WARN Attempted to report in-progress status for unknown chat session type 'local' @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[     266ms] [ERROR]   ERR Error creating chat editing session content folder vscode-remote:/home/coder/.local/share/code-server/User/workspaceStorage/15945c1a/chatEditingSessions/bbf9286a-6b70-43e5-abbc-c3304aa5f810/contents Error @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[     266ms] [ERROR]   ERR Error creating chat editing session content folder vscode-remote:/home/coder/.local/share/code-server/User/workspaceStorage/15945c1a/chatEditingSessions/bbf9286a-6b70-43e5-abbc-c3304aa5f810/contents Error @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[     502ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[     528ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[   10585ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[   10586ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[   10586ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[   10586ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[   10586ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[   10588ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[   10615ms] [WARNING] [JavaScript Warning: "‘src’ attribute of <script> element is empty." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor&payload=%5B%5B%22openFile%22%2C%22vscode-remote%3A%2F%2F.%2Fworkspace%2Fagents%2Fviktor%2FAGENTS.md%22%5D%5D" line: 48}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor&payload=%5B%5B%22openFile%22%2C%22vscode-remote%3A%2F%2F.%2Fworkspace%2Fagents%2Fviktor%2FAGENTS.md%22%5D%5D:48
+[   11580ms] [LOG]  INFO Resolving connection token (localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   11581ms] [LOG]  INFO Resolved connection token (localhost:8082) after 1 ms @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   11583ms] [LOG]  INFO Creating a socket (renderer-Management-ddfc8432-12cf-4ce8-af0c-ac2e0cd44794)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   60779ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[   60788ms] [LOG]  INFO Creating a socket (renderer-Management-ddfc8432-12cf-4ce8-af0c-ac2e0cd44794) was successful after 49204 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   60799ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/node_modules/vsda/rust/web/vsda.js”." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor&payload=%5B%5B%22openFile%22%2C%22vscode-remote%3A%2F%2F.%2Fworkspace%2Fagents%2Fviktor%2FAGENTS.md%22%5D%5D" line: 1}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor&payload=%5B%5B%22openFile%22%2C%22vscode-remote%3A%2F%2F.%2Fworkspace%2Fagents%2Fviktor%2FAGENTS.md%22%5D%5D:1
+[   64861ms] [LOG]  INFO [reconnection-grace-time] Client received grace time from server: 10800000ms (10800s) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   68100ms] [WARNING] The web worker extension host is started in a same-origin iframe! @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4908
+[   68105ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-d025cc84-8d82-4c2b-bd27-c72b58c840f2)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   68111ms] [LOG]  INFO [Service Worker] registered @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68112ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   68131ms] [WARNING] [JavaScript Warning: "The character encoding of a framed document was not declared. The document may appear different if viewed without the document framing it." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=df8b3dc4-4042-41ac-8156-8f4ced664e5b" line: 0}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=df8b3dc4-4042-41ac-8156-8f4ced664e5b:0
+[  109870ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  110875ms] [LOG]  INFO Updating additional builtin extensions cache @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  114924ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  120803ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  120809ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-d025cc84-8d82-4c2b-bd27-c72b58c840f2) was successful after 52707 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  126273ms] [ERROR]   ERR [Extension Host] (node:2367) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  126273ms] [ERROR] [Extension Host]  (node:2367) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:999
+[  142371ms] [LOG]  INFO Extension host (Remote) is unresponsive. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  144410ms] [LOG]  INFO Extension host (Remote) is responsive. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  180810ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  240811ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  284310ms] [LOG]  INFO Extension host (Remote) is unresponsive. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  284351ms] [LOG]  INFO Extension host (Remote) is responsive. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  293404ms] [LOG]  INFO Extension host (Remote) is unresponsive. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  293415ms] [LOG]  INFO Extension host (Remote) is responsive. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  301585ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  314136ms] [LOG]  INFO [lifecycle] onBeforeUnload triggered and handled with veto support @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  314138ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.disconnectRemote) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  314138ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatSessionStore) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  314139ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatEditingSession) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  314167ms] [WARNING]  WARN Attempted to report in-progress status for unknown chat session type 'local' @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  314169ms] [ERROR]   ERR Error creating chat editing session content folder vscode-remote:/home/coder/.local/share/code-server/User/workspaceStorage/-fab1756/chatEditingSessions/eeddafa6-7e64-4aa7-9bd3-d22e296ebe96/contents Error @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  314184ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  314184ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  314189ms] Canceled: Canceled
+
+[  314189ms] Canceled: Canceled
+
+[  314189ms] Canceled: Canceled
+
+[  314189ms] Canceled: Canceled
+
+[  314189ms] Canceled: Canceled
+
+[  314189ms] Canceled: Canceled
+
+[  314189ms] Canceled: Canceled
+
+[  314189ms] Canceled: Canceled
+
+[  314189ms] Canceled: Canceled
+
+[  314190ms] Canceled: Canceled
+
+[  314190ms] Canceled: Canceled
+
+[  314190ms] Canceled: Canceled
+
+[  314190ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314191ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+
+[  314192ms] Canceled: Canceled
+    at flush (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:852:106226)
+    at async*doShutdown (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:23061)
+    at onBeforeUnload (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22524)
+    at registerListeners/this.beforeUnloadListener< (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22200)
+    at _commitValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808:23)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:793:33)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:643:26)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:643:26)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:643:26)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:643:26)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at render (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:984:7)
+    at update (http://localhost:5173/node_modules/.vite/deps/lit.js?v=dd2d6b95:104:22)
+    at performUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:696:10)
+    at scheduleUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:655:23)
+    at __enqueueUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:633:23)
+    at async*requestUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:607:67)
+    at set (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:326:10)
+    at setEditorTarget (http://localhost:5173/src/ui/app.ts?t=1778703163418:636:4)
+    at onSelectAgent (http://localhost:5173/src/ui/app-render.ts?t=1778703163418:1278:32)
+    at renderChips/</< (http://localhost:5173/src/ui/views/editor.ts?t=1778703163418:51:38)
+    at handleEvent (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:876:74)
+    at EventListener.handleEvent*_$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:872:39)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:656:13)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at _commitIterable (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:687:13)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:576:38)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:656:13)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:656:13)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:643:26)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at render (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:984:7)
+    at update (http://localhost:5173/node_modules/.vite/deps/lit.js?v=dd2d6b95:104:22)
+    at performUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:696:10)
+    at scheduleUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:655:23)
+    at __enqueueUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:633:23)
+    at async*requestUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:607:67)
+    at renderApp/requestHostUpdate< (http://localhost:5173/src/ui/app-render.ts?t=1778703163418:490:102)
+    at notifyLazyViewChanged (http://localhost:5173/src/ui/app-render.ts?t=1778703163418:55:37)
+    at createLazyView/load/state.promise< (http://localhost:5173/src/ui/lazy-view.ts?t=1778703163418:20:4)
+    at Async*load (http://localhost:5173/src/ui/lazy-view.ts?t=1778703163418:19:6)
+    at read (http://localhost:5173/src/ui/lazy-view.ts?t=1778703163418:29:5)
+    at renderLazyView (http://localhost:5173/src/ui/lazy-view.ts?t=1778703163418:58:19)
+    at renderApp (http://localhost:5173/src/ui/app-render.ts?t=1778703163418:1273:36)
+    at render (http://localhost:5173/src/ui/app.ts?t=1778703163418:1067:10)
+    at update (http://localhost:5173/node_modules/.vite/deps/lit.js?v=dd2d6b95:101:22)
+    at performUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:696:10)
+    at scheduleUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:655:23)
+    at __enqueueUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:633:23)
+    at async*requestUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:607:67)
+    at set (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:326:10)
+    at  (debugger eval code line 302 > eval line 2 > eval:9:76)
+    at  (debugger eval code line 302 > eval:4:50)
+    at evaluate (debugger eval code:304:16)
+    at  (debugger eval code:1:44)
+    at  (debugger eval code:1:62)
+    at evaluateFunction (chrome://juggler/content/content/Runtime.js:417:57)
+    at callFunction (chrome://juggler/content/content/Runtime.js:103:41)
+    at _onMessageInternal (chrome://juggler/content/SimpleChannel.js:237:37)
+    at _onMessage (chrome://juggler/content/SimpleChannel.js:194:12)
+    at bindToActor/actor.receiveMessage (chrome://juggler/content/SimpleChannel.js:39:44)
+[  314224ms] [WARNING] [JavaScript Warning: "‘src’ attribute of <script> element is empty." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fforwarder-dev" line: 48}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fforwarder-dev:48
+[  315174ms] [LOG]  INFO Resolving connection token (localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  315177ms] [LOG]  INFO Resolved connection token (localhost:8082) after 1 ms @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  315177ms] [LOG]  INFO Creating a socket (renderer-Management-f40fbe55-6aeb-492c-a5df-66d970a75527)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  315179ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  315179ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  315217ms] [WARNING] [JavaScript Warning: "‘src’ attribute of <script> element is empty." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fflow-dev" line: 48}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fflow-dev:48
+[  316153ms] [LOG]  INFO Resolving connection token (localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  316154ms] [LOG]  INFO Resolved connection token (localhost:8082) after 1 ms @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  316156ms] [LOG]  INFO Creating a socket (renderer-Management-0d63023a-b76f-4922-8ca5-954b9f2ec068)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  334545ms] [ERROR] [JavaScript Error: "The connection to ws://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a?reconnectionToken=d025cc84-8d82-4c2b-bd27-c72b58c840f2&reconnection=false&skipWebSocketFrames=false was interrupted while the page was loading." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4907}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4907
+[  341406ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  341406ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  341431ms] [WARNING] [JavaScript Warning: "‘src’ attribute of <script> element is empty." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor" line: 48}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor:48
+[  342366ms] [LOG]  INFO Resolving connection token (localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  342367ms] [LOG]  INFO Resolved connection token (localhost:8082) after 1 ms @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  342370ms] [LOG]  INFO Creating a socket (renderer-Management-2d4e7ca5-e1a9-48c1-9b56-7d3eb60f4f7d)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  362185ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  362189ms] [LOG]  INFO Creating a socket (renderer-Management-2d4e7ca5-e1a9-48c1-9b56-7d3eb60f4f7d) was successful after 19819 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  362199ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/node_modules/vsda/rust/web/vsda.js”." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor" line: 1}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor:1
+[  362211ms] [LOG]  INFO [reconnection-grace-time] Client received grace time from server: 10800000ms (10800s) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  362433ms] [WARNING] The web worker extension host is started in a same-origin iframe! @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4908
+[  362436ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-3790acf8-73bc-4f95-a5f0-f57ee43ea44f)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  362451ms] [LOG]  INFO [Service Worker] registered @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  362452ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362452ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362452ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362452ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362455ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362455ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362455ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362456ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362456ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362456ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362456ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362456ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362456ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362457ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362458ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  362473ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-3790acf8-73bc-4f95-a5f0-f57ee43ea44f) was successful after 36 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  362504ms] [WARNING] [JavaScript Warning: "The character encoding of a framed document was not declared. The document may appear different if viewed without the document framing it." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=4d01f8ba-dfae-41d6-aa1a-a7c1406173c5" line: 0}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=4d01f8ba-dfae-41d6-aa1a-a7c1406173c5:0
+[  363275ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  363389ms] [ERROR]   ERR [Extension Host] (node:3359) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  363389ms] [ERROR] [Extension Host]  (node:3359) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:999
+[  365180ms] [LOG]  INFO Updating additional builtin extensions cache @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  368276ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  422191ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  482194ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  542197ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  602202ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  662209ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  722211ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  782214ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  842216ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  902227ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  962230ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1022232ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1082234ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1142236ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1202238ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1262255ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1322257ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1382268ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1444291ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1505175ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1565206ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1625281ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1685339ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1745594ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1793965ms] [WARNING]  WARN Remote network connection appears to have high latency (502.00ms last, 23.84ms average) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 1806035ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1866547ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1927139ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 1987268ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2047771ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2108410ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2169080ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2229723ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2249964ms] [WARNING]  WARN Remote network connection appears to have high latency (501.50ms last, 108.32ms average) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 2290499ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2351396ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2412123ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2472803ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2533342ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2593945ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2654706ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2715302ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2775964ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2836612ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2897052ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 2957298ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3007747ms] [WARNING]  WARN Remote network connection appears to have high latency (501.00ms last, 198.66ms average) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 3017317ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3077332ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3137900ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3197916ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3258330ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3318922ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3378924ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3439150ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3499971ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3538405ms] [WARNING]  WARN Remote network connection appears to have high latency (502.00ms last, 234.70ms average) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 3560587ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3621224ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3682007ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3742323ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3802922ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3863339ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3923948ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 3984869ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4045528ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4106392ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4166750ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4221393ms] [WARNING]  WARN Remote network connection appears to have high latency (501.50ms last, 270.01ms average) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 4227335ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4287977ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4347980ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4407987ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4468523ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4529221ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4590043ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4601183ms] [WARNING]  WARN Remote network connection appears to have high latency (501.00ms last, 272.67ms average) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 4650838ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4711452ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4772148ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4828782ms] [WARNING]  WARN Remote network connection appears to have high latency (502.00ms last, 267.62ms average) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 4832359ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4892381ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 4952397ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5012400ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5073386ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5134072ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5194075ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5208572ms] [WARNING]  WARN Remote network connection appears to have high latency (501.00ms last, 277.60ms average) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5254079ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5314724ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5375062ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5435096ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5495959ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5556708ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5617388ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5678067ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5738926ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5799609ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5860180ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5920267ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[ 5921511ms] [LOG]  INFO [remote-connection][ExtensionHost][3790a…][reconnect] received socket close event (wasClean: false, code: 1006, reason: ). @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921511ms] [ERROR]   ERR JSHandle@object @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921511ms] [LOG]  INFO [remote-connection][ExtensionHost][3790a…][reconnect] starting reconnecting loop. You can get more information with the trace log level. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921512ms] [LOG]  INFO [remote-connection][ExtensionHost][3790a…][reconnect] starting reconnection with grace time: 10800000ms (10800s) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921512ms] [LOG]  INFO [remote-connection][ExtensionHost][3790a…][reconnect] resolving connection... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921512ms] [LOG]  INFO [remote-connection][ExtensionHost][3790a…][reconnect] connecting to WebSocket(localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921512ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-3790acf8-73bc-4f95-a5f0-f57ee43ea44f)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921520ms] [LOG]  INFO [remote-connection][Management   ][2d4e7…][reconnect] received socket close event (wasClean: false, code: 1006, reason: ). @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921520ms] [ERROR]   ERR JSHandle@object @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921520ms] [LOG]  INFO [remote-connection][Management   ][2d4e7…][reconnect] starting reconnecting loop. You can get more information with the trace log level. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921522ms] [LOG]  INFO [remote-connection][Management   ][2d4e7…][reconnect] starting reconnection with grace time: 10800000ms (10800s) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921522ms] [LOG]  INFO [remote-connection][Management   ][2d4e7…][reconnect] resolving connection... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921522ms] [LOG]  INFO [remote-connection][Management   ][2d4e7…][reconnect] connecting to WebSocket(localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5921522ms] [LOG]  INFO Creating a socket (renderer-Management-2d4e7ca5-e1a9-48c1-9b56-7d3eb60f4f7d)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5922023ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a?reconnectionToken=3790acf8-73bc-4f95-a5f0-f57ee43ea44f&reconnection=true&skipWebSocketFrames=false." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4907}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4907
+[ 5922023ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-3790acf8-73bc-4f95-a5f0-f57ee43ea44f) returned an error after 510 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5922024ms] [ERROR]   ERR Error @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5922024ms] [ERROR]   ERR [remote-connection][ExtensionHost][3790a…][reconnect][WebSocket(localhost:8082)] socketFactory.connect() failed or timed out. Error: @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5922024ms] [ERROR]   ERR Error @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5922024ms] [LOG]  INFO [remote-connection][ExtensionHost][3790a…][reconnect] A temporarily not available error occurred while trying to reconnect, will try again... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[ 5922025ms] [LOG]  INFO [remote-connection][ExtensionHost][3790a…][reconnect] waiting for 5 seconds before reconnecting... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413

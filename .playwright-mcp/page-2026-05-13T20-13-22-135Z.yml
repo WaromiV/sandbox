@@ -1,0 +1,199 @@
+- generic [ref=e74]:
+  - banner [ref=e75]:
+    - generic [ref=e76]:
+      - generic [ref=e80]:
+        - link "OpenClaw" [ref=e81] [cursor=pointer]:
+          - /url: /overview
+        - generic [ref=e82]:
+          - generic [ref=e83]: ›
+          - generic "main" [ref=e84]
+        - generic [ref=e85]: ›
+        - generic [ref=e86]: Agent Space Editor
+      - generic [ref=e87]:
+        - button "Open command palette" [ref=e88] [cursor=pointer]:
+          - generic [ref=e89]: Search
+          - generic [ref=e90]: ⌘K
+        - group "Color mode" [ref=e92]:
+          - 'button "Color mode: System" [ref=e93] [cursor=pointer]':
+            - img [ref=e94]
+          - 'button "Color mode: Light" [ref=e98] [cursor=pointer]':
+            - img [ref=e99]
+          - 'button "Color mode: Dark" [pressed] [ref=e109] [cursor=pointer]':
+            - img [ref=e110]
+  - complementary [ref=e113]:
+    - generic [ref=e114]:
+      - generic [ref=e115]:
+        - generic [ref=e116]:
+          - img "OpenClaw" [ref=e117]
+          - generic [ref=e118]:
+            - generic [ref=e119]: Control
+            - generic [ref=e120]: OpenClaw
+        - button "Collapse sidebar" [ref=e121] [cursor=pointer]:
+          - img [ref=e123]
+      - navigation [ref=e128]:
+        - generic [ref=e129]:
+          - button "Chat" [expanded] [ref=e130] [cursor=pointer]:
+            - generic [ref=e131]: Chat
+            - img [ref=e133]
+          - link "Chat" [ref=e136] [cursor=pointer]:
+            - /url: /chat
+            - img [ref=e138]
+            - generic [ref=e140]: Chat
+        - generic [ref=e141]:
+          - button "Issues" [expanded] [ref=e142] [cursor=pointer]:
+            - generic [ref=e143]: Issues
+            - img [ref=e145]
+          - link "Issue Manager" [ref=e148] [cursor=pointer]:
+            - /url: /issues
+            - img [ref=e150]
+            - generic [ref=e157]: Issue Manager
+        - generic [ref=e158]:
+          - button "Editor" [expanded] [ref=e159] [cursor=pointer]:
+            - generic [ref=e160]: Editor
+            - img [ref=e162]
+          - link "Agent Space Editor" [ref=e165] [cursor=pointer]:
+            - /url: /editor
+            - img [ref=e167]
+            - generic [ref=e171]: Agent Space Editor
+        - generic [ref=e172]:
+          - button "Control" [expanded] [ref=e173] [cursor=pointer]:
+            - generic [ref=e174]: Control
+            - img [ref=e176]
+          - generic [ref=e178]:
+            - link "Overview" [ref=e179] [cursor=pointer]:
+              - /url: /overview
+              - img [ref=e181]
+              - generic [ref=e185]: Overview
+            - link "Channels" [ref=e186] [cursor=pointer]:
+              - /url: /channels
+              - img [ref=e188]
+              - generic [ref=e191]: Channels
+            - link "Instances" [ref=e192] [cursor=pointer]:
+              - /url: /instances
+              - img [ref=e194]
+              - generic [ref=e197]: Instances
+            - link "Sessions" [ref=e198] [cursor=pointer]:
+              - /url: /sessions
+              - img [ref=e200]
+              - generic [ref=e206]: Sessions
+            - link "Usage" [ref=e207] [cursor=pointer]:
+              - /url: /usage
+              - img [ref=e209]
+              - generic [ref=e213]: Usage
+            - link "Cron Jobs" [ref=e214] [cursor=pointer]:
+              - /url: /cron
+              - img [ref=e216]
+              - generic [ref=e225]: Cron Jobs
+        - generic [ref=e226]:
+          - button "Agent" [expanded] [ref=e227] [cursor=pointer]:
+            - generic [ref=e228]: Agent
+            - img [ref=e230]
+          - generic [ref=e232]:
+            - link "Agents" [ref=e233] [cursor=pointer]:
+              - /url: /agents
+              - img [ref=e235]
+              - generic [ref=e237]: Agents
+            - link "Skills" [ref=e238] [cursor=pointer]:
+              - /url: /skills
+              - img [ref=e240]
+              - generic [ref=e242]: Skills
+            - link "Nodes" [ref=e243] [cursor=pointer]:
+              - /url: /nodes
+              - img [ref=e245]
+              - generic [ref=e249]: Nodes
+            - link "Dreaming" [ref=e250] [cursor=pointer]:
+              - /url: /dreaming
+              - img [ref=e252]
+              - generic [ref=e254]: Dreaming
+        - generic [ref=e255]:
+          - button "Settings" [expanded] [ref=e256] [cursor=pointer]:
+            - generic [ref=e257]: Settings
+            - img [ref=e259]
+          - generic [ref=e261]:
+            - link "Config" [ref=e262] [cursor=pointer]:
+              - /url: /config
+              - img [ref=e264]
+              - generic [ref=e267]: Config
+            - link "Communications" [ref=e268] [cursor=pointer]:
+              - /url: /communications
+              - img [ref=e270]
+              - generic [ref=e273]: Communications
+            - link "Appearance" [ref=e274] [cursor=pointer]:
+              - /url: /appearance
+              - img [ref=e276]
+              - generic [ref=e278]: Appearance
+            - link "Automation" [ref=e279] [cursor=pointer]:
+              - /url: /automation
+              - img [ref=e281]
+              - generic [ref=e284]: Automation
+            - link "Infrastructure" [ref=e285] [cursor=pointer]:
+              - /url: /infrastructure
+              - img [ref=e287]
+              - generic [ref=e291]: Infrastructure
+            - link "AI & Agents" [ref=e292] [cursor=pointer]:
+              - /url: /ai-agents
+              - img [ref=e294]
+              - generic [ref=e304]: AI & Agents
+            - link "Debug" [ref=e305] [cursor=pointer]:
+              - /url: /debug
+              - img [ref=e307]
+              - generic [ref=e319]: Debug
+            - link "Logs" [ref=e320] [cursor=pointer]:
+              - /url: /logs
+              - img [ref=e322]
+              - generic [ref=e327]: Logs
+      - link "Docs" [ref=e330] [cursor=pointer]:
+        - /url: https://docs.openclaw.ai
+        - img [ref=e332]
+        - generic [ref=e334]: Docs
+        - img [ref=e336]
+  - main [ref=e339]:
+    - generic [ref=e341]:
+      - generic [ref=e342]: Agent Space Editor
+      - generic [ref=e343]: Agent workspace and code editing.
+    - region "viktor" [ref=e344]:
+      - navigation "All agents" [ref=e345]:
+        - generic [ref=e346]: All agents
+        - tablist [ref=e347]:
+          - tab "agent-manager" [ref=e348] [cursor=pointer]
+          - tab "designer" [ref=e349] [cursor=pointer]
+          - tab "flow-dev" [ref=e350] [cursor=pointer]
+          - tab "forwarder-dev" [ref=e351] [cursor=pointer]
+          - tab "gateway-builder" [ref=e352] [cursor=pointer]
+          - tab "marketing-lead" [ref=e353] [cursor=pointer]
+          - tab "office-dev" [ref=e354] [cursor=pointer]
+          - tab "security" [ref=e355] [cursor=pointer]
+          - tab "smm" [ref=e356] [cursor=pointer]
+          - tab "sofa" [ref=e357] [cursor=pointer]
+          - tab "tech-lead" [ref=e358] [cursor=pointer]
+          - tab "tech-writer" [ref=e359] [cursor=pointer]
+          - tab "viktor" [selected] [ref=e360] [cursor=pointer]
+          - tab "yaromir" [ref=e361] [cursor=pointer]
+      - generic [ref=e362]:
+        - complementary [ref=e363]:
+          - generic [ref=e365]:
+            - generic [ref=e366]:
+              - generic [ref=e367]:
+                - generic [ref=e368]: 🤖
+                - generic [ref=e369]: viktor
+              - paragraph [ref=e370]: /workspace/agents/viktor
+              - list [ref=e371]:
+                - listitem [ref=e372]:
+                  - button "AGENTS.md" [ref=e373] [cursor=pointer]
+                - listitem [ref=e374]:
+                  - button "IDENTITY.md" [ref=e375] [cursor=pointer]
+                - listitem [ref=e376]:
+                  - button "SOUL.md" [ref=e377] [cursor=pointer]
+                - listitem [ref=e378]:
+                  - button "TOOLS.md" [ref=e379] [cursor=pointer]
+                - listitem [ref=e380]:
+                  - button "MEMORY.md" [ref=e381] [cursor=pointer]
+                - listitem [ref=e382]:
+                  - button "HEARTBEAT.md" [ref=e383] [cursor=pointer]
+                - listitem [ref=e384]:
+                  - button "USER.md" [ref=e385] [cursor=pointer]
+                - listitem [ref=e386]:
+                  - button "openclaw.json" [ref=e387] [cursor=pointer]
+            - button "Open folder" [ref=e388] [cursor=pointer]
+        - iframe [ref=e389]:
+          

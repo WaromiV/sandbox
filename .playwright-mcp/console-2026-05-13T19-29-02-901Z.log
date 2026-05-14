@@ -1,0 +1,279 @@
+[     307ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[     572ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[   25822ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[   25823ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[   25823ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[   25823ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[   25824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[   25824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[   25876ms] [WARNING] [JavaScript Warning: "‘src’ attribute of <script> element is empty." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspaces%2Fmain" line: 48}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspaces%2Fmain:48
+[   26895ms] [LOG]  INFO Resolving connection token (localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   26896ms] [LOG]  INFO Resolved connection token (localhost:8082) after 1 ms @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   26897ms] [LOG]  INFO Creating a socket (renderer-Management-270c501f-e94e-44dd-9a07-c86782677794)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   81364ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[   81374ms] [LOG]  INFO Creating a socket (renderer-Management-270c501f-e94e-44dd-9a07-c86782677794) was successful after 54475 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   81391ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/node_modules/vsda/rust/web/vsda.js”." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspaces%2Fmain" line: 1}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspaces%2Fmain:1
+[   84456ms] [LOG]  INFO [reconnection-grace-time] Client received grace time from server: 10800000ms (10800s) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   87782ms] [WARNING] The web worker extension host is started in a same-origin iframe! @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4908
+[   87786ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-1f28c4ce-c717-4f5a-82d4-3685a7c31a9d)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   87795ms] [LOG]  INFO [Service Worker] registered @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   87823ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87824ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   87885ms] [WARNING] [JavaScript Warning: "The character encoding of a framed document was not declared. The document may appear different if viewed without the document framing it." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=76d4ba52-c5bd-430e-b800-904acc05c60b" line: 0}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=76d4ba52-c5bd-430e-b800-904acc05c60b:0
+[   89802ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   90431ms] [LOG]  INFO Updating additional builtin extensions cache @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   94802ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  125521ms] [LOG]  INFO [lifecycle] onBeforeUnload triggered and handled with veto support @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  125524ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.disconnectRemote) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  125526ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatSessionStore) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  125526ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatEditingSession) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  125565ms] [WARNING]  WARN Attempted to report in-progress status for unknown chat session type 'local' @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  125566ms] [ERROR]   ERR Error creating chat editing session content folder vscode-remote:/home/coder/.local/share/code-server/User/workspaceStorage/1f3c59ee/chatEditingSessions/c6503802-ce50-4ffe-b6ff-1ca86416fbfc/contents Error @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  125586ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  125587ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  125601ms] Canceled: Canceled
+
+[  125602ms] Canceled: Canceled
+
+[  125602ms] Canceled: Canceled
+
+[  125602ms] Canceled: Canceled
+
+[  125602ms] Canceled: Canceled
+
+[  125602ms] Canceled: Canceled
+
+[  125602ms] Canceled: Canceled
+
+[  125602ms] Canceled: Canceled
+
+[  125602ms] Canceled: Canceled
+
+[  125603ms] Canceled: Canceled
+
+[  125603ms] Canceled: Canceled
+
+[  125603ms] Canceled: Canceled
+
+[  125603ms] Canceled: Canceled
+
+[  125603ms] Canceled: Canceled
+
+[  125603ms] Canceled: Canceled
+
+[  125603ms] Canceled: Canceled
+
+[  125603ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125604ms] Canceled: Canceled
+
+[  125605ms] Canceled: Canceled
+
+[  125605ms] Canceled: Canceled
+
+[  125605ms] Canceled: Canceled
+
+[  125605ms] Canceled: Canceled
+
+[  125605ms] Canceled: Canceled
+
+[  125605ms] Canceled: Canceled
+
+[  125606ms] Canceled: Canceled
+
+[  125606ms] Canceled: Canceled
+    at flush (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:852:106226)
+    at async*doShutdown (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:23061)
+    at onBeforeUnload (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22524)
+    at registerListeners/this.beforeUnloadListener< (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22200)
+    at _commitValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808:23)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:793:33)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:643:26)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at _update (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:491:17)
+    at _commitTemplateResult (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:643:26)
+    at _$setValue (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:568:51)
+    at render (http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:984:7)
+    at update (http://localhost:5173/node_modules/.vite/deps/lit.js?v=dd2d6b95:104:22)
+    at performUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:696:10)
+    at scheduleUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:655:23)
+    at __enqueueUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:633:23)
+    at async*requestUpdate (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:607:67)
+    at set (http://localhost:5173/node_modules/.vite/deps/reactive-element-QDzdvPDz.js?v=dd2d6b95:326:10)
+    at setEditorWorkspace (http://localhost:5173/src/ui/app.ts?t=1778700522824:628:3)
+    at  (debugger eval code line 302 > eval line 2 > eval:4:7)
+    at  (debugger eval code line 302 > eval:4:50)
+    at evaluate (debugger eval code:304:16)
+    at  (debugger eval code:1:44)
+    at  (debugger eval code:1:62)
+    at evaluateFunction (chrome://juggler/content/content/Runtime.js:417:57)
+    at callFunction (chrome://juggler/content/content/Runtime.js:103:41)
+    at _onMessageInternal (chrome://juggler/content/SimpleChannel.js:237:37)
+    at _onMessage (chrome://juggler/content/SimpleChannel.js:194:12)
+    at bindToActor/actor.receiveMessage (chrome://juggler/content/SimpleChannel.js:39:44)
+[  125629ms] [WARNING] [JavaScript Warning: "‘src’ attribute of <script> element is empty." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspaces%2Fopenclaw" line: 48}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspaces%2Fopenclaw:48
+[  126590ms] [LOG]  INFO Resolving connection token (localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  126591ms] [LOG]  INFO Resolved connection token (localhost:8082) after 1 ms @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  126594ms] [LOG]  INFO Creating a socket (renderer-Management-430be1fe-25d6-4726-987b-d3fe781a9c33)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  142283ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  142288ms] [LOG]  INFO Creating a socket (renderer-Management-430be1fe-25d6-4726-987b-d3fe781a9c33) was successful after 15692 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  142300ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/node_modules/vsda/rust/web/vsda.js”." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspaces%2Fopenclaw" line: 1}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspaces%2Fopenclaw:1
+[  142317ms] [LOG]  INFO [reconnection-grace-time] Client received grace time from server: 10800000ms (10800s) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  142528ms] [WARNING] The web worker extension host is started in a same-origin iframe! @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4908
+[  142532ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-0bd8632c-ba5d-4d11-a341-83f2a2748124)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  142546ms] [LOG]  INFO [Service Worker] registered @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  142547ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142547ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142547ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142547ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142547ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142547ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142547ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142547ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142547ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142548ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142548ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142548ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142548ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142548ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142548ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  142551ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-0bd8632c-ba5d-4d11-a341-83f2a2748124) was successful after 21 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  142621ms] [WARNING] [JavaScript Warning: "The character encoding of a framed document was not declared. The document may appear different if viewed without the document framing it." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=0a059e9e-9cdc-47a9-93e3-3604956b07c4" line: 0}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=0a059e9e-9cdc-47a9-93e3-3604956b07c4:0
+[  142904ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  145148ms] [LOG]  INFO Updating additional builtin extensions cache @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  147906ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  202610ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  258670ms] [LOG]  INFO [lifecycle] onBeforeUnload triggered and handled with veto support @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  258675ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.disconnectRemote) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  258678ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatSessionStore) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  258678ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatEditingSession) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  258746ms] [WARNING]  WARN Attempted to report in-progress status for unknown chat session type 'local' @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  258747ms] [ERROR]   ERR Error creating chat editing session content folder vscode-remote:/home/coder/.local/share/code-server/User/workspaceStorage/-8e33aa2/chatEditingSessions/d25f1652-976c-406f-898f-44a58a6276a9/contents Error @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  258756ms] Canceled: Canceled
+
+[  258756ms] Canceled: Canceled
+
+[  258756ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258757ms] Canceled: Canceled
+
+[  258758ms] Canceled: Canceled
+
+[  258758ms] Canceled: Canceled
+
+[  258758ms] Canceled: Canceled
+
+[  258758ms] Canceled: Canceled
+
+[  258758ms] Canceled: Canceled
+
+[  258758ms] Canceled: Canceled
+
+[  258758ms] Canceled: Canceled
+
+[  258758ms] Canceled: Canceled
+
+[  258758ms] Canceled: Canceled
+
+[  258759ms] Canceled: Canceled
+
+[  258759ms] Canceled: Canceled
+
+[  258759ms] Canceled: Canceled
+
+[  258759ms] Canceled: Canceled
+
+[  258759ms] Canceled: Canceled
+
+[  258759ms] Canceled: Canceled
+
+[  258759ms] Canceled: Canceled
+
+[  258759ms] Canceled: Canceled
+
+[  258760ms] Canceled: Canceled
+
+[  258760ms] Canceled: Canceled
+    at flush (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:852:106226)
+    at async*doShutdown (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:23061)
+    at onBeforeUnload (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22524)
+    at registerListeners/this.beforeUnloadListener< (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22200)
+    at debounceReload/</timer< (http://localhost:5173/@vite/client:899:13)
+    at setTimeout handler*debounceReload/< (http://localhost:5173/@vite/client:898:11)
+    at handleMessage (http://localhost:5173/@vite/client:985:11)
+    at async*createHMRHandler/</< (http://localhost:5173/@vite/client:446:49)
+    at dequeue (http://localhost:5173/@vite/client:468:8)
+    at enqueue/< (http://localhost:5173/@vite/client:460:9)
+    at enqueue (http://localhost:5173/@vite/client:454:10)
+    at createHMRHandler/< (http://localhost:5173/@vite/client:446:28)
+    at onMessage (http://localhost:5173/@vite/client:294:15)
+    at createWebSocketModuleRunnerTransport/connect/< (http://localhost:5173/@vite/client:402:14)
+    at EventListener.handleEvent*connect (http://localhost:5173/@vite/client:401:11)
+    at connect (http://localhost:5173/@vite/client:847:23)
+    at connect (http://localhost:5173/@vite/client:278:21)
+    at connect (http://localhost:5173/@vite/client:362:45)
+    at  (http://localhost:5173/@vite/client:926:11)
+[  259042ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[  262862ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  266298ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[  273447ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[  292717ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[  301099ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[  307638ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[  323116ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  328722ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[  336582ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509

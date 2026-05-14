@@ -1,0 +1,344 @@
+- generic [ref=e64]:
+  - banner [ref=e65]:
+    - generic [ref=e66]:
+      - generic [ref=e70]:
+        - link "OpenClaw" [ref=e71] [cursor=pointer]:
+          - /url: /overview
+        - generic [ref=e72]:
+          - generic [ref=e73]: ›
+          - generic "main" [ref=e74]
+        - generic [ref=e75]: ›
+        - generic [ref=e76]: Agent Space Editor
+      - generic [ref=e77]:
+        - button "Open command palette" [ref=e78] [cursor=pointer]:
+          - generic [ref=e79]: Search
+          - generic [ref=e80]: ⌘K
+        - group "Color mode" [ref=e82]:
+          - 'button "Color mode: System" [ref=e83] [cursor=pointer]':
+            - img [ref=e84]
+          - 'button "Color mode: Light" [ref=e88] [cursor=pointer]':
+            - img [ref=e89]
+          - 'button "Color mode: Dark" [pressed] [ref=e99] [cursor=pointer]':
+            - img [ref=e100]
+  - complementary [ref=e103]:
+    - generic [ref=e104]:
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - img "OpenClaw" [ref=e107]
+          - generic [ref=e108]:
+            - generic [ref=e109]: Control
+            - generic [ref=e110]: OpenClaw
+        - button "Collapse sidebar" [ref=e111] [cursor=pointer]:
+          - img [ref=e113]
+      - navigation [ref=e118]:
+        - generic [ref=e119]:
+          - button "Chat" [expanded] [ref=e120] [cursor=pointer]:
+            - generic [ref=e121]: Chat
+            - img [ref=e123]
+          - link "Chat" [ref=e126] [cursor=pointer]:
+            - /url: /chat
+            - img [ref=e128]
+            - generic [ref=e130]: Chat
+        - generic [ref=e131]:
+          - button "Issues" [expanded] [ref=e132] [cursor=pointer]:
+            - generic [ref=e133]: Issues
+            - img [ref=e135]
+          - link "Issue Manager" [ref=e138] [cursor=pointer]:
+            - /url: /issues
+            - img [ref=e140]
+            - generic [ref=e147]: Issue Manager
+        - generic [ref=e148]:
+          - button "Editor" [expanded] [ref=e149] [cursor=pointer]:
+            - generic [ref=e150]: Editor
+            - img [ref=e152]
+          - link "Agent Space Editor" [ref=e155] [cursor=pointer]:
+            - /url: /editor
+            - img [ref=e157]
+            - generic [ref=e161]: Agent Space Editor
+        - generic [ref=e162]:
+          - button "Control" [expanded] [ref=e163] [cursor=pointer]:
+            - generic [ref=e164]: Control
+            - img [ref=e166]
+          - generic [ref=e168]:
+            - link "Overview" [ref=e169] [cursor=pointer]:
+              - /url: /overview
+              - img [ref=e171]
+              - generic [ref=e175]: Overview
+            - link "Channels" [ref=e176] [cursor=pointer]:
+              - /url: /channels
+              - img [ref=e178]
+              - generic [ref=e181]: Channels
+            - link "Instances" [ref=e182] [cursor=pointer]:
+              - /url: /instances
+              - img [ref=e184]
+              - generic [ref=e187]: Instances
+            - link "Sessions" [ref=e188] [cursor=pointer]:
+              - /url: /sessions
+              - img [ref=e190]
+              - generic [ref=e196]: Sessions
+            - link "Usage" [ref=e197] [cursor=pointer]:
+              - /url: /usage
+              - img [ref=e199]
+              - generic [ref=e203]: Usage
+            - link "Cron Jobs" [ref=e204] [cursor=pointer]:
+              - /url: /cron
+              - img [ref=e206]
+              - generic [ref=e215]: Cron Jobs
+        - generic [ref=e216]:
+          - button "Agent" [expanded] [ref=e217] [cursor=pointer]:
+            - generic [ref=e218]: Agent
+            - img [ref=e220]
+          - generic [ref=e222]:
+            - link "Agents" [ref=e223] [cursor=pointer]:
+              - /url: /agents
+              - img [ref=e225]
+              - generic [ref=e227]: Agents
+            - link "Skills" [ref=e228] [cursor=pointer]:
+              - /url: /skills
+              - img [ref=e230]
+              - generic [ref=e232]: Skills
+            - link "Nodes" [ref=e233] [cursor=pointer]:
+              - /url: /nodes
+              - img [ref=e235]
+              - generic [ref=e239]: Nodes
+            - link "Dreaming" [ref=e240] [cursor=pointer]:
+              - /url: /dreaming
+              - img [ref=e242]
+              - generic [ref=e244]: Dreaming
+        - generic [ref=e245]:
+          - button "Settings" [expanded] [ref=e246] [cursor=pointer]:
+            - generic [ref=e247]: Settings
+            - img [ref=e249]
+          - generic [ref=e251]:
+            - link "Config" [ref=e252] [cursor=pointer]:
+              - /url: /config
+              - img [ref=e254]
+              - generic [ref=e257]: Config
+            - link "Communications" [ref=e258] [cursor=pointer]:
+              - /url: /communications
+              - img [ref=e260]
+              - generic [ref=e263]: Communications
+            - link "Appearance" [ref=e264] [cursor=pointer]:
+              - /url: /appearance
+              - img [ref=e266]
+              - generic [ref=e268]: Appearance
+            - link "Automation" [ref=e269] [cursor=pointer]:
+              - /url: /automation
+              - img [ref=e271]
+              - generic [ref=e274]: Automation
+            - link "Infrastructure" [ref=e275] [cursor=pointer]:
+              - /url: /infrastructure
+              - img [ref=e277]
+              - generic [ref=e281]: Infrastructure
+            - link "AI & Agents" [ref=e282] [cursor=pointer]:
+              - /url: /ai-agents
+              - img [ref=e284]
+              - generic [ref=e294]: AI & Agents
+            - link "Debug" [ref=e295] [cursor=pointer]:
+              - /url: /debug
+              - img [ref=e297]
+              - generic [ref=e309]: Debug
+            - link "Logs" [ref=e310] [cursor=pointer]:
+              - /url: /logs
+              - img [ref=e312]
+              - generic [ref=e317]: Logs
+      - link "Docs" [ref=e320] [cursor=pointer]:
+        - /url: https://docs.openclaw.ai
+        - img [ref=e322]
+        - generic [ref=e324]: Docs
+        - img [ref=e326]
+  - main [ref=e329]:
+    - generic [ref=e331]:
+      - generic [ref=e332]: Agent Space Editor
+      - generic [ref=e333]: Agent workspace and code editing.
+    - region "Agent Space Editor" [ref=e336]:
+      - iframe [active] [ref=e337]:
+        - application [ref=f8e2]:
+          - generic [ref=f8e6]:
+            - generic [ref=f8e8]:
+              - toolbar [ref=f8e16]:
+                - button "Go Back (Ctrl+Alt+-)" [disabled] [ref=f8e17]: 
+                - button "Go Forward (Ctrl+Shift+-)" [disabled] [ref=f8e18]: 
+                - listitem [ref=f8e19] [cursor=pointer]:
+                  - toolbar [ref=f8e22]:
+                    - button "coder" [ref=f8e23]:
+                      - generic [ref=f8e24]: coder
+                - button "Agents" [ref=f8e27] [cursor=pointer]: 
+              - toolbar "Title actions" [ref=f8e32]:
+                - button "Customize Layout..." [ref=f8e33] [cursor=pointer]: 
+                - button "Toggle Primary Side Bar (Ctrl+B)" [pressed] [ref=f8e34] [cursor=pointer]: 
+                - button "Toggle Panel (Ctrl+J)" [ref=f8e35] [cursor=pointer]: 
+                - button "Toggle Secondary Side Bar (Ctrl+Alt+B)" [pressed] [ref=f8e36] [cursor=pointer]: 
+            - generic [ref=f8e42]:
+              - generic [ref=f8e44]:
+                - menubar [ref=f8e45]:
+                  - menuitem "Application Menu" [ref=f8e46]:
+                    - generic [ref=f8e47] [cursor=pointer]: 
+                - tablist "Active View Switcher" [ref=f8e50]:
+                  - tab "Explorer (Ctrl+Shift+E)" [expanded] [selected] [ref=f8e51] [cursor=pointer]:
+                    - generic "Explorer (Ctrl+Shift+E)" [ref=f8e52]: 
+                  - tab "Search (Ctrl+Shift+F)" [ref=f8e55] [cursor=pointer]:
+                    - generic "Search (Ctrl+Shift+F)" [ref=f8e56]: 
+                  - tab "Source Control (Ctrl+Shift+G)" [ref=f8e57] [cursor=pointer]:
+                    - generic "Source Control (Ctrl+Shift+G)" [ref=f8e58]: 
+                  - tab "Run and Debug (Ctrl+Shift+D)" [ref=f8e59] [cursor=pointer]:
+                    - generic "Run and Debug (Ctrl+Shift+D)" [ref=f8e60]: 
+                  - tab "Extensions (Ctrl+Shift+X)" [ref=f8e61] [cursor=pointer]:
+                    - generic "Extensions (Ctrl+Shift+X)" [ref=f8e62]: 
+                - toolbar "Manage" [ref=f8e65]:
+                  - button "Accounts" [ref=f8e66] [cursor=pointer]:
+                    - generic "Accounts" [ref=f8e67]: 
+                  - button "Manage" [ref=f8e68] [cursor=pointer]:
+                    - generic "Manage" [ref=f8e69]: 
+              - generic [ref=f8e70]:
+                - generic [ref=f8e71]:
+                  - heading "Explorer" [level=2] [ref=f8e73]
+                  - toolbar "Explorer actions" [ref=f8e77]
+                  - generic:
+                    - generic:
+                      - generic:
+                        - toolbar
+                - generic [ref=f8e82]:
+                  - generic [ref=f8e84]:
+                    - 'button "Explorer Section: coder" [expanded] [ref=f8e85] [cursor=pointer]':
+                      - generic [ref=f8e86]: 
+                      - text: 
+                      - 'heading "Explorer Section: coder" [level=3] [ref=f8e87]': coder
+                      - text:    
+                    - tree "Files Explorer" [ref=f8e90]:
+                      - generic [ref=f8e91]:
+                        - treeitem ".cache" [level=1] [ref=f8e92] [cursor=pointer]:
+                          - generic [ref=f8e93]:
+                            - generic [ref=f8e94]: 
+                            - generic "~/.cache" [ref=f8e96]:
+                              - generic [ref=f8e99]: .cache
+                        - treeitem ".config" [level=1] [ref=f8e100] [cursor=pointer]:
+                          - generic [ref=f8e101]:
+                            - generic [ref=f8e102]: 
+                            - generic "~/.config" [ref=f8e104]:
+                              - generic [ref=f8e107]: .config
+                        - treeitem ".local" [level=1] [ref=f8e108] [cursor=pointer]:
+                          - generic [ref=f8e109]:
+                            - generic [ref=f8e110]: 
+                            - generic "~/.local" [ref=f8e112]:
+                              - generic [ref=f8e115]: .local
+                        - treeitem ".bash_logout" [level=1] [ref=f8e116] [cursor=pointer]:
+                          - generic "~/.bash_logout" [ref=f8e120]:
+                            - text: 
+                            - generic [ref=f8e123]: .bash_logout
+                        - treeitem ".bashrc" [level=1] [ref=f8e124] [cursor=pointer]:
+                          - generic "~/.bashrc" [ref=f8e128]:
+                            - text: 
+                            - generic [ref=f8e131]: .bashrc
+                        - treeitem ".profile" [level=1] [ref=f8e132] [cursor=pointer]:
+                          - generic "~/.profile" [ref=f8e136]:
+                            - text: 
+                            - generic [ref=f8e139]: .profile
+                  - button "Outline Section" [ref=f8e142] [cursor=pointer]:
+                    - generic [ref=f8e143]: 
+                    - text: 
+                    - heading "Outline" [level=3] [ref=f8e144]
+                    - text:  
+                  - button "Timeline Section" [ref=f8e147] [cursor=pointer]:
+                    - generic [ref=f8e148]: 
+                    - text: 
+                    - heading "Timeline" [level=3] [ref=f8e149]
+                    - text:    
+              - main [ref=f8e158]:
+                - generic "Editor Group 1 (empty)" [ref=f8e166]:
+                  - generic [ref=f8e171]:
+                    - generic [ref=f8e308]:
+                      - term [ref=f8e309]: Open Chat
+                      - definition [ref=f8e310]:
+                        - generic "Control+Alt+I" [ref=f8e311]:
+                          - generic [ref=f8e312]: Ctrl
+                          - generic [ref=f8e313]: +
+                          - generic [ref=f8e314]: Alt
+                          - generic [ref=f8e315]: +
+                          - generic [ref=f8e316]: I
+                    - generic [ref=f8e317]:
+                      - term [ref=f8e318]: Show All Commands
+                      - definition [ref=f8e319]:
+                        - generic "F1" [ref=f8e320]:
+                          - generic [ref=f8e321]: F1
+                    - generic [ref=f8e322]:
+                      - term [ref=f8e323]: Find in Files
+                      - definition [ref=f8e324]:
+                        - generic "Control+Shift+F" [ref=f8e325]:
+                          - generic [ref=f8e326]: Ctrl
+                          - generic [ref=f8e327]: +
+                          - generic [ref=f8e328]: Shift
+                          - generic [ref=f8e329]: +
+                          - generic [ref=f8e330]: F
+              - generic [ref=f8e195]:
+                - generic [ref=f8e196]:
+                  - tablist "Active View Switcher" [ref=f8e200]:
+                    - tab "Chat (Ctrl+Alt+I)" [expanded] [selected] [ref=f8e201] [cursor=pointer]:
+                      - generic "Chat (Ctrl+Alt+I)" [ref=f8e202]: Chat
+                  - toolbar "Chat actions" [ref=f8e206]:
+                    - button "New Chat (Ctrl+N)" [ref=f8e332] [cursor=pointer]: 
+                    - button "New Chat" [ref=f8e336] [cursor=pointer]: 
+                    - button "Open Customizations" [ref=f8e337] [cursor=pointer]: 
+                    - button "Views and More Actions..." [ref=f8e340] [cursor=pointer]: 
+                  - toolbar [ref=f8e221]:
+                    - button "Maximize Secondary Side Bar" [ref=f8e222] [cursor=pointer]: 
+                    - button "Hide Secondary Side Bar (Ctrl+Alt+B)" [ref=f8e223] [cursor=pointer]: 
+                - generic [ref=f8e230]:
+                  - text:      
+                  - generic [ref=f8e231]:
+                    - text:    
+                    - generic [ref=f8e232]:
+                      - text:  
+                      - generic [ref=f8e233]:
+                        - generic [ref=f8e235]:
+                          - generic [ref=f8e237]: 
+                          - generic [ref=f8e238]: Build with Agent
+                          - paragraph [ref=f8e241]: AI responses may be inaccurate
+                          - paragraph [ref=f8e244]:
+                            - link "Generate Agent Instructions" [ref=f8e245] [cursor=pointer]:
+                              - /url: ""
+                            - text: to onboard AI onto your codebase.
+                        - text: 
+                        - generic [ref=f8e246]:
+                          - generic:  
+                          - generic [ref=f8e248]:
+                            - code [ref=f8e251]:
+                              - generic [ref=f8e252]:
+                                - textbox "Chat Input (Agent), edit files in your workspace. Press Enter to send out the request. Use Shift+Alt+F1 for Chat Accessibility Help." [active]
+                                - generic [ref=f8e258]: Describe what to build
+                            - generic [ref=f8e259]:
+                              - toolbar [ref=f8e262]:
+                                - button "Add Context... (Ctrl+/)" [ref=f8e263] [cursor=pointer]: 
+                                - button "Set Agent (Ctrl+.) - Open Agent Picker" [ref=f8e266] [cursor=pointer]:
+                                  - generic [ref=f8e267]: 
+                                - button "Pick Model, Auto" [ref=f8e268] [cursor=pointer]:
+                                  - generic [ref=f8e269]: Auto
+                                  - generic [ref=f8e270]: 
+                                - button "Configure Tools..." [ref=f8e271] [cursor=pointer]: 
+                              - toolbar [ref=f8e274]:
+                                - button "Send [Alt] Send to New Chat (Ctrl+Shift+Enter)" [disabled] [ref=f8e275]: 
+                          - toolbar [ref=f8e279]:
+                            - button "Set Session Target - Local" [ref=f8e282] [cursor=pointer]:
+                              - generic [ref=f8e283]: 
+                              - generic [ref=f8e284]: Local
+                              - generic [ref=f8e285]: 
+                            - button "Permission picker, Default Approvals" [ref=f8e288] [cursor=pointer]:
+                              - generic [ref=f8e342]: 
+                              - generic [ref=f8e343]: Default Approvals
+                              - generic [ref=f8e344]: 
+            - status [ref=f8e294]:
+              - generic "remote" [ref=f8e296]:
+                - button "remote" [ref=f8e297] [cursor=pointer]:
+                  - generic [ref=f8e298]: 
+              - generic [ref=f8e299]:
+                - generic "Notifications" [ref=f8e300]:
+                  - button "Notifications" [ref=f8e301] [cursor=pointer]:
+                    - generic [ref=f8e302]: 
+                - 'generic "Layout: us" [ref=f8e303]':
+                  - 'button "Layout: us" [ref=f8e304] [cursor=pointer]'
+                - generic "Copilot status" [ref=f8e305]:
+                  - button "Copilot status" [ref=f8e306] [cursor=pointer]:
+                    - generic [ref=f8e307]: 
+          - generic:
+            - alert
+            - alert

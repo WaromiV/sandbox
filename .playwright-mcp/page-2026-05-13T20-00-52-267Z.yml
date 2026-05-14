@@ -1,0 +1,16 @@
+- article "Looks like there’s a problem with this site" [ref=e3]:
+  - img "Illustration of a fox looking at disconnected network cables." [ref=e5]
+  - generic [ref=e7]:
+    - heading "Looks like there’s a problem with this site" [level=1] [ref=e8]
+    - paragraph [ref=e9]:
+      - strong [ref=e10]: localhost:5173
+      - text: sent back an error.
+    - paragraph [ref=e11]: "Error code: 502 Bad Gateway"
+    - generic [ref=e12]:
+      - heading "What can you do about it?" [level=3] [ref=e13]
+      - list [ref=e14]:
+        - listitem [ref=e15]: Check to make sure you’ve typed the website address correctly.
+        - listitem [ref=e16]: The site could be temporarily unavailable or too busy. Try again in a few moments.
+    - button "Try Again" [ref=e19]:
+      - generic [ref=e21]:
+        - generic: Try Again

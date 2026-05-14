@@ -1,0 +1,491 @@
+[       2ms] [LOG]  INFO [lifecycle] onBeforeUnload triggered and handled with veto support @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[       5ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.disconnectRemote) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[       7ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatSessionStore) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[       7ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.chatEditingSession) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[      39ms] [WARNING]  WARN Attempted to report in-progress status for unknown chat session type 'local' @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[      40ms] [ERROR]   ERR Error creating chat editing session content folder vscode-remote:/home/coder/.local/share/code-server/User/workspaceStorage/-fab1756/chatEditingSessions/d8872c2a-1f24-45e5-8390-11b914f4d06a/contents Error @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[      43ms] Canceled: Canceled
+
+[      43ms] Canceled: Canceled
+
+[      43ms] Canceled: Canceled
+
+[      43ms] Canceled: Canceled
+
+[      43ms] Canceled: Canceled
+
+[      43ms] Canceled: Canceled
+
+[      43ms] Canceled: Canceled
+
+[      43ms] Canceled: Canceled
+
+[      43ms] Canceled: Canceled
+
+[      43ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      44ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+
+[      45ms] Canceled: Canceled
+    at flush (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:852:106226)
+    at async*doShutdown (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:23061)
+    at onBeforeUnload (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22524)
+    at registerListeners/this.beforeUnloadListener< (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22200)
+    at EventListener.handleEvent*o7t (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:411:2487)
+    at q (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:411:2706)
+    at registerListeners (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22170)
+    at dut (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4943:22104)
+    at _createInstance (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:1905:2000)
+    at _createServiceInstance (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:1905:5171)
+    at _createServiceInstanceWithOwner (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:1905:4085)
+    at _createAndCacheServiceInstance (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:1905:3767)
+    at _safeCreateAndCacheServiceInstance (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:1905:2911)
+    at _getOrCreateServiceInstance (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:1905:2632)
+    at get (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:1905:1058)
+    at initServices/< (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4904:114469)
+    at invokeFunction (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:1905:944)
+    at initServices (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4904:114442)
+    at startup (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4904:113798)
+    at open (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4908:2687)
+    at async*xHi (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:5180:3973)
+    at  (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:5180:12815)
+    at  (http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:5180:13869)
+[     330ms] [WARNING] Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information. @ http://localhost:5173/@vite/client:509
+[    7350ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[    7350ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[    7350ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[    7350ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[    7350ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[    7350ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[    7375ms] [WARNING] [JavaScript Warning: "‘src’ attribute of <script> element is empty." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor" line: 48}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor:48
+[    8380ms] [LOG]  INFO Resolving connection token (localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[    8380ms] [LOG]  INFO Resolved connection token (localhost:8082) after 1 ms @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[    8383ms] [LOG]  INFO Creating a socket (renderer-Management-803e2404-1fb9-4f4b-9d7a-dbb949114bf2)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   32568ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[   32572ms] [LOG]  INFO Creating a socket (renderer-Management-803e2404-1fb9-4f4b-9d7a-dbb949114bf2) was successful after 24189 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   32583ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/node_modules/vsda/rust/web/vsda.js”." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor" line: 1}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fviktor:1
+[   32598ms] [LOG]  INFO [reconnection-grace-time] Client received grace time from server: 10800000ms (10800s) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   32841ms] [WARNING] The web worker extension host is started in a same-origin iframe! @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4908
+[   32844ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-f0be9161-8128-4919-85af-86c9470bf895)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   32858ms] [LOG]  INFO [Service Worker] registered @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   32858ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32859ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32859ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32859ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32859ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32859ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32859ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32859ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32859ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32859ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32860ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32860ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32860ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32861ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32861ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[   32861ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-f0be9161-8128-4919-85af-86c9470bf895) was successful after 16 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   32918ms] [WARNING] [JavaScript Warning: "The character encoding of a framed document was not declared. The document may appear different if viewed without the document framing it." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=17eebcb7-acf1-4dc1-a5ef-6bc983317429" line: 0}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=17eebcb7-acf1-4dc1-a5ef-6bc983317429:0
+[   32966ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   35416ms] [LOG]  INFO Updating additional builtin extensions cache @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   37967ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[   92562ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  154872ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  214886ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  225112ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.disconnectRemote) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  227073ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[  227073ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[  227073ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  227073ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  227074ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[  227074ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[  228407ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228408ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228408ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228408ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228418ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  228418ms] [TIMESTAMP] Commit @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12955
+[  228424ms] [TIMESTAMP] Waiting for Paint @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13132
+[  228424ms] [TIMESTAMP] QueryClientProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228424ms] [TIMESTAMP] ThemeProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228424ms] [TIMESTAMP] BrowserRouter @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228424ms] [TIMESTAMP] Router @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228424ms] [TIMESTAMP] CompanyProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228424ms] [TIMESTAMP] EditorAutocompleteProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228424ms] [TIMESTAMP] ToastProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228424ms] [TIMESTAMP] LiveUpdatesProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] TooltipProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] TooltipProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] TooltipProviderProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] CompanyAwareBreadcrumbProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] BreadcrumbProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] SidebarProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] PanelProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] PluginLauncherProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] DialogProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] App @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] Routes @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] RenderedRoute @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228425ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  228426ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228426ms] [TIMESTAMP] CompanyProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  228426ms] [TIMESTAMP] Remaining Effects @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13177
+[  228427ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228427ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228427ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228427ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228428ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  228428ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228438ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228439ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228439ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228439ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228440ms] [TIMESTAMP] Commit @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12955
+[  228440ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228440ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228440ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228440ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228441ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228441ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228441ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228441ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228441ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228442ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  228442ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228442ms] [TIMESTAMP] Outlet @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228442ms] [TIMESTAMP] RenderedRoute @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228443ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228444ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228444ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228444ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228444ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  228444ms] [TIMESTAMP] LiveUpdatesProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228444ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228445ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228445ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228445ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228445ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228445ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  228445ms] [TIMESTAMP] CompanyProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228446ms] [TIMESTAMP] EditorAutocompleteProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228446ms] [TIMESTAMP] LiveUpdatesProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228446ms] [TIMESTAMP] CompanyAwareBreadcrumbProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228446ms] [TIMESTAMP] PluginLauncherProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228446ms] [TIMESTAMP] CompanyRootRedirect @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228446ms] [TIMESTAMP] Navigate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228446ms] [TIMESTAMP] Navigate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228448ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228448ms] [TIMESTAMP] Remaining Effects @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13177
+[  228449ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228449ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228449ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228449ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228455ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  228455ms] [TIMESTAMP] Portal @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  228455ms] [TIMESTAMP] BrowserRouter @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228456ms] [TIMESTAMP] LiveUpdatesProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228456ms] [TIMESTAMP] PluginLauncherProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228456ms] [TIMESTAMP] Routes @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228456ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228456ms] [TIMESTAMP] OnboardingRoutePage @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228456ms] [TIMESTAMP] Button @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228456ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228457ms] [TIMESTAMP] Dialog @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228457ms] [TIMESTAMP] Dialog @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228457ms] [TIMESTAMP] DialogProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228457ms] [TIMESTAMP] DialogPortal @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228457ms] [TIMESTAMP] DialogPortal @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228457ms] [TIMESTAMP] DialogPortalProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228457ms] [TIMESTAMP] Presence @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228457ms] [TIMESTAMP] Presence @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228457ms] [TIMESTAMP] Remaining Effects @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13177
+[  228457ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228458ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228458ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228458ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228462ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  228462ms] [TIMESTAMP] div @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  228464ms] [TIMESTAMP] Commit @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12955
+[  228464ms] [TIMESTAMP] Portal @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228464ms] [TIMESTAMP] Primitive.div @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228464ms] [TIMESTAMP] Primitive.div.Slot @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228465ms] [TIMESTAMP] Primitive.div.SlotClone @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228465ms] [TIMESTAMP] X @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228465ms] [TIMESTAMP] Building2 @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228465ms] [TIMESTAMP] ForwardRef @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228465ms] [TIMESTAMP] ListTodo @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228465ms] [TIMESTAMP] ForwardRef @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228465ms] [TIMESTAMP] Button @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228465ms] [TIMESTAMP] AsciiArtAnimation @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228466ms] [TIMESTAMP] AsciiArtAnimation @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  228466ms] [TIMESTAMP] Remaining Effects @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13177
+[  228466ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228466ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228467ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228467ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  228467ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  228467ms] [TIMESTAMP] div @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  228467ms] [TIMESTAMP] Presence @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228467ms] [TIMESTAMP] Presence @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  228468ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  228468ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  228468ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  228468ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  230608ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[  230608ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[  230608ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  230608ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  230608ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[  230608ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[  230673ms] [WARNING] [JavaScript Warning: "‘src’ attribute of <script> element is empty." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fagent-manager" line: 48}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fagent-manager:48
+[  231750ms] [LOG]  INFO Resolving connection token (localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  231752ms] [LOG]  INFO Resolved connection token (localhost:8082) after 1 ms @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  231754ms] [LOG]  INFO Creating a socket (renderer-Management-1249b2af-140d-4c52-8658-c859f55a0a97)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  274978ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  274987ms] [LOG]  INFO Creating a socket (renderer-Management-1249b2af-140d-4c52-8658-c859f55a0a97) was successful after 43229 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  275002ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/node_modules/vsda/rust/web/vsda.js”." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fagent-manager" line: 1}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fagent-manager:1
+[  275022ms] [LOG]  INFO [reconnection-grace-time] Client received grace time from server: 10800000ms (10800s) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  275258ms] [WARNING] The web worker extension host is started in a same-origin iframe! @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4908
+[  275262ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-c7ee0d5b-49b5-4003-8c0b-cbffb6315cb9)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  275279ms] [LOG]  INFO [Service Worker] registered @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  275279ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275280ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  275281ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-c7ee0d5b-49b5-4003-8c0b-cbffb6315cb9) was successful after 21 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  275355ms] [WARNING] [JavaScript Warning: "The character encoding of a framed document was not declared. The document may appear different if viewed without the document framing it." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=76d6c93a-7f04-4aee-9c89-351dd96c2471" line: 0}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=76d6c93a-7f04-4aee-9c89-351dd96c2471:0
+[  275409ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  277885ms] [LOG]  INFO Updating additional builtin extensions cache @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  280411ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  330724ms] [ERROR]   ERR [lifecycle] Long running operations during shutdown are unsupported in the web (id: join.disconnectRemote) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  330794ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[  330794ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[  330794ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  330796ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  330796ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[  330797ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[  332099ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332099ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332099ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332099ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332109ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  332110ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332110ms] [TIMESTAMP] Commit @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12955
+[  332112ms] [TIMESTAMP] Waiting for Paint @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13132
+[  332113ms] [TIMESTAMP] QueryClientProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] ThemeProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] BrowserRouter @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] Router @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] CompanyProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] EditorAutocompleteProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] ToastProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] LiveUpdatesProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] TooltipProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] TooltipProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] TooltipProviderProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332113ms] [TIMESTAMP] CompanyAwareBreadcrumbProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332114ms] [TIMESTAMP] BreadcrumbProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332114ms] [TIMESTAMP] SidebarProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332114ms] [TIMESTAMP] PanelProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332114ms] [TIMESTAMP] PluginLauncherProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332114ms] [TIMESTAMP] DialogProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332114ms] [TIMESTAMP] App @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332115ms] [TIMESTAMP] Routes @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332115ms] [TIMESTAMP] RenderedRoute @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332115ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332115ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332115ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332115ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332115ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332115ms] [TIMESTAMP] Remaining Effects @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13177
+[  332116ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332116ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332116ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332116ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332116ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  332116ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332124ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332125ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332125ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332125ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332126ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332126ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332126ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332126ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332126ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332126ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332128ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332128ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332128ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332128ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332129ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332129ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332129ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332129ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332129ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  332129ms] [TIMESTAMP] LiveUpdatesProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332129ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332129ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332130ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332130ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332130ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332130ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  332130ms] [TIMESTAMP] CompanyProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332131ms] [TIMESTAMP] EditorAutocompleteProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332131ms] [TIMESTAMP] LiveUpdatesProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332131ms] [TIMESTAMP] CompanyAwareBreadcrumbProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332131ms] [TIMESTAMP] PluginLauncherProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332131ms] [TIMESTAMP] CompanyRootRedirect @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332131ms] [TIMESTAMP] Navigate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332131ms] [TIMESTAMP] Navigate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332131ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332132ms] [TIMESTAMP] Navigate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332132ms] [TIMESTAMP] Remaining Effects @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13177
+[  332132ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332132ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332133ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332133ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332140ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  332140ms] [TIMESTAMP] Portal @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332140ms] [TIMESTAMP] BrowserRouter @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332140ms] [TIMESTAMP] LiveUpdatesProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332140ms] [TIMESTAMP] PluginLauncherProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332140ms] [TIMESTAMP] Routes @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332141ms] [TIMESTAMP] CloudAccessGate @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332141ms] [TIMESTAMP] OnboardingRoutePage @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332141ms] [TIMESTAMP] Button @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332141ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332141ms] [TIMESTAMP] Dialog @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332141ms] [TIMESTAMP] Dialog @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332141ms] [TIMESTAMP] DialogProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332141ms] [TIMESTAMP] DialogPortal @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332141ms] [TIMESTAMP] DialogPortal @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332142ms] [TIMESTAMP] DialogPortalProvider @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332142ms] [TIMESTAMP] Presence @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332142ms] [TIMESTAMP] Presence @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332142ms] [TIMESTAMP] OnboardingWizard @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332142ms] [TIMESTAMP] Remaining Effects @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13177
+[  332142ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332142ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332142ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332142ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332146ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  332146ms] [TIMESTAMP] div @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332148ms] [TIMESTAMP] Commit @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12955
+[  332148ms] [TIMESTAMP] Portal @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332148ms] [TIMESTAMP] Primitive.div @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332148ms] [TIMESTAMP] Primitive.div.Slot @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332148ms] [TIMESTAMP] Primitive.div.SlotClone @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332148ms] [TIMESTAMP] X @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332148ms] [TIMESTAMP] ForwardRef @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332148ms] [TIMESTAMP] Bot @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332148ms] [TIMESTAMP] ForwardRef @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332149ms] [TIMESTAMP] AsciiArtAnimation @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3200
+[  332149ms] [TIMESTAMP] AsciiArtAnimation @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332150ms] [TIMESTAMP] Remaining Effects @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:13177
+[  332150ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332150ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332150ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332150ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  332150ms] [TIMESTAMP] Render @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3314
+[  332151ms] [TIMESTAMP] div @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:3291
+[  332151ms] [TIMESTAMP] Blocking Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12095
+[  332151ms] [TIMESTAMP] Transition Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12102
+[  332151ms] [TIMESTAMP] Suspense Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12109
+[  332151ms] [TIMESTAMP] Idle Track @ http://localhost:3101/node_modules/.vite/deps/react-dom_client.js?v=6b9c7b97:12116
+[  333192ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[  333193ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 453}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:453
+[  333193ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  333193ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 808}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:808
+[  333193ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-read”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[  333193ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “clipboard-write”." {file: "http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95" line: 580}] @ http://localhost:5173/node_modules/.vite/deps/lit-html-DcaC4oFn.js?v=dd2d6b95:580
+[  333276ms] [WARNING] [JavaScript Warning: "‘src’ attribute of <script> element is empty." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fagent-manager" line: 48}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fagent-manager:48
+[  334324ms] [LOG]  INFO Resolving connection token (localhost:8082)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  334325ms] [LOG]  INFO Resolved connection token (localhost:8082) after 1 ms @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  334328ms] [LOG]  INFO Creating a socket (renderer-Management-8ccf4966-6ccb-44d1-8675-157b3c3bc8f7)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  335350ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  335356ms] [LOG]  INFO Creating a socket (renderer-Management-8ccf4966-6ccb-44d1-8675-157b3c3bc8f7) was successful after 1028 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  335364ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/node_modules/vsda/rust/web/vsda.js”." {file: "http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fagent-manager" line: 1}] @ http://localhost:8082/?theme=dark&themeName=claw&embeddedBy=openclaw&folder=%2Fworkspace%2Fagents%2Fagent-manager:1
+[  335378ms] [LOG]  INFO [reconnection-grace-time] Client received grace time from server: 10800000ms (10800s) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  335612ms] [WARNING] The web worker extension host is started in a same-origin iframe! @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4908
+[  335615ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-be4bcf63-b23f-4af7-90f3-9731b89f5ea6)... @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  335639ms] [LOG]  INFO [Service Worker] registered @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  335640ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335640ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335640ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335640ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335640ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335640ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335640ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335641ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335641ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335641ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335641ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “usb”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335641ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “serial”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335641ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “hid”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335641ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “cross-origin-isolated”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335641ms] [WARNING] [JavaScript Warning: "Feature Policy: Skipping unsupported feature name “local-network-access”." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js" line: 4909}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:4909
+[  335649ms] [LOG]  INFO Creating a socket (renderer-ExtensionHost-be4bcf63-b23f-4af7-90f3-9731b89f5ea6) was successful after 34 ms. @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  335675ms] [WARNING] [JavaScript Warning: "The character encoding of a framed document was not declared. The document may appear different if viewed without the document framing it." {file: "http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=677ff9ae-088c-4be8-8126-18a50f5106b1" line: 0}] @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/workbench/services/extensions/worker/webWorkerExtensionHostIframe.html?&vscodeWebWorkerExtHostId=677ff9ae-088c-4be8-8126-18a50f5106b1:0
+[  335767ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  338195ms] [LOG]  INFO Updating additional builtin extensions cache @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  340768ms] [LOG]  INFO [AccountPolicyGate] apply: state=inactive, reason=undefined, isRestricted=false @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  395376ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219
+[  432072ms] [LOG]  INFO [lifecycle] onBeforeUnload triggered and handled with veto support @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  432073ms] [LOG]  INFO [lifecycle]: Unload was prevented (id: veto.confirmBeforeClose) @ http://localhost:8082/stable-871f1d904834ee78db1c4585e2f14f65c119374a/static/out/vs/code/browser/workbench/workbench.js:413
+[  455390ms] [ERROR] [JavaScript Error: "Firefox can’t establish a connection to the server at ws://localhost:18789/." {file: "http://localhost:5173/src/ui/gateway.ts" line: 219}] @ http://localhost:5173/src/ui/gateway.ts:219

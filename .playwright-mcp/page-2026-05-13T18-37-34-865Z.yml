@@ -1,0 +1,182 @@
+- generic [ref=e74]:
+  - button "Collapse sidebar"
+  - banner [ref=e75]:
+    - generic [ref=e76]:
+      - button "Expand sidebar" [ref=e77] [cursor=pointer]:
+        - img [ref=e79]
+      - button "Open command palette" [ref=e84] [cursor=pointer]:
+        - generic [ref=e85]: Search
+        - generic [ref=e86]: ⌘K
+  - generic:
+    - complementary:
+      - generic:
+        - generic:
+          - generic:
+            - img "OpenClaw"
+            - generic:
+              - generic: Control
+              - generic: OpenClaw
+        - generic:
+          - navigation:
+            - generic:
+              - button "Chat" [expanded]:
+                - generic: Chat
+                - generic:
+                  - img
+              - generic:
+                - link "Chat":
+                  - /url: /chat
+                  - generic:
+                    - img
+                  - generic: Chat
+            - generic:
+              - button "Issues" [expanded]:
+                - generic: Issues
+                - generic:
+                  - img
+              - generic:
+                - link "Issue Manager":
+                  - /url: /issues
+                  - generic:
+                    - img
+                  - generic: Issue Manager
+            - generic:
+              - button "Editor" [expanded]:
+                - generic: Editor
+                - generic:
+                  - img
+              - generic:
+                - link "Agent Space Editor":
+                  - /url: /editor
+                  - generic:
+                    - img
+                  - generic: Agent Space Editor
+            - generic:
+              - button "Control" [expanded]:
+                - generic: Control
+                - generic:
+                  - img
+              - generic:
+                - link "Overview":
+                  - /url: /overview
+                  - generic:
+                    - img
+                  - generic: Overview
+                - link "Channels":
+                  - /url: /channels
+                  - generic:
+                    - img
+                  - generic: Channels
+                - link "Instances":
+                  - /url: /instances
+                  - generic:
+                    - img
+                  - generic: Instances
+                - link "Sessions":
+                  - /url: /sessions
+                  - generic:
+                    - img
+                  - generic: Sessions
+                - link "Usage":
+                  - /url: /usage
+                  - generic:
+                    - img
+                  - generic: Usage
+                - link "Cron Jobs":
+                  - /url: /cron
+                  - generic:
+                    - img
+                  - generic: Cron Jobs
+            - generic:
+              - button "Agent" [expanded]:
+                - generic: Agent
+                - generic:
+                  - img
+              - generic:
+                - link "Agents":
+                  - /url: /agents
+                  - generic:
+                    - img
+                  - generic: Agents
+                - link "Skills":
+                  - /url: /skills
+                  - generic:
+                    - img
+                  - generic: Skills
+                - link "Nodes":
+                  - /url: /nodes
+                  - generic:
+                    - img
+                  - generic: Nodes
+                - link "Dreaming":
+                  - /url: /dreaming
+                  - generic:
+                    - img
+                  - generic: Dreaming
+            - generic:
+              - button "Settings" [expanded]:
+                - generic: Settings
+                - generic:
+                  - img
+              - generic:
+                - link "Config":
+                  - /url: /config
+                  - generic:
+                    - img
+                  - generic: Config
+                - link "Communications":
+                  - /url: /communications
+                  - generic:
+                    - img
+                  - generic: Communications
+                - link "Appearance":
+                  - /url: /appearance
+                  - generic:
+                    - img
+                  - generic: Appearance
+                - link "Automation":
+                  - /url: /automation
+                  - generic:
+                    - img
+                  - generic: Automation
+                - link "Infrastructure":
+                  - /url: /infrastructure
+                  - generic:
+                    - img
+                  - generic: Infrastructure
+                - link "AI & Agents":
+                  - /url: /ai-agents
+                  - generic:
+                    - img
+                  - generic: AI & Agents
+                - link "Debug":
+                  - /url: /debug
+                  - generic:
+                    - img
+                  - generic: Debug
+                - link "Logs":
+                  - /url: /logs
+                  - generic:
+                    - img
+                  - generic: Logs
+        - generic:
+          - generic:
+            - link "Docs":
+              - /url: https://docs.openclaw.ai
+              - generic:
+                - img
+              - generic: Docs
+              - generic:
+                - img
+            - generic:
+              - group "Color mode":
+                - 'button "Color mode: System" [pressed]':
+                  - img
+                - 'button "Color mode: Light"':
+                  - img
+                - 'button "Color mode: Dark"':
+                  - img
+  - main [ref=e87]:
+    - region "Issue Manager" [ref=e88]:
+      - iframe [ref=e89]:
+        - generic [ref=f3e2]: 404 page not found

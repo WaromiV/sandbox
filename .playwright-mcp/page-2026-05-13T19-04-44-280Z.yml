@@ -1,0 +1,514 @@
+- generic [ref=e64]:
+  - banner [ref=e65]:
+    - generic [ref=e66]:
+      - generic [ref=e70]:
+        - link "OpenClaw" [ref=e71] [cursor=pointer]:
+          - /url: /overview
+        - generic [ref=e72]:
+          - generic [ref=e73]: ›
+          - generic "main" [ref=e74]
+        - generic [ref=e75]: ›
+        - generic [ref=e76]: Agent Space Editor
+      - generic [ref=e77]:
+        - button "Open command palette" [ref=e78] [cursor=pointer]:
+          - generic [ref=e79]: Search
+          - generic [ref=e80]: ⌘K
+        - group "Color mode" [ref=e82]:
+          - 'button "Color mode: System" [ref=e83] [cursor=pointer]':
+            - img [ref=e84]
+          - 'button "Color mode: Light" [ref=e88] [cursor=pointer]':
+            - img [ref=e89]
+          - 'button "Color mode: Dark" [pressed] [ref=e99] [cursor=pointer]':
+            - img [ref=e100]
+  - complementary [ref=e103]:
+    - generic [ref=e104]:
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - img "OpenClaw" [ref=e107]
+          - generic [ref=e108]:
+            - generic [ref=e109]: Control
+            - generic [ref=e110]: OpenClaw
+        - button "Collapse sidebar" [ref=e111] [cursor=pointer]:
+          - img [ref=e113]
+      - navigation [ref=e118]:
+        - generic [ref=e119]:
+          - button "Chat" [expanded] [ref=e120] [cursor=pointer]:
+            - generic [ref=e121]: Chat
+            - img [ref=e123]
+          - link "Chat" [ref=e126] [cursor=pointer]:
+            - /url: /chat
+            - img [ref=e128]
+            - generic [ref=e130]: Chat
+        - generic [ref=e131]:
+          - button "Issues" [expanded] [ref=e132] [cursor=pointer]:
+            - generic [ref=e133]: Issues
+            - img [ref=e135]
+          - link "Issue Manager" [ref=e138] [cursor=pointer]:
+            - /url: /issues
+            - img [ref=e140]
+            - generic [ref=e147]: Issue Manager
+        - generic [ref=e148]:
+          - button "Editor" [expanded] [ref=e149] [cursor=pointer]:
+            - generic [ref=e150]: Editor
+            - img [ref=e152]
+          - link "Agent Space Editor" [ref=e155] [cursor=pointer]:
+            - /url: /editor
+            - img [ref=e157]
+            - generic [ref=e161]: Agent Space Editor
+        - generic [ref=e162]:
+          - button "Control" [expanded] [ref=e163] [cursor=pointer]:
+            - generic [ref=e164]: Control
+            - img [ref=e166]
+          - generic [ref=e168]:
+            - link "Overview" [ref=e169] [cursor=pointer]:
+              - /url: /overview
+              - img [ref=e171]
+              - generic [ref=e175]: Overview
+            - link "Channels" [ref=e176] [cursor=pointer]:
+              - /url: /channels
+              - img [ref=e178]
+              - generic [ref=e181]: Channels
+            - link "Instances" [ref=e182] [cursor=pointer]:
+              - /url: /instances
+              - img [ref=e184]
+              - generic [ref=e187]: Instances
+            - link "Sessions" [ref=e188] [cursor=pointer]:
+              - /url: /sessions
+              - img [ref=e190]
+              - generic [ref=e196]: Sessions
+            - link "Usage" [ref=e197] [cursor=pointer]:
+              - /url: /usage
+              - img [ref=e199]
+              - generic [ref=e203]: Usage
+            - link "Cron Jobs" [ref=e204] [cursor=pointer]:
+              - /url: /cron
+              - img [ref=e206]
+              - generic [ref=e215]: Cron Jobs
+        - generic [ref=e216]:
+          - button "Agent" [expanded] [ref=e217] [cursor=pointer]:
+            - generic [ref=e218]: Agent
+            - img [ref=e220]
+          - generic [ref=e222]:
+            - link "Agents" [ref=e223] [cursor=pointer]:
+              - /url: /agents
+              - img [ref=e225]
+              - generic [ref=e227]: Agents
+            - link "Skills" [ref=e228] [cursor=pointer]:
+              - /url: /skills
+              - img [ref=e230]
+              - generic [ref=e232]: Skills
+            - link "Nodes" [ref=e233] [cursor=pointer]:
+              - /url: /nodes
+              - img [ref=e235]
+              - generic [ref=e239]: Nodes
+            - link "Dreaming" [ref=e240] [cursor=pointer]:
+              - /url: /dreaming
+              - img [ref=e242]
+              - generic [ref=e244]: Dreaming
+        - generic [ref=e245]:
+          - button "Settings" [expanded] [ref=e246] [cursor=pointer]:
+            - generic [ref=e247]: Settings
+            - img [ref=e249]
+          - generic [ref=e251]:
+            - link "Config" [ref=e252] [cursor=pointer]:
+              - /url: /config
+              - img [ref=e254]
+              - generic [ref=e257]: Config
+            - link "Communications" [ref=e258] [cursor=pointer]:
+              - /url: /communications
+              - img [ref=e260]
+              - generic [ref=e263]: Communications
+            - link "Appearance" [ref=e264] [cursor=pointer]:
+              - /url: /appearance
+              - img [ref=e266]
+              - generic [ref=e268]: Appearance
+            - link "Automation" [ref=e269] [cursor=pointer]:
+              - /url: /automation
+              - img [ref=e271]
+              - generic [ref=e274]: Automation
+            - link "Infrastructure" [ref=e275] [cursor=pointer]:
+              - /url: /infrastructure
+              - img [ref=e277]
+              - generic [ref=e281]: Infrastructure
+            - link "AI & Agents" [ref=e282] [cursor=pointer]:
+              - /url: /ai-agents
+              - img [ref=e284]
+              - generic [ref=e294]: AI & Agents
+            - link "Debug" [ref=e295] [cursor=pointer]:
+              - /url: /debug
+              - img [ref=e297]
+              - generic [ref=e309]: Debug
+            - link "Logs" [ref=e310] [cursor=pointer]:
+              - /url: /logs
+              - img [ref=e312]
+              - generic [ref=e317]: Logs
+      - link "Docs" [ref=e320] [cursor=pointer]:
+        - /url: https://docs.openclaw.ai
+        - img [ref=e322]
+        - generic [ref=e324]: Docs
+        - img [ref=e326]
+  - main [ref=e329]:
+    - generic [ref=e331]:
+      - generic [ref=e332]: Agent Space Editor
+      - generic [ref=e333]: Agent workspace and code editing.
+    - region "Agent Space Editor" [ref=e334]:
+      - iframe [active] [ref=e335]:
+        - application [ref=f14e2]:
+          - generic [ref=f14e6]:
+            - generic [ref=f14e8]:
+              - toolbar [ref=f14e16]:
+                - button "Go Back (Ctrl+Alt+-)" [disabled] [ref=f14e279]: 
+                - button "Go Forward (Ctrl+Shift+-)" [disabled] [ref=f14e280]: 
+                - toolbar "Agent Status" [ref=f14e281] [cursor=pointer]:
+                  - generic [ref=f14e282]:
+                    - button "Open Quick Access" [ref=f14e283]:
+                      - generic [ref=f14e284]: coder
+                    - generic [ref=f14e285]:
+                      - button "Toggle Chat" [ref=f14e286]:
+                        - button "Toggle Chat" [ref=f14e287]: 
+                      - button "More Actions" [ref=f14e291]: 
+              - toolbar "Title actions" [ref=f14e32]:
+                - button "Customize Layout..." [ref=f14e292] [cursor=pointer]: 
+                - button "Toggle Primary Side Bar (Ctrl+B)" [pressed] [ref=f14e293] [cursor=pointer]: 
+                - button "Toggle Panel (Ctrl+J)" [ref=f14e294] [cursor=pointer]: 
+                - button "Toggle Secondary Side Bar (Ctrl+Alt+B)" [pressed] [ref=f14e295] [cursor=pointer]: 
+            - generic [ref=f14e42]:
+              - generic [ref=f14e44]:
+                - menubar [ref=f14e45]:
+                  - menuitem "Application Menu" [ref=f14e46]:
+                    - generic [ref=f14e47] [cursor=pointer]: 
+                - tablist "Active View Switcher" [ref=f14e50]:
+                  - tab "Explorer (Ctrl+Shift+E)" [expanded] [selected] [ref=f14e51] [cursor=pointer]:
+                    - generic "Explorer (Ctrl+Shift+E)" [ref=f14e52]: 
+                  - tab "Search (Ctrl+Shift+F)" [ref=f14e53] [cursor=pointer]:
+                    - generic "Search (Ctrl+Shift+F)" [ref=f14e54]: 
+                  - tab "Source Control (Ctrl+Shift+G)" [ref=f14e55] [cursor=pointer]:
+                    - generic "Source Control (Ctrl+Shift+G)" [ref=f14e56]: 
+                  - tab "Run and Debug (Ctrl+Shift+D)" [ref=f14e57] [cursor=pointer]:
+                    - generic "Run and Debug (Ctrl+Shift+D)" [ref=f14e58]: 
+                  - tab "Extensions (Ctrl+Shift+X)" [ref=f14e59] [cursor=pointer]:
+                    - generic "Extensions (Ctrl+Shift+X)" [ref=f14e60]: 
+                - toolbar "Manage" [ref=f14e63]:
+                  - button "Accounts" [ref=f14e64] [cursor=pointer]:
+                    - generic "Accounts" [ref=f14e65]: 
+                  - button "Manage" [ref=f14e66] [cursor=pointer]:
+                    - generic "Manage" [ref=f14e67]: 
+              - generic [ref=f14e68]:
+                - generic [ref=f14e69]:
+                  - heading "Explorer" [level=2] [ref=f14e71]
+                  - toolbar "Explorer actions" [ref=f14e75]:
+                    - button "Views and More Actions..." [ref=f14e298] [cursor=pointer]: 
+                  - generic:
+                    - generic:
+                      - generic:
+                        - toolbar
+                - generic [ref=f14e80]:
+                  - generic [ref=f14e82]:
+                    - 'button "Explorer Section: coder" [expanded] [ref=f14e83] [cursor=pointer]':
+                      - generic [ref=f14e84]: 
+                      - text: 
+                      - 'heading "Explorer Section: coder" [level=3] [ref=f14e85]': coder
+                      - text:    
+                    - tree "Files Explorer" [ref=f14e88]:
+                      - generic [ref=f14e89]:
+                        - treeitem "DeveloperTools" [expanded] [level=3] [ref=f14e299] [cursor=pointer]:
+                          - generic [ref=f14e300]:
+                            - generic [ref=f14e301]: 
+                            - generic "~/.cache/Microsoft/DeveloperTools" [ref=f14e303]:
+                              - generic [ref=f14e305]:
+                                - treeitem ".cache" [expanded] [level=1] [ref=f14e306]: .cache/
+                                - treeitem "Microsoft, compact, .cache" [expanded] [level=2] [ref=f14e307]: Microsoft/
+                                - treeitem "DeveloperTools, compact, Microsoft .cache" [expanded] [level=3] [ref=f14e308]: DeveloperTools
+                        - treeitem "deviceid" [level=4] [ref=f14e309] [cursor=pointer]:
+                          - generic "~/.cache/Microsoft/DeveloperTools/deviceid" [ref=f14e312]:
+                            - text: 
+                            - generic [ref=f14e315]: deviceid
+                        - treeitem ".config" [level=1] [ref=f14e316] [cursor=pointer]:
+                          - generic [ref=f14e317]:
+                            - generic [ref=f14e318]: 
+                            - generic "~/.config" [ref=f14e320]:
+                              - generic [ref=f14e323]: .config
+                        - treeitem "code-server" [expanded] [level=3] [ref=f14e324] [cursor=pointer]:
+                          - generic [ref=f14e325]:
+                            - generic [ref=f14e326]: 
+                            - generic "~/.local/share/code-server" [ref=f14e328]:
+                              - generic [ref=f14e330]:
+                                - treeitem ".local" [expanded] [level=1] [ref=f14e331]: .local/
+                                - treeitem "share, compact, .local" [expanded] [level=2] [ref=f14e332]: share/
+                                - treeitem "code-server, compact, share .local" [expanded] [level=3] [ref=f14e333]: code-server
+                        - treeitem "CachedProfilesData" [level=4] [ref=f14e334] [cursor=pointer]:
+                          - generic [ref=f14e335]:
+                            - generic [ref=f14e336]: 
+                            - generic "~/.local/share/code-server/CachedProfilesData" [ref=f14e338]:
+                              - generic [ref=f14e341]: CachedProfilesData
+                        - treeitem "coder-logs" [level=4] [ref=f14e342] [cursor=pointer]:
+                          - generic [ref=f14e343]:
+                            - generic [ref=f14e344]: 
+                            - generic "~/.local/share/code-server/coder-logs" [ref=f14e346]:
+                              - generic [ref=f14e349]: coder-logs
+                        - treeitem "extensions" [level=4] [ref=f14e350] [cursor=pointer]:
+                          - generic [ref=f14e351]:
+                            - generic [ref=f14e352]: 
+                            - generic "~/.local/share/code-server/extensions" [ref=f14e354]:
+                              - generic [ref=f14e357]: extensions
+                        - treeitem "logs" [expanded] [level=4] [ref=f14e358] [cursor=pointer]:
+                          - generic [ref=f14e359]:
+                            - generic [ref=f14e360]: 
+                            - generic "~/.local/share/code-server/logs" [ref=f14e362]:
+                              - generic [ref=f14e365]: logs
+                        - treeitem "20260513T184604" [expanded] [level=5] [ref=f14e366] [cursor=pointer]:
+                          - generic [ref=f14e367]:
+                            - generic [ref=f14e368]: 
+                            - generic "~/.local/share/code-server/logs/20260513T184604" [ref=f14e370]:
+                              - generic [ref=f14e373]: 20260513T184604
+                        - treeitem "exthost1" [level=6] [ref=f14e374] [cursor=pointer]:
+                          - generic [ref=f14e375]:
+                            - generic [ref=f14e376]: 
+                            - generic "~/.local/share/code-server/logs/20260513T184604/exthost1" [ref=f14e378]:
+                              - generic [ref=f14e381]: exthost1
+                        - treeitem "mcpGateway.log" [level=6] [ref=f14e382] [cursor=pointer]:
+                          - generic "~/.local/share/code-server/logs/20260513T184604/mcpGateway.log" [ref=f14e385]:
+                            - text: 
+                            - generic [ref=f14e388]: mcpGateway.log
+                        - treeitem "remoteagent.log" [level=6] [selected] [ref=f14e389] [cursor=pointer]:
+                          - generic "~/.local/share/code-server/logs/20260513T184604/remoteagent.log" [ref=f14e392]:
+                            - text: 
+                            - generic [ref=f14e395]: remoteagent.log
+                        - treeitem "remoteTelemetry.log" [level=6] [ref=f14e396] [cursor=pointer]:
+                          - generic "~/.local/share/code-server/logs/20260513T184604/remoteTelemetry.log" [ref=f14e399]:
+                            - text: 
+                            - generic [ref=f14e402]: remoteTelemetry.log
+                        - treeitem "20260513T190031" [level=5] [ref=f14e403] [cursor=pointer]:
+                          - generic [ref=f14e404]:
+                            - generic [ref=f14e405]: 
+                            - generic "~/.local/share/code-server/logs/20260513T190031" [ref=f14e407]:
+                              - generic [ref=f14e410]: 20260513T190031
+                        - treeitem "20260513T190330" [level=5] [ref=f14e411] [cursor=pointer]:
+                          - generic [ref=f14e412]:
+                            - generic [ref=f14e413]: 
+                            - generic "~/.local/share/code-server/logs/20260513T190330" [ref=f14e415]:
+                              - generic [ref=f14e418]: 20260513T190330
+                        - treeitem "Machine" [level=4] [ref=f14e419] [cursor=pointer]:
+                          - generic [ref=f14e420]:
+                            - generic [ref=f14e421]: 
+                            - generic "~/.local/share/code-server/Machine" [ref=f14e423]:
+                              - generic [ref=f14e426]: Machine
+                        - treeitem "User" [level=4] [ref=f14e427] [cursor=pointer]:
+                          - generic [ref=f14e428]:
+                            - generic [ref=f14e429]: 
+                            - generic "~/.local/share/code-server/User" [ref=f14e431]:
+                              - generic [ref=f14e434]: User
+                        - treeitem "code-server-ipc.sock" [level=4] [ref=f14e435] [cursor=pointer]:
+                          - generic "~/.local/share/code-server/code-server-ipc.sock • Unknown File Type" [ref=f14e438]:
+                            - text: 
+                            - generic [ref=f14e441]: code-server-ipc.sock
+                            - text: "?"
+                        - treeitem "coder.json" [level=4] [ref=f14e442] [cursor=pointer]:
+                          - generic "~/.local/share/code-server/coder.json" [ref=f14e445]:
+                            - text: 
+                            - generic [ref=f14e448]: coder.json
+                        - treeitem "heartbeat" [level=4] [ref=f14e449] [cursor=pointer]:
+                          - generic "~/.local/share/code-server/heartbeat" [ref=f14e452]:
+                            - text: 
+                            - generic [ref=f14e455]: heartbeat
+                        - treeitem "machineid" [level=4] [ref=f14e456] [cursor=pointer]:
+                          - generic "~/.local/share/code-server/machineid" [ref=f14e459]:
+                            - text: 
+                            - generic [ref=f14e462]: machineid
+                        - treeitem ".bash_logout" [level=1] [ref=f14e463] [cursor=pointer]:
+                          - generic "~/.bash_logout" [ref=f14e466]:
+                            - text: 
+                            - generic [ref=f14e469]: .bash_logout
+                        - treeitem ".bashrc" [level=1] [ref=f14e470] [cursor=pointer]:
+                          - generic "~/.bashrc" [ref=f14e473]:
+                            - text: 
+                            - generic [ref=f14e476]: .bashrc
+                        - treeitem ".profile" [level=1] [ref=f14e477] [cursor=pointer]:
+                          - generic "~/.profile" [ref=f14e480]:
+                            - text: 
+                            - generic [ref=f14e483]: .profile
+                  - button "Outline Section" [ref=f14e92] [cursor=pointer]:
+                    - generic [ref=f14e93]: 
+                    - text: 
+                    - heading "Outline" [level=3] [ref=f14e94]
+                    - text:  
+                  - button "Timeline Section" [ref=f14e97] [cursor=pointer]:
+                    - generic [ref=f14e98]: 
+                    - text: 
+                    - heading "Timeline" [level=3] [ref=f14e99]
+                    - text:    
+              - main [ref=f14e108]:
+                - generic [ref=f14e116]:
+                  - generic [ref=f14e117] [cursor=pointer]:
+                    - generic [ref=f14e118]:
+                      - tablist [ref=f14e119]:
+                        - tab "remoteagent.log, preview" [selected] [ref=f14e120]:
+                          - generic "remoteagent.log" [ref=f14e121]:
+                            - text: 
+                            - generic [ref=f14e123]: remoteagent.log
+                          - toolbar "Tab actions" [ref=f14e126]:
+                            - button "Close (Ctrl+W)" [ref=f14e127]: 
+                      - toolbar "Editor actions" [ref=f14e131]:
+                        - button "Split Editor Right (Ctrl+\\) [Alt] Split Editor Down" [ref=f14e484]: 
+                        - button "More Actions..." [ref=f14e487]: 
+                    - list [ref=f14e138]:
+                      - listitem [ref=f14e139]:
+                        - generic "/home/coder/.local" [ref=f14e140]:
+                          - generic [ref=f14e142]: .local
+                        - generic [ref=f14e143]: 
+                      - listitem [ref=f14e144]:
+                        - generic "/home/coder/.local/share" [ref=f14e145]:
+                          - generic [ref=f14e147]: share
+                        - generic [ref=f14e148]: 
+                      - listitem [ref=f14e149]:
+                        - generic "/home/coder/.local/share/code-server" [ref=f14e150]:
+                          - generic [ref=f14e152]: code-server
+                        - generic [ref=f14e153]: 
+                      - listitem [ref=f14e154]:
+                        - generic "/home/coder/.local/share/code-server/logs" [ref=f14e155]:
+                          - generic [ref=f14e157]: logs
+                        - generic [ref=f14e158]: 
+                      - listitem [ref=f14e159]:
+                        - generic "/home/coder/.local/share/code-server/logs/20260513T184604" [ref=f14e160]:
+                          - generic [ref=f14e162]: 20260513T184604
+                        - generic [ref=f14e163]: 
+                      - listitem [ref=f14e164]:
+                        - generic "/home/coder/.local/share/code-server/logs/20260513T184604/remoteagent.log" [ref=f14e165]:
+                          - text: 
+                          - generic [ref=f14e167]: remoteagent.log
+                        - text: 
+                  - generic "remoteagent.log, preview" [ref=f14e169]:
+                    - code [ref=f14e488]:
+                      - generic [ref=f14e489]:
+                        - textbox "remoteagent.log, preview" [active]: "18:51:30.892 [info] [172.17.0.1][0db82583][ManagementConnection] New connection established. 2026-05-13 18:52:31.193 [info] [172.17.0.1][e37c0716][ExtensionHostConnection] New connection established. 2026-05-13 18:52:31.243 [info] [172.17.0.1][e37c0716][ExtensionHostConnection] <55> Launched Extension Host Process. 2026-05-13 18:52:31.381 [info] [172.17.0.1][e37c0716][ExtensionHostConnection] <55> [reconnection-grace-time] Extension host: read VSCODE_RECONNECTION_GRACE_TIME=10800000ms (10800s) 2026-05-13 18:58:45.974 [info] [172.17.0.1][0db82583][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed. 2026-05-13 18:58:46.079 [info] [172.17.0.1][e37c0716][ExtensionHostConnection] <55> Extension Host Process exited with code: 0, signal: null."
+                        - generic [ref=f14e492]:
+                          - generic [ref=f14e494]: "1"
+                          - generic [ref=f14e496]: "2"
+                          - generic [ref=f14e498]: "3"
+                          - generic [ref=f14e500]: "4"
+                          - generic [ref=f14e502]: "5"
+                          - generic [ref=f14e504]: "6"
+                          - generic [ref=f14e506]: "7"
+                          - generic [ref=f14e508]: "8"
+                          - generic [ref=f14e510]: "9"
+                          - generic [ref=f14e512]: "10"
+                          - generic [ref=f14e514]: "11"
+                          - generic [ref=f14e516]: "12"
+                          - generic [ref=f14e518]: "13"
+                          - generic [ref=f14e521]: "14"
+                          - generic [ref=f14e523]: "15"
+                          - generic [ref=f14e525]: "16"
+                        - generic [ref=f14e554]:
+                          - generic [ref=f14e556]: 2026-05-13 18:46:04.772 [info]
+                          - generic [ref=f14e562]: 2026-05-13 18:46:04.780 [info] Extension host agent started.
+                          - generic [ref=f14e564]: 2026-05-13 18:46:04.791 [info] Started initializing default profile extensions in extensions installation folder. file:///home/coder/.local/share/code-server/extensions
+                          - generic [ref=f14e566]: 2026-05-13 18:46:04.837 [info] Completed initializing default profile extensions in extensions installation folder. file:///home/coder/.local/share/code-server/extensions
+                          - generic [ref=f14e568]: 2026-05-13 18:51:30.892 [info] [172.17.0.1][0db82583][ManagementConnection] New connection established.
+                          - generic [ref=f14e570]: 2026-05-13 18:52:31.193 [info] [172.17.0.1][e37c0716][ExtensionHostConnection] New connection established.
+                          - generic [ref=f14e572]: 2026-05-13 18:52:31.243 [info] [172.17.0.1][e37c0716][ExtensionHostConnection] <55> Launched Extension Host Process.
+                          - generic [ref=f14e574]: "2026-05-13 18:52:31.381 [info] [172.17.0.1][e37c0716][ExtensionHostConnection] <55> [reconnection-grace-time] Extension host: read VSCODE_RECONNECTION_GRACE_TIME=10800000ms (10800s)"
+                          - generic [ref=f14e577]: 2026-05-13 18:58:45.974 [info] [172.17.0.1][0db82583][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+                          - generic [ref=f14e579]: "2026-05-13 18:58:46.079 [info] [172.17.0.1][e37c0716][ExtensionHostConnection] <55> Extension Host Process exited with code: 0, signal: null."
+              - generic [ref=f14e170]:
+                - generic [ref=f14e171]:
+                  - tablist "Active View Switcher" [ref=f14e175]:
+                    - tab "Chat (Ctrl+Alt+I)" [expanded] [selected] [ref=f14e176] [cursor=pointer]:
+                      - generic "Chat (Ctrl+Alt+I)" [ref=f14e177]: Chat
+                  - toolbar "Chat actions" [ref=f14e181]:
+                    - button "New Chat (Ctrl+N)" [ref=f14e583] [cursor=pointer]: 
+                    - button "New Chat" [ref=f14e587] [cursor=pointer]: 
+                    - button "Open Customizations" [ref=f14e588] [cursor=pointer]: 
+                    - button "Views and More Actions..." [ref=f14e591] [cursor=pointer]: 
+                  - toolbar [ref=f14e196]:
+                    - button "Maximize Secondary Side Bar" [ref=f14e593] [cursor=pointer]: 
+                    - button "Hide Secondary Side Bar (Ctrl+Alt+B)" [ref=f14e594] [cursor=pointer]: 
+                - generic [ref=f14e205]:
+                  - text:      
+                  - generic [ref=f14e206]:
+                    - text:    
+                    - generic [ref=f14e207]:
+                      - text:  
+                      - generic [ref=f14e208]:
+                        - generic [ref=f14e595]:
+                          - generic [ref=f14e597]: 
+                          - generic [ref=f14e598]: Build with Agent
+                          - paragraph [ref=f14e601]: AI responses may be inaccurate
+                          - paragraph [ref=f14e604]:
+                            - link "Generate Agent Instructions" [ref=f14e605] [cursor=pointer]:
+                              - /url: ""
+                            - text: to onboard AI onto your codebase.
+                        - text: 
+                        - generic [ref=f14e217]:
+                          - generic:  
+                          - generic [ref=f14e219]:
+                            - generic "Suggested context, file, remoteagent.log vscode-remote://localhost:8082/home/coder/.local/share/code-server/logs/20260513T184604" [ref=f14e608]:
+                              - button "Add file:remoteagent.log to context" [ref=f14e609] [cursor=pointer]: 
+                              - generic "Enable current file context ~/.local/share/code-server/logs/20260513T184604/remoteagent.log" [ref=f14e610]:
+                                - text: 
+                                - generic [ref=f14e614]: remoteagent.log
+                            - code [ref=f14e222]:
+                              - generic [ref=f14e223]:
+                                - textbox "Chat Input (Agent), edit files in your workspace. Press Enter to send out the request. Use Shift+Alt+F1 for Chat Accessibility Help."
+                                - generic [ref=f14e229]: Describe what to build
+                            - generic [ref=f14e230]:
+                              - toolbar [ref=f14e233]:
+                                - button "Add Context... (Ctrl+/)" [ref=f14e615] [cursor=pointer]: 
+                                - button "Set Agent (Ctrl+.) - Open Agent Picker" [ref=f14e618] [cursor=pointer]:
+                                  - generic [ref=f14e619]: 
+                                - button "Pick Model, Auto" [ref=f14e620] [cursor=pointer]:
+                                  - generic [ref=f14e621]: Auto
+                                  - generic [ref=f14e622]: 
+                                - button "Configure Tools..." [ref=f14e623] [cursor=pointer]: 
+                              - toolbar [ref=f14e245]:
+                                - button "Send [Alt] Send to New Chat (Ctrl+Shift+Enter)" [disabled] [ref=f14e246]: 
+                          - toolbar [ref=f14e250]:
+                            - button "Set Session Target - Local" [ref=f14e253] [cursor=pointer]:
+                              - generic [ref=f14e254]: 
+                              - generic [ref=f14e255]: Local
+                              - generic [ref=f14e256]: 
+                            - button "Permission picker, Default Approvals" [ref=f14e259] [cursor=pointer]:
+                              - generic [ref=f14e624]: 
+                              - generic [ref=f14e625]: Default Approvals
+                              - generic [ref=f14e626]: 
+            - status [ref=f14e265]:
+              - generic [ref=f14e266]:
+                - generic "remote" [ref=f14e267]:
+                  - button "remote" [ref=f14e268] [cursor=pointer]:
+                    - generic [ref=f14e269]: 
+                - generic "No Problems" [ref=f14e627]:
+                  - button "No Problems" [ref=f14e628] [cursor=pointer]:
+                    - generic [ref=f14e629]: 
+                    - text: "0"
+                    - generic [ref=f14e630]: 
+                    - text: "0"
+                - generic "No Ports Forwarded" [ref=f14e631]:
+                  - button "No Ports Forwarded" [ref=f14e632] [cursor=pointer]:
+                    - generic [ref=f14e633]: 
+                    - text: "0"
+              - generic [ref=f14e270]:
+                - generic "Notifications" [ref=f14e271]:
+                  - button "Notifications" [ref=f14e272] [cursor=pointer]:
+                    - generic [ref=f14e273]: 
+                - 'generic "Layout: us" [ref=f14e274]':
+                  - 'button "Layout: us" [ref=f14e275] [cursor=pointer]'
+                - generic "Copilot status" [ref=f14e276]:
+                  - button "Copilot status" [ref=f14e277] [cursor=pointer]:
+                    - generic [ref=f14e278]: 
+                - generic "Log" [ref=f14e634]:
+                  - button "Log" [ref=f14e635] [cursor=pointer]
+                - 'generic "Editor Language Status: $(copilot) No inline suggestion available, Inline suggestions" [ref=f14e636]':
+                  - 'button "Editor Language Status: $(copilot) No inline suggestion available, Inline suggestions" [ref=f14e637] [cursor=pointer]':
+                    - generic [ref=f14e638]: 
+                - generic "LF" [ref=f14e639]:
+                  - button "LF" [ref=f14e640] [cursor=pointer]
+                - generic "UTF-8" [ref=f14e641]:
+                  - button "UTF-8" [ref=f14e642] [cursor=pointer]
+                - 'generic "Spaces: 4" [ref=f14e643]':
+                  - 'button "Spaces: 4" [ref=f14e644] [cursor=pointer]'
+                - generic "Ln 14, Col 1" [ref=f14e645]:
+                  - button "Ln 14, Col 1" [ref=f14e646] [cursor=pointer]
+          - generic:
+            - alert
+            - alert
+          - tooltip "~/.local/share/code-server/logs/20260513T184604/remoteTelemetry.log" [ref=f14e649]:
+            - generic [ref=f14e652]: ~/.local/share/code-server/logs/20260513T184604/remoteTelemetry.log
