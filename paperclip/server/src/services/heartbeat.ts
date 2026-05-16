@@ -3438,6 +3438,41 @@ export function heartbeatService(db: Db, options: HeartbeatServiceOptions = {}) 
     const useProjectWorkspace = opts?.useProjectWorkspace !== false;
     const workspaceProjectId = useProjectWorkspace ? resolvedProjectId : null;
 
+    // openclaw-bridge agents: the openclaw gateway already knows where
+    // this agent lives on disk (its workspace dir holds AGENTS.md /
+    // MEMORY.md / SOUL.md, plus the staged skills/paperclip/SKILL.md
+    // and paperclip-claimed-api-key.json). Use that dir directly so the
+    // agent's shell cwd, prompt context, and tooling match the
+    // openclaw-reported workspace instead of paperclip's per-agent
+    // fallback at ~/.paperclip/instances/.../workspaces/<uuid>.
+    {
+      const metaRecord = (agent.metadata && typeof agent.metadata === "object" && !Array.isArray(agent.metadata))
+        ? (agent.metadata as Record<string, unknown>)
+        : null;
+      const externalSource = readNonEmptyString(
+        (agent as { externalSource?: unknown }).externalSource ?? metaRecord?.externalSource,
+      );
+      const externalWorkspace = readNonEmptyString(metaRecord?.workspace);
+      if (externalSource === "openclaw" && externalWorkspace) {
+        const exists = await fs
+          .stat(externalWorkspace)
+          .then((s) => s.isDirectory())
+          .catch(() => false);
+        if (exists) {
+          return {
+            cwd: externalWorkspace,
+            source: "agent_home" as const,
+            projectId: resolvedProjectId,
+            workspaceId: null,
+            repoUrl: null,
+            repoRef: null,
+            workspaceHints: [],
+            warnings: [],
+          };
+        }
+      }
+    }
+
     const unorderedProjectWorkspaceRows = workspaceProjectId
       ? await db
           .select()
