@@ -1,0 +1,22 @@
+{
+  "fallbackKeys": [
+    "editor.allAgents",
+    "editor.openFolder",
+    "editor.pickAgent",
+    "editor.unknownSpace",
+    "nav.editor",
+    "nav.issues",
+    "subtitles.editor",
+    "subtitles.issues",
+    "tabs.editor",
+    "tabs.issues"
+  ],
+  "generatedAt": "2026-05-13T20:12:39.828Z",
+  "locale": "fr",
+  "model": "gpt-5.5",
+  "provider": "openai",
+  "sourceHash": "20eaed56887a8e06db9deb57756f72e04f9e23073fa823a27f446cdd8f9a2ff9",
+  "totalKeys": 1119,
+  "translatedKeys": 1109,
+  "workflow": 1
+}
