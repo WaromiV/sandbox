@@ -1,7 +1,10 @@
 import { createHash } from "node:crypto";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
+import { eq, sql } from "drizzle-orm";
 import type { Db } from "@paperclipai/db";
+import { companies } from "@paperclipai/db";
+import { companyService } from "../companies.js";
 import { OpenclawRpcClient } from "./rpc-client.js";
 import type { OpenclawBridgeConfig } from "./config.js";
 import { stageRoster, type StagerResult } from "./stager.js";
@@ -108,6 +111,8 @@ export type OpenclawBridge = {
   getRoster: () => OpenclawRoster;
   refreshNow: () => Promise<OpenclawRoster>;
   isReady: () => boolean;
+  /** Paperclip company id the bridge mirrors into. Null until resolved. */
+  getCompanyId: () => string | null;
 };
 
 export type OpenclawBridgeDeps = {
@@ -131,6 +136,50 @@ function defaultSkillSourcePath(): string {
   return path.resolve(here, "../../../..", "skills/paperclip/SKILL.md");
 }
 
+/**
+ * Resolve the paperclip company id the bridge will write into. Lookup
+ * order:
+ *   1. config.pinnedCompanyId — back-compat for installs that hard-coded
+ *      OPENCLAW_MIRROR_COMPANY_ID. Errors if the row is missing.
+ *   2. company with the configured `companyName` — used if present.
+ *   3. otherwise the bridge creates the company itself.
+ *
+ * Idempotent: every call returns the same id once a company exists.
+ */
+async function resolveCompanyId(
+  db: Db,
+  config: OpenclawBridgeConfig,
+  log: (msg: string, meta?: Record<string, unknown>) => void,
+): Promise<string> {
+  if (config.pinnedCompanyId) {
+    const row = await db
+      .select({ id: companies.id })
+      .from(companies)
+      .where(eq(companies.id, config.pinnedCompanyId))
+      .limit(1)
+      .then((rows) => rows[0] ?? null);
+    if (!row) {
+      throw new Error(
+        `OPENCLAW_MIRROR_COMPANY_ID=${config.pinnedCompanyId} is set but no such company exists. Remove the env var to let the bridge auto-bootstrap.`,
+      );
+    }
+    return row.id;
+  }
+  const existing = await db
+    .select({ id: companies.id })
+    .from(companies)
+    .where(sql`lower(${companies.name}) = lower(${config.companyName})`)
+    .limit(1)
+    .then((rows) => rows[0] ?? null);
+  if (existing) {
+    return existing.id;
+  }
+  log(`creating paperclip company "${config.companyName}" (first-run auto-bootstrap)`);
+  const svc = companyService(db);
+  const created = await svc.create({ name: config.companyName });
+  return created.id;
+}
+
 export function createOpenclawBridge(
   config: OpenclawBridgeConfig,
   deps: OpenclawBridgeDeps = {},
@@ -140,6 +189,7 @@ export function createOpenclawBridge(
   let ready = false;
   let timer: NodeJS.Timeout | null = null;
   let stopped = false;
+  let resolvedCompanyId: string | null = null;
 
   const client = new OpenclawRpcClient({
     url: config.url,
@@ -157,13 +207,14 @@ export function createOpenclawBridge(
     };
     roster = next;
     ready = true;
-    // Phase 2: mirror into paperclip's table + stage token/skill on disk.
-    if (deps.db) {
+    // Mirror into paperclip's table + stage token/skill on disk.
+    if (deps.db && resolvedCompanyId) {
       try {
         const stagerResult: StagerResult = await stageRoster(
           {
             db: deps.db,
             config,
+            companyId: resolvedCompanyId,
             skillSourcePath: deps.skillSourcePath ?? defaultSkillSourcePath(),
             resolveWorkspaceDir: (agent) => agent.workspace,
             log,
@@ -203,6 +254,10 @@ export function createOpenclawBridge(
     async start() {
       stopped = false;
       try {
+        if (deps.db) {
+          resolvedCompanyId = await resolveCompanyId(deps.db, config, log);
+          log(`mirror target: company id ${resolvedCompanyId} ("${config.companyName}")`);
+        }
         await client.connect();
         await fetchRosterOnce();
         log(`mirror ready: ${roster.agents.length} agents`);
@@ -223,6 +278,7 @@ export function createOpenclawBridge(
     getRoster: () => roster,
     refreshNow: () => fetchRosterOnce(),
     isReady: () => ready,
+    getCompanyId: () => resolvedCompanyId,
   };
 }
 

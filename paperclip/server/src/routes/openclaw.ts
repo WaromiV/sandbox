@@ -61,6 +61,9 @@ export function openclawRoutes(bridge: OpenclawBridge | null): Router {
       ready: bridge.isReady(),
       fetchedAtMs: roster.fetchedAtMs,
       agentCount: roster.agents.length,
+      // UI uses this to auto-select the bridge-managed company on first
+      // load and to skip paperclip's onboarding flow when bridge is on.
+      companyId: bridge.getCompanyId(),
     });
   });
 

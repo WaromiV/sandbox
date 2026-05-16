@@ -57,6 +57,23 @@ import { useCompany } from "./context/CompanyContext";
 import { useDialogActions } from "./context/DialogContext";
 import { loadLastInboxTab } from "./lib/inbox";
 import { shouldRedirectCompanylessRouteToOnboarding } from "./lib/onboarding-route";
+import { openclawApi } from "./api/openclaw";
+import { useQuery } from "@tanstack/react-query";
+
+/**
+ * When the openclaw bridge is on, paperclip's own onboarding flow is
+ * irrelevant: the bridge auto-creates the company and continuously
+ * mirrors openclaw's agents. This hook is the single source of truth
+ * for "should we even consider showing onboarding".
+ */
+function useOpenclawBridgeStatus() {
+  return useQuery({
+    queryKey: ["openclaw", "status"],
+    queryFn: () => openclawApi.status(),
+    staleTime: 30_000,
+    refetchOnWindowFocus: false,
+  });
+}
 
 function boardRoutes() {
   return (
@@ -153,6 +170,30 @@ function OnboardingRoutePage() {
   const { companies } = useCompany();
   const { openOnboarding } = useDialogActions();
   const { companyPrefix } = useParams<{ companyPrefix?: string }>();
+  const { data: bridge } = useOpenclawBridgeStatus();
+
+  // Bridge mode: openclaw owns the agent + company lifecycle. Redirect to
+  // the bridge-managed company so the user lands somewhere useful instead
+  // of seeing an irrelevant onboarding card.
+  if (bridge?.enabled && bridge.companyId) {
+    const target = companies.find((c) => c.id === bridge.companyId) ?? companies[0] ?? null;
+    if (target) {
+      return <Navigate to={`/${target.issuePrefix}/dashboard`} replace />;
+    }
+    return (
+      <div className="mx-auto max-w-xl py-10">
+        <div className="rounded-lg border border-border bg-card p-6">
+          <h1 className="text-xl font-semibold">Agents are managed by openclaw</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            This paperclip instance is in openclaw-bridge mode. Your company and
+            agent roster are mirrored from openclaw automatically. Onboarding is
+            disabled.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const matchedCompany = companyPrefix
     ? companies.find((company) => company.issuePrefix.toUpperCase() === companyPrefix.toUpperCase()) ?? null
     : null;
@@ -189,16 +230,43 @@ function OnboardingRoutePage() {
   );
 }
 
+/**
+ * Pick the company the user should land on. When the openclaw bridge is
+ * on, prefer the bridge's company over whatever `useCompany` last
+ * cached — that's the one with the live mirrored roster.
+ */
+function pickTargetCompany(
+  companies: ReturnType<typeof useCompany>["companies"],
+  selectedCompany: ReturnType<typeof useCompany>["selectedCompany"],
+  bridge: { enabled?: boolean; companyId?: string | null } | undefined,
+) {
+  if (bridge?.enabled && bridge.companyId) {
+    const bridged = companies.find((c) => c.id === bridge.companyId);
+    if (bridged) return bridged;
+  }
+  return selectedCompany ?? companies[0] ?? null;
+}
+
 function CompanyRootRedirect() {
   const { companies, selectedCompany, loading } = useCompany();
   const location = useLocation();
+  const { data: bridge, isLoading: bridgeLoading } = useOpenclawBridgeStatus();
 
-  if (loading) {
+  if (loading || bridgeLoading) {
     return <div className="mx-auto max-w-xl py-10 text-sm text-muted-foreground">Loading...</div>;
   }
 
-  const targetCompany = selectedCompany ?? companies[0] ?? null;
+  const targetCompany = pickTargetCompany(companies, selectedCompany, bridge);
   if (!targetCompany) {
+    // Bridge mode never redirects to /onboarding even if no company is
+    // visible yet — the bridge will create one on its next sync tick.
+    if (bridge?.enabled) {
+      return (
+        <div className="mx-auto max-w-xl py-10 text-sm text-muted-foreground">
+          Waiting for openclaw bridge to provision the company…
+        </div>
+      );
+    }
     if (
       shouldRedirectCompanylessRouteToOnboarding({
         pathname: location.pathname,
@@ -216,13 +284,21 @@ function CompanyRootRedirect() {
 function UnprefixedBoardRedirect() {
   const location = useLocation();
   const { companies, selectedCompany, loading } = useCompany();
+  const { data: bridge, isLoading: bridgeLoading } = useOpenclawBridgeStatus();
 
-  if (loading) {
+  if (loading || bridgeLoading) {
     return <div className="mx-auto max-w-xl py-10 text-sm text-muted-foreground">Loading...</div>;
   }
 
-  const targetCompany = selectedCompany ?? companies[0] ?? null;
+  const targetCompany = pickTargetCompany(companies, selectedCompany, bridge);
   if (!targetCompany) {
+    if (bridge?.enabled) {
+      return (
+        <div className="mx-auto max-w-xl py-10 text-sm text-muted-foreground">
+          Waiting for openclaw bridge to provision the company…
+        </div>
+      );
+    }
     if (
       shouldRedirectCompanylessRouteToOnboarding({
         pathname: location.pathname,

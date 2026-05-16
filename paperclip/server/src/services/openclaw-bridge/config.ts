@@ -5,6 +5,11 @@
  * `agents.list` and stages a paperclip-issued token + skill into each
  * agent's openclaw workspace. Config is env-driven so deployments can
  * wire it without modifying paperclip's config file.
+ *
+ * As of the auto-bootstrap rewrite the bridge is fully self-bootstrapping:
+ * it resolves (or creates on first boot) the paperclip company that
+ * mirrors openclaw's roster, so operators no longer need to chase a
+ * `OPENCLAW_MIRROR_COMPANY_ID` value or run paperclip's onboarding flow.
  */
 
 export type OpenclawBridgeConfig = {
@@ -16,11 +21,25 @@ export type OpenclawBridgeConfig = {
   paperclipApiUrl: string;
   /** Sync cadence in ms (default 30s). */
   syncIntervalMs: number;
-  /** Company id mirrored agents are attached to. */
-  companyId: string;
+  /**
+   * Display name of the paperclip company the bridge writes into.
+   * Default: "OpenClaw". The bridge looks this up at startup; if the
+   * company doesn't exist it gets created automatically.
+   *
+   * For migration from older installs that still use a pinned uuid
+   * (`OPENCLAW_MIRROR_COMPANY_ID`), the uuid wins if both are set.
+   */
+  companyName: string;
+  /**
+   * Optional pinned company id. When set, overrides `companyName` and
+   * the bridge will only mirror into that exact uuid (errors if it's
+   * missing). Kept for back-compat with the original bridge release.
+   */
+  pinnedCompanyId: string | null;
 };
 
 const DEFAULT_SYNC_MS = 30_000;
+const DEFAULT_COMPANY_NAME = "OpenClaw";
 
 function trimmed(value: string | undefined | null): string | null {
   if (typeof value !== "string") return null;
@@ -43,12 +62,12 @@ export function loadOpenclawBridgeConfig(
   const intervalRaw = Number(trimmed(env.OPENCLAW_SYNC_INTERVAL_MS) ?? "");
   const syncIntervalMs =
     Number.isFinite(intervalRaw) && intervalRaw >= 1000 ? Math.floor(intervalRaw) : DEFAULT_SYNC_MS;
-  // For Phase 1 we mirror against a single configured company. Multi-company
-  // support is a follow-up — once paperclip's UI lets the operator pick which
-  // company each openclaw roster maps to.
-  const companyId = trimmed(env.OPENCLAW_MIRROR_COMPANY_ID);
-  if (!companyId) {
-    return null;
-  }
-  return { url, token, paperclipApiUrl, syncIntervalMs, companyId };
+  return {
+    url,
+    token,
+    paperclipApiUrl,
+    syncIntervalMs,
+    companyName: trimmed(env.OPENCLAW_MIRROR_COMPANY_NAME) ?? DEFAULT_COMPANY_NAME,
+    pinnedCompanyId: trimmed(env.OPENCLAW_MIRROR_COMPANY_ID),
+  };
 }

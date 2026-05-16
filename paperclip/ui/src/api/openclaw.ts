@@ -5,6 +5,8 @@ export type OpenclawBridgeStatus = {
   ready?: boolean;
   fetchedAtMs?: number;
   agentCount?: number;
+  /** Paperclip company id the bridge writes into. UI focuses on this one. */
+  companyId?: string | null;
 };
 
 export type OpenclawAgent = {

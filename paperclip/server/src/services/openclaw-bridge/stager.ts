@@ -28,6 +28,8 @@ import type { OpenclawBridgeConfig } from "./config.js";
 export type StagerDeps = {
   db: Db;
   config: OpenclawBridgeConfig;
+  /** Paperclip company id resolved by the bridge (auto-bootstrapped). */
+  companyId: string;
   /** Where the paperclip skill source lives on this paperclip server. */
   skillSourcePath: string;
   /** Compute the workspace dir from the openclaw-reported agent. */
@@ -164,9 +166,14 @@ export async function stageRoster(
 
     let upsertedId: string;
     if (existing) {
+      // Transfer-on-conflict: if the bridge was previously configured for
+      // a different company (or the operator switched OPENCLAW_MIRROR_*
+      // env vars), move the row into the current target company.
+      // companyId is set unconditionally so re-runs are idempotent.
       await deps.db
         .update(agents)
         .set({
+          companyId: deps.companyId,
           name: agent.label,
           adapterType: "openclaw_gateway",
           adapterConfig,
@@ -187,7 +194,7 @@ export async function stageRoster(
         .insert(agents)
         .values({
           id: paperclipId,
-          companyId: deps.config.companyId,
+          companyId: deps.companyId,
           name: agent.label,
           role: "agent",
           adapterType: "openclaw_gateway",
@@ -224,7 +231,7 @@ export async function stageRoster(
       const token = createTokenString();
       await deps.db.insert(agentApiKeys).values({
         agentId: upsertedId,
-        companyId: deps.config.companyId,
+        companyId: deps.companyId,
         name: "openclaw-bridge",
         keyHash: hashToken(token),
       });
@@ -242,7 +249,7 @@ export async function stageRoster(
             buildTokenJson({
               token: tokenForFs,
               agentId: upsertedId,
-              companyId: deps.config.companyId,
+              companyId: deps.companyId,
               apiUrl: deps.config.paperclipApiUrl,
             }),
             "utf8",
@@ -262,7 +269,7 @@ export async function stageRoster(
                 buildTokenJson({
                   token: parsed.token,
                   agentId: upsertedId,
-                  companyId: deps.config.companyId,
+                  companyId: deps.companyId,
                   apiUrl: deps.config.paperclipApiUrl,
                 }),
                 "utf8",
