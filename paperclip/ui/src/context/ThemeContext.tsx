@@ -26,6 +26,24 @@ function resolveThemeFromDocument(): Theme {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
 
+/**
+ * When paperclip is iframed by the openclaw control UI (Issue Manager
+ * tab), openclaw appends `?theme=dark|light` to the iframe src. Use it
+ * as the initial value so embedded paperclip matches the parent on
+ * first paint instead of flashing the wrong theme before the postMessage
+ * arrives.
+ */
+function readEmbedderTheme(): Theme | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const q = new URLSearchParams(window.location.search).get("theme");
+    if (q === "dark" || q === "light") return q;
+  } catch {
+    // ignore — restricted environments / no location
+  }
+  return null;
+}
+
 function applyTheme(theme: Theme) {
   if (typeof document === "undefined") return;
   const isDark = theme === "dark";
@@ -39,7 +57,9 @@ function applyTheme(theme: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => resolveThemeFromDocument());
+  const [theme, setThemeState] = useState<Theme>(
+    () => readEmbedderTheme() ?? resolveThemeFromDocument(),
+  );
 
   const setTheme = useCallback((nextTheme: Theme) => {
     setThemeState(nextTheme);
@@ -47,6 +67,25 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const toggleTheme = useCallback(() => {
     setThemeState((current) => (current === "dark" ? "light" : "dark"));
+  }, []);
+
+  // When iframed by the openclaw control UI, openclaw posts
+  // `{type:"openclaw:theme", mode:"dark"|"light"}` on every load and on
+  // every theme toggle. Subscribe so paperclip follows the parent.
+  // Standalone paperclip never receives these messages so the listener
+  // is a no-op when not embedded.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    function onMessage(ev: MessageEvent) {
+      const payload = ev.data as { type?: unknown; mode?: unknown } | null;
+      if (!payload || payload.type !== "openclaw:theme") return;
+      const mode = payload.mode;
+      if (mode === "dark" || mode === "light") {
+        setThemeState(mode);
+      }
+    }
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
   }, []);
 
   useEffect(() => {
