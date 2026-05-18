@@ -102,6 +102,39 @@ export function getAgentSpaces(): AgentSpace[] {
   return cached;
 }
 
+/**
+ * Special system workspace id for the OpenClaw runtime state directory
+ * (`$HOME/.openclaw`). Distinct from agent spaces — it surfaces only inside
+ * the editor rail as a dedicated entry, not in the agent chip strip.
+ */
+export const OPENCLAW_STATE_SPACE_ID = "openclaw-state" as const;
+
+function getOpenClawStateFolder(): string {
+  const env = (import.meta as unknown as { env?: Record<string, string | undefined> }).env;
+  // Default to `~/.openclaw`; code-server expands `~` to the host user home.
+  // Override via `VITE_OPENCLAW_STATE_FOLDER` for deployments that bind-mount
+  // the state dir elsewhere (e.g. docker layouts).
+  return env?.VITE_OPENCLAW_STATE_FOLDER ?? "~/.openclaw";
+}
+
+const SYSTEM_SPACES: AgentSpace[] = [
+  {
+    id: OPENCLAW_STATE_SPACE_ID,
+    label: ".openclaw",
+    folder: getOpenClawStateFolder(),
+    icon: "folder",
+  },
+];
+
+export function getSystemSpaces(): AgentSpace[] {
+  return SYSTEM_SPACES;
+}
+
+export function isSystemSpaceId(id: string | null | undefined): boolean {
+  if (!id) return false;
+  return SYSTEM_SPACES.some((s) => s.id === id);
+}
+
 export const EDITOR_TAB_PREFIX = "editor:" as const;
 
 export function tabIdForSpace(space: AgentSpace): string {
@@ -118,7 +151,9 @@ export function spaceIdFromTab(tab: string): string | null {
 
 export function findSpaceById(id: string | null | undefined): AgentSpace | undefined {
   if (!id) return undefined;
-  return getAgentSpaces().find((s) => s.id === id);
+  return (
+    getAgentSpaces().find((s) => s.id === id) ?? SYSTEM_SPACES.find((s) => s.id === id)
+  );
 }
 
 export function findSpaceByTab(tab: string): AgentSpace | undefined {

@@ -1,6 +1,12 @@
-import { html, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { t } from "../../i18n/index.ts";
-import { findSpaceById, getAgentSpaces, type AgentSpace } from "./editor-spaces.ts";
+import {
+  findSpaceById,
+  getAgentSpaces,
+  getSystemSpaces,
+  isSystemSpaceId,
+  type AgentSpace,
+} from "./editor-spaces.ts";
 import { renderEmbedFrame, type EmbedFrameProps } from "./embed-frame.ts";
 
 const BASE_URL = ((import.meta as unknown as { env?: Record<string, string | undefined> }).env
@@ -59,37 +65,73 @@ function renderRail(
   space: AgentSpace,
   filePath: string | null,
   onSelectFile: (filePath: string | null) => void,
+  onSelectAgent: (id: string) => void,
 ): TemplateResult {
+  const systemSpaces = getSystemSpaces();
+  const isSystem = isSystemSpaceId(space.id);
+  // Per-agent quick-open files are agent-specific and not present in
+  // system spaces like `.openclaw`, so suppress them in that mode.
   return html`
     <div class="editor-rail">
       <section class="editor-rail__section">
+        <h3 class="editor-rail__heading">${t("editor.systemSection")}</h3>
+        <ul class="editor-rail__list">
+          ${systemSpaces.map(
+            (s) => html`
+              <li>
+                <button
+                  type="button"
+                  class="editor-rail__item ${s.id === space.id
+                    ? "editor-rail__item--active"
+                    : ""}"
+                  title=${s.folder}
+                  @click=${() => onSelectAgent(s.id)}
+                >
+                  ${s.label}
+                </button>
+              </li>
+            `,
+          )}
+        </ul>
+      </section>
+      <section class="editor-rail__section">
         <div class="editor-rail__entity">
           <div class="editor-rail__entity-name">
-            <span class="editor-rail__entity-icon" aria-hidden="true">🤖</span>
+            <span class="editor-rail__entity-icon" aria-hidden="true"
+              >${isSystem ? "📂" : "🤖"}</span
+            >
             <span>${space.label}</span>
           </div>
           <p class="editor-rail__path">${space.folder}</p>
-          <ul class="editor-rail__items">
-            ${AGENT_FILES.map(
-              (item) => html`
-                <li>
-                  <button
-                    type="button"
-                    class="editor-rail__item ${filePath === item.path
-                      ? "editor-rail__item--active"
-                      : ""}"
-                    @click=${() => onSelectFile(item.path)}
-                  >
-                    ${item.label}
-                  </button>
-                </li>
-              `,
-            )}
-          </ul>
+          ${isSystem
+            ? nothing
+            : html`
+                <ul class="editor-rail__items">
+                  ${AGENT_FILES.map(
+                    (item) => html`
+                      <li>
+                        <button
+                          type="button"
+                          class="editor-rail__item ${filePath === item.path
+                            ? "editor-rail__item--active"
+                            : ""}"
+                          @click=${() => onSelectFile(item.path)}
+                        >
+                          ${item.label}
+                        </button>
+                      </li>
+                    `,
+                  )}
+                </ul>
+              `}
         </div>
-        <button type="button" class="editor-rail__reset" @click=${() => onSelectFile(null)}>
-          ${t("editor.openFolder")}
-        </button>
+        ${isSystem
+          ? nothing
+          : html`
+              <button type="button" class="editor-rail__reset" @click=${() => onSelectFile(null)}>
+                ${t("editor.openFolder")}
+              </button>
+            `}
       </section>
     </div>
   `;
@@ -119,6 +161,6 @@ export function renderEditor(props: EditorProps) {
     folder: active.folder,
     filePath: props.filePath ?? undefined,
     toolbar,
-    sidebar: renderRail(active, props.filePath, props.onSelectFile),
+    sidebar: renderRail(active, props.filePath, props.onSelectFile, props.onSelectAgent),
   });
 }

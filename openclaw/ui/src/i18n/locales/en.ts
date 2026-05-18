@@ -414,6 +414,7 @@ export const en: TranslationMap = {
     openFolder: "Open folder",
     unknownSpace: "Unknown agent space.",
     pickAgent: "Pick an agent to start editing.",
+    systemSection: "System",
   },
   subtitles: {
     agents: "Workspaces, tools, identities.",
