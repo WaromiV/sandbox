@@ -252,25 +252,34 @@ jobs:
       # follow-up step `vscode-reh-web-...-min-ci` is what produces the
       # output code-server actually consumes; the desktop and server-only
       # bundles aren't used. Drop the parallel-bundle step.
-      - name: Replace core-ci with single-bundle equivalent
-        # core-ci runs three esbuild bundles in parallel which OOMs the
-        # runner. Replace it with: transpile to out-build, write the date
-        # file (needed by vscode-reh-web-...-min-ci), then bundle ONLY the
-        # reh-web target serially. Skips the desktop + server-only bundles.
+      # The 3 esbuild bundle tasks inside core-ci run in parallel and
+      # OOM the runner. Force vscode's gulpfile to run them serially.
+      # gulp.parallel(...) for the bundles becomes gulp.series(...).
+      - name: Serialize vscode's parallel bundle tasks
         run: |
           python3 - <<'PY'
-          import pathlib, re
-          fp = pathlib.Path("ci/build/build-vscode.sh")
-          s = fp.read_text()
-          replacement = (
-            "npm run gulp esbuild-out-build\n"
-            "  date -u +%Y-%m-%dT%H:%M:%SZ > lib/vscode/out-build/date\n"
-            "  pushd lib/vscode >/dev/null; date -u +%Y-%m-%dT%H:%M:%SZ > out-build/date; popd >/dev/null\n"
-            "  npm run gulp esbuild-vscode-reh-web-min"
-          )
-          s2, n = re.subn(r"(?m)^[ \t]*npm run gulp core-ci$", "  " + replacement, s)
-          assert n == 1, f"expected 1 replacement, got {n}"
-          fp.write_text(s2)
+          import pathlib, re, sys
+          # Two known files where parallel bundling is composed.
+          files = list(pathlib.Path("lib/vscode/build").glob("gulpfile*.js")) \
+                + list(pathlib.Path("lib/vscode/build").glob("gulpfile*.mjs"))
+          edits = 0
+          for fp in files:
+              s = fp.read_text()
+              # Match parallel(... 'esbuild-vscode-min', ..., 'esbuild-vscode-reh-web-min' ...)
+              # and convert that specific parallel call to series.
+              pattern = re.compile(
+                  r"(gulp\.)?parallel\((\s*[\"'][^\"']*esbuild-vscode[^\"']*[\"'][\s,]*){2,}\s*[\"'][^\"']*esbuild-vscode[^\"']*[\"']\s*\)",
+                  re.S,
+              )
+              def repl(m):
+                  return m.group(0).replace("parallel(", "series(", 1)
+              s2, n = pattern.subn(repl, s)
+              if n:
+                  fp.write_text(s2)
+                  print(f"patched {fp} ({n} occurrence)")
+                  edits += n
+          if edits == 0:
+              print("::warning::no parallel(...) of esbuild-vscode tasks found")
           PY
 
       # build-code-server.sh wraps the outer code-server but assumes vscode
