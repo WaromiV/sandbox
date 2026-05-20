@@ -256,30 +256,46 @@ jobs:
       # OOM the runner. Force vscode's gulpfile to run them serially.
       # gulp.parallel(...) for the bundles becomes gulp.series(...).
       - name: Serialize vscode's parallel bundle tasks
+        # Find the task.parallel(...) call that contains
+        # 'esbuild-vscode-reh-web-min' and rewrite it to task.series(...).
+        # The call spans multiple lines and wraps `task.define(...)`
+        # expressions, so do paren-balanced replacement in Python.
         run: |
           python3 - <<'PY'
-          import pathlib, re, sys
-          # Two known files where parallel bundling is composed.
-          files = list(pathlib.Path("lib/vscode/build").glob("gulpfile*.js")) \
-                + list(pathlib.Path("lib/vscode/build").glob("gulpfile*.mjs"))
+          import pathlib, sys
+          target_marker = "esbuild-vscode-reh-web-min"
           edits = 0
-          for fp in files:
+          for fp in pathlib.Path("lib/vscode/build").rglob("gulpfile*.ts"):
               s = fp.read_text()
-              # Match parallel(... 'esbuild-vscode-min', ..., 'esbuild-vscode-reh-web-min' ...)
-              # and convert that specific parallel call to series.
-              pattern = re.compile(
-                  r"(gulp\.)?parallel\((\s*[\"'][^\"']*esbuild-vscode[^\"']*[\"'][\s,]*){2,}\s*[\"'][^\"']*esbuild-vscode[^\"']*[\"']\s*\)",
-                  re.S,
-              )
-              def repl(m):
-                  return m.group(0).replace("parallel(", "series(", 1)
-              s2, n = pattern.subn(repl, s)
-              if n:
-                  fp.write_text(s2)
-                  print(f"patched {fp} ({n} occurrence)")
-                  edits += n
+              i = 0
+              out = []
+              while True:
+                  j = s.find("task.parallel(", i)
+                  if j < 0:
+                      out.append(s[i:]); break
+                  # Find matching closing paren starting after "task.parallel("
+                  k = j + len("task.parallel(")
+                  depth = 1
+                  while k < len(s) and depth:
+                      c = s[k]
+                      if c == "(": depth += 1
+                      elif c == ")": depth -= 1
+                      k += 1
+                  body = s[j+len("task.parallel("):k-1]
+                  out.append(s[i:j])
+                  if target_marker in body:
+                      out.append("task.series(" + body + ")")
+                      edits += 1
+                  else:
+                      out.append(s[j:k])
+                  i = k
+              if edits and "".join(out) != s:
+                  fp.write_text("".join(out))
+                  print(f"patched {fp}")
           if edits == 0:
-              print("::warning::no parallel(...) of esbuild-vscode tasks found")
+              print("::error::no task.parallel(...) containing esbuild-vscode-reh-web-min found")
+              sys.exit(1)
+          print(f"serialized {edits} parallel block(s)")
           PY
 
       # build-code-server.sh wraps the outer code-server but assumes vscode
