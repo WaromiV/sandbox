@@ -173,9 +173,11 @@ jobs:
       # these, server-main.js never exports loadCodeWithNls and the wrapper
       # at runtime errors with "mod.loadCodeWithNls is not a function".
       - name: Apply code-server patches to vscode
-        run: |
-          cd lib/vscode
-          QUILT_PATCHES=../../patches quilt push -a
+        env:
+          QUILT_PATCHES: patches
+        # Patches have paths like code-server/lib/vscode/..., so after the
+        # default -p1 strip they resolve against the code-server/ root.
+        run: quilt push -a
 
       # TS 6+ errors on moduleResolution=node/node10, downlevelIteration, and
       # inferred rootDir (TS5107/TS5101/TS5011). Walk lib/vscode AND the
