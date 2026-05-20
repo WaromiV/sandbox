@@ -1,0 +1,21 @@
+[Unit]
+Description=OpenClaw AI Gateway
+After=network-online.target
+Wants=network-online.target
+# If paperclip / code-server should be co-started, add them as Wants= here.
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/openclaw-stack/openclaw/current
+ExecStart=/usr/bin/node dist/index.js gateway --bind lan --port 18789
+Restart=always
+RestartSec=5
+TimeoutStartSec=60
+TimeoutStopSec=30
+Environment=NODE_ENV=production
+Environment=HOME=/root
+Environment=PATH=/root/.local/bin:/usr/bin:/usr/local/bin:/bin
+Environment=OPENCLAW_GATEWAY_PORT=18789
+
+[Install]
+WantedBy=multi-user.target

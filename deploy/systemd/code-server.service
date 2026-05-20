@@ -1,0 +1,19 @@
+[Unit]
+Description=code-server (patched fork)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/openclaw-stack/code-server/current
+ExecStart=/usr/bin/node out/node/entry.js --auth none --bind-addr 127.0.0.1:8080
+Restart=always
+RestartSec=5
+TimeoutStartSec=60
+TimeoutStopSec=30
+Environment=NODE_ENV=production
+Environment=HOME=/root
+Environment=PATH=/usr/bin:/usr/local/bin:/bin
+
+[Install]
+WantedBy=multi-user.target

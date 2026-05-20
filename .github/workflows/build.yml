@@ -1,0 +1,151 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  openclaw:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: openclaw
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.1.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16'
+          cache: pnpm
+          cache-dependency-path: openclaw/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile=false
+      - run: pnpm build
+
+      - name: Package
+        run: |
+          tar -czf "$GITHUB_WORKSPACE/openclaw-dist.tar.gz" \
+            dist openclaw.mjs package.json pnpm-workspace.yaml \
+            $( [ -f pnpm-lock.yaml ] && echo pnpm-lock.yaml )
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: openclaw-dist
+          path: openclaw-dist.tar.gz
+          retention-days: 14
+          if-no-files-found: error
+
+  paperclip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: paperclip
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: pnpm
+          cache-dependency-path: paperclip/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+      - name: Package
+        run: |
+          tar -czf "$GITHUB_WORKSPACE/paperclip-dist.tar.gz" \
+            --exclude='**/node_modules/.cache' \
+            --exclude='**/.turbo' \
+            package.json pnpm-lock.yaml pnpm-workspace.yaml \
+            $(ls -d packages 2>/dev/null) \
+            $(ls -d apps 2>/dev/null) \
+            $(find . -maxdepth 3 -type d -name dist -not -path './node_modules/*' 2>/dev/null)
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: paperclip-dist
+          path: paperclip-dist.tar.gz
+          retention-days: 14
+          if-no-files-found: error
+
+  code-server:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: code-server
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: code-server/package-lock.json
+
+      - name: Install system deps for native modules
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential pkg-config libx11-dev libxkbfile-dev \
+            libsecret-1-dev libkrb5-dev python3 jq quilt
+
+      # The flat-vendored fork is missing upstream's ci/build/ scripts. Pull
+      # them from coder/code-server@v4.118.0 (matches the deb version that was
+      # previously deployed). Local patches in code-server/patches/ are applied
+      # by build-vscode.sh during its prep step.
+      - name: Restore upstream build scripts (ci/build/)
+        run: |
+          if [ ! -x ./ci/build/build-code-server.sh ]; then
+            mkdir -p ci/build
+            base="https://raw.githubusercontent.com/coder/code-server/v4.118.0/ci/build"
+            for f in build-code-server.sh build-vscode.sh build-release.sh \
+                     build-static-release.sh clean.sh code-server.sh \
+                     npm-postinstall.sh release-prep.sh test-plugin.sh; do
+              curl -fsSL "$base/$f" -o "ci/build/$f" && chmod +x "ci/build/$f" || true
+            done
+          fi
+
+      - run: npm ci
+
+      - name: Build code-server
+        run: ./ci/build/build-code-server.sh
+
+      - name: Package
+        run: |
+          tar -czf "$GITHUB_WORKSPACE/code-server-dist.tar.gz" \
+            --exclude='.git' \
+            --exclude='test' \
+            --exclude='**/*.map' \
+            $( [ -d out ] && echo out ) \
+            $( [ -d lib ] && echo lib ) \
+            $( [ -d patches ] && echo patches ) \
+            node_modules package.json package-lock.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: code-server-dist
+          path: code-server-dist.tar.gz
+          retention-days: 14
+          if-no-files-found: error
