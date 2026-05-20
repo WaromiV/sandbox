@@ -59,6 +59,18 @@ for comp in "${COMPONENTS[@]}"; do
     if [ "$comp" = "paperclip" ] && id paperclip >/dev/null 2>&1; then
       sudo chown -R paperclip:paperclip "$comp_root"
     fi
+    # code-server's wrapper imports lib/vscode/out/server-main.js, but the
+    # build produces it at lib/vscode/out-vscode-reh-web-min/. Replace the
+    # vestigial out/ dir from the build with a symlink to the right output.
+    if [ "$comp" = "code-server" ]; then
+      vsc="$release_dir/lib/vscode"
+      if [ -d "$vsc/out-vscode-reh-web-min" ] && \
+         [ ! -L "$vsc/out" ] && \
+         [ ! -f "$vsc/out/server-main.js" ]; then
+        sudo rm -rf "$vsc/out"
+        sudo ln -s out-vscode-reh-web-min "$vsc/out"
+      fi
+    fi
     log "[$comp] extracted to $release_dir"
   fi
 

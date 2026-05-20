@@ -312,6 +312,17 @@ jobs:
           VERSION: '0.0.0'
         run: ./ci/build/build-code-server.sh
 
+      # The wrapper imports lib/vscode/out/server-main.js. The build leaves
+      # only out/vs/ here; the bundled server lives at
+      # lib/vscode/out-vscode-reh-web-min/. Replace the dir with a symlink
+      # so the wrapper resolves correctly without prod-side fixup.
+      - name: Link lib/vscode/out to the reh-web bundle
+        run: |
+          if [ -d lib/vscode/out-vscode-reh-web-min ]; then
+            rm -rf lib/vscode/out
+            ln -s out-vscode-reh-web-min lib/vscode/out
+          fi
+
       - name: Package
         run: |
           tar -czf "$GITHUB_WORKSPACE/code-server-dist.tar.gz" \
