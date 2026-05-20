@@ -32,10 +32,15 @@ jobs:
         with:
           node-version: '22.16'
 
-      # The workspace's minimumReleaseAge requires registry "time" metadata,
-      # which some scoped packages omit and pnpm 11 then refuses. Force
-      # highest-mode resolution for the install (cf. ERR_PNPM_MISSING_TIME).
-      - run: pnpm install --no-frozen-lockfile --config.resolution-mode=highest
+      # pnpm-workspace.yaml sets minimumReleaseAge: 2880, which requires the
+      # registry "time" field on every resolved package. Many scoped packages
+      # don't expose it, so pnpm 11 errors with ERR_PNPM_MISSING_TIME. Disable
+      # minimumReleaseAge for the CI install via the npm_config_ env override.
+      - name: Install
+        env:
+          npm_config_minimum_release_age: '0'
+          npm_config_resolution_mode: highest
+        run: pnpm install --no-frozen-lockfile
       - run: pnpm build
 
       - name: Package
@@ -145,6 +150,39 @@ jobs:
           fi
 
       - run: npm ci
+
+      # vscode's tsconfig uses moduleResolution=node10 and downlevelIteration,
+      # which TS 6+ errors on (TS5107/TS5101) unless ignoreDeprecations: "6.0"
+      # is set. Patch every tsconfig under lib/vscode before the build.
+      - name: Patch vscode tsconfigs for TS 6 compat
+        run: |
+          python3 - <<'PY'
+          import os, re
+          root = "lib/vscode"
+          patched = 0
+          for dp, _, fs in os.walk(root):
+              if "/node_modules/" in dp or dp.endswith("/node_modules"):
+                  continue
+              for fn in fs:
+                  if not fn.startswith("tsconfig") or not fn.endswith(".json"):
+                      continue
+                  fp = os.path.join(dp, fn)
+                  with open(fp) as h:
+                      s = h.read()
+                  if "ignoreDeprecations" in s:
+                      continue
+                  # Inject after the first `"compilerOptions": {`
+                  new, n = re.subn(
+                      r'("compilerOptions"\s*:\s*\{)',
+                      r'\1\n    "ignoreDeprecations": "6.0",',
+                      s, count=1,
+                  )
+                  if n:
+                      with open(fp, "w") as h:
+                          h.write(new)
+                      patched += 1
+          print(f"patched {patched} tsconfigs")
+          PY
 
       - name: Build code-server
         run: ./ci/build/build-code-server.sh
