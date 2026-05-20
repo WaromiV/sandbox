@@ -190,6 +190,16 @@ jobs:
           echo "patches applied with $fails non-fatal conflicts"
           grep -q "loadCodeWithNls" lib/vscode/src/server-main.ts \
             || { echo "::error::loadCodeWithNls did not land — code-server will not boot"; exit 1; }
+          # external-file-actions.diff's import-line hunk drifts on this
+          # vscode SHA, but its declaration/binding hunks land — so the
+          # symbols exist in contextkeys.ts but aren't imported into
+          # fileActions.contribution.ts. Inject the two names so tsc passes.
+          fa=lib/vscode/src/vs/workbench/contrib/files/browser/fileActions.contribution.ts
+          if ! grep -q "IsEnabledFileDownloads" "$fa"; then
+            sed -i "s|} from '\\.\\./\\.\\./\\.\\./common/contextkeys\\.js';|, IsEnabledFileDownloads, IsEnabledFileUploads & |" "$fa"
+            grep -q "IsEnabledFileDownloads" "$fa" \
+              || { echo "::error::failed to inject IsEnabledFileDownloads import"; exit 1; }
+          fi
 
       # TS 6+ errors on moduleResolution=node/node10, downlevelIteration, and
       # inferred rootDir (TS5107/TS5101/TS5011). Walk lib/vscode AND the
