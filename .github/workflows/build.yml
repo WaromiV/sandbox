@@ -245,13 +245,16 @@ jobs:
           print(f"patched {patched} tsconfigs")
           PY
 
-      # vscode's gulp tasks request --max-old-space-size=8192 and core-ci
-      # runs three esbuild bundles (desktop, reh-min, reh-web-min) in parallel,
-      # totalling >24GB of heap — the runner OOMs. Cap each bundle at 3GB.
-      - name: Cap vscode build heap so 3 parallel bundles fit on the runner
+      # build-vscode.sh runs `npm run gulp core-ci`, which kicks off three
+      # esbuild bundles in parallel (desktop, reh-min, reh-web-min). Each
+      # uses several GB of RSS (V8 heap caps don't bound esbuild's native
+      # allocations), so even one of the bundles can OOM the runner. The
+      # follow-up step `vscode-reh-web-...-min-ci` is what produces the
+      # output code-server actually consumes; the desktop and server-only
+      # bundles aren't used. Drop the parallel-bundle step.
+      - name: Skip unneeded vscode parallel bundles
         run: |
-          sed -i 's/--max-old-space-size=8192/--max-old-space-size=3072/g' \
-            lib/vscode/package.json
+          sed -i '/^[[:space:]]*npm run gulp core-ci$/d' ci/build/build-vscode.sh
 
       # build-code-server.sh wraps the outer code-server but assumes vscode
       # has already been built into lib/vscode/out/. Run build-vscode.sh first.
