@@ -33,14 +33,14 @@ jobs:
           node-version: '22.16'
 
       # pnpm-workspace.yaml sets minimumReleaseAge: 2880, which requires the
-      # registry "time" field on every resolved package. Many scoped packages
-      # don't expose it, so pnpm 11 errors with ERR_PNPM_MISSING_TIME. Disable
-      # minimumReleaseAge for the CI install via the npm_config_ env override.
-      - name: Install
-        env:
-          npm_config_minimum_release_age: '0'
-          npm_config_resolution_mode: highest
-        run: pnpm install --no-frozen-lockfile
+      # registry "time" field on every resolved package. npm_config_ env
+      # overrides do not apply to workspace YAML in pnpm 11, so we sed-strip
+      # the line in CI only.
+      - name: Disable minimumReleaseAge for CI
+        run: |
+          sed -i '/^minimumReleaseAge:/d' pnpm-workspace.yaml
+          sed -i '/^minimumReleaseAgeExclude:/,/^[^[:space:]-]/{/^[[:space:]-]/d; /^minimumReleaseAgeExclude:/d}' pnpm-workspace.yaml || true
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm build
 
       - name: Package
@@ -151,36 +151,47 @@ jobs:
 
       - run: npm ci
 
-      # vscode's tsconfig uses moduleResolution=node10 and downlevelIteration,
-      # which TS 6+ errors on (TS5107/TS5101) unless ignoreDeprecations: "6.0"
-      # is set. Patch every tsconfig under lib/vscode before the build.
-      - name: Patch vscode tsconfigs for TS 6 compat
+      # TS 6+ errors on moduleResolution=node/node10, downlevelIteration, and
+      # inferred rootDir (TS5107/TS5101/TS5011). Walk lib/vscode AND the
+      # code-server root, inject ignoreDeprecations + an explicit rootDir.
+      - name: Patch tsconfigs for TS 6 compat
         run: |
           python3 - <<'PY'
           import os, re
-          root = "lib/vscode"
+          roots = ["lib/vscode", "."]
           patched = 0
-          for dp, _, fs in os.walk(root):
-              if "/node_modules/" in dp or dp.endswith("/node_modules"):
-                  continue
-              for fn in fs:
-                  if not fn.startswith("tsconfig") or not fn.endswith(".json"):
+          for root in roots:
+              for dp, _, fs in os.walk(root):
+                  if "/node_modules/" in dp or dp.endswith("/node_modules") \
+                     or "/lib/vscode/" in dp + "/" and root == ".":
                       continue
-                  fp = os.path.join(dp, fn)
-                  with open(fp) as h:
-                      s = h.read()
-                  if "ignoreDeprecations" in s:
-                      continue
-                  # Inject after the first `"compilerOptions": {`
-                  new, n = re.subn(
-                      r'("compilerOptions"\s*:\s*\{)',
-                      r'\1\n    "ignoreDeprecations": "6.0",',
-                      s, count=1,
-                  )
-                  if n:
-                      with open(fp, "w") as h:
-                          h.write(new)
-                      patched += 1
+                  for fn in fs:
+                      if not fn.startswith("tsconfig") or not fn.endswith(".json"):
+                          continue
+                      fp = os.path.join(dp, fn)
+                      with open(fp) as h:
+                          s = h.read()
+                      changed = False
+                      if "ignoreDeprecations" not in s:
+                          s, n = re.subn(
+                              r'("compilerOptions"\s*:\s*\{)',
+                              r'\1\n    "ignoreDeprecations": "6.0",',
+                              s, count=1,
+                          )
+                          if n: changed = True
+                      # Add rootDir: "./src" when include points at ./src and no
+                      # rootDir is set yet (silences TS5011).
+                      if '"rootDir"' not in s and './src' in s:
+                          s, n = re.subn(
+                              r'("compilerOptions"\s*:\s*\{)',
+                              r'\1\n    "rootDir": "./src",',
+                              s, count=1,
+                          )
+                          if n: changed = True
+                      if changed:
+                          with open(fp, "w") as h:
+                              h.write(s)
+                          patched += 1
           print(f"patched {patched} tsconfigs")
           PY
 
