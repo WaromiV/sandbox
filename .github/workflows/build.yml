@@ -43,6 +43,14 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
       - run: pnpm build
 
+      # `pnpm build` does NOT build the Control UI; without this the gateway
+      # serves a stub UI and the user's custom tabs (editor, task tracker)
+      # are missing. Build it explicitly into ui/dist/.
+      - name: Build Control UI
+        run: |
+          pnpm ui:install || true
+          pnpm ui:build
+
       # dist/ imports runtime externals like `json5`. Re-install with --prod
       # so node_modules only contains what production needs, then tar it
       # alongside dist/. -h dereferences pnpm's symlinks for a portable
@@ -59,7 +67,12 @@ jobs:
           find node_modules -xtype l -delete 2>/dev/null || true
           tar -czhf "$GITHUB_WORKSPACE/openclaw-dist.tar.gz" \
             --warning=no-file-removed \
+            --exclude='ui/node_modules' \
+            --exclude='ui/src' \
+            --exclude='ui/public' \
+            --exclude='ui/.vite' \
             dist openclaw.mjs package.json pnpm-workspace.yaml node_modules \
+            $( [ -d ui/dist ] && echo ui ) \
             $( [ -f pnpm-lock.yaml ] && echo pnpm-lock.yaml )
 
       - uses: actions/upload-artifact@v4
