@@ -54,6 +54,11 @@ for comp in "${COMPONENTS[@]}"; do
 
     sudo mkdir -p "$release_dir"
     sudo tar -xzf "$tarball" -C "$release_dir"
+    # paperclip runs as its own system user so the release tree (and the
+    # parent containing the `current` symlink) must be owned by it.
+    if [ "$comp" = "paperclip" ] && id paperclip >/dev/null 2>&1; then
+      sudo chown -R paperclip:paperclip "$comp_root"
+    fi
     log "[$comp] extracted to $release_dir"
   fi
 

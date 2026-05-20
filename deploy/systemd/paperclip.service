@@ -5,17 +5,17 @@ Wants=network-online.target
 
 [Service]
 Type=simple
+User=paperclip
+Group=paperclip
 WorkingDirectory=/opt/openclaw-stack/paperclip/current
-# Adjust the entry point if paperclip's prod start path differs (e.g. a
-# specific package's dist/index.js). `pnpm -r start` is a placeholder.
 ExecStart=/usr/bin/env pnpm dev
 Restart=always
 RestartSec=5
 TimeoutStartSec=60
 TimeoutStopSec=30
 Environment=NODE_ENV=production
-Environment=HOME=/root
-Environment=PATH=/root/.local/share/pnpm:/root/.local/bin:/usr/bin:/usr/local/bin:/bin
+Environment=HOME=/var/lib/paperclip
+Environment=PATH=/usr/bin:/usr/local/bin:/bin
 Environment=PAPERCLIP_PORT=3100
 
 [Install]
