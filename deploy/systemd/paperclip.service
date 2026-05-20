@@ -8,7 +8,7 @@ Type=simple
 WorkingDirectory=/opt/openclaw-stack/paperclip/current
 # Adjust the entry point if paperclip's prod start path differs (e.g. a
 # specific package's dist/index.js). `pnpm -r start` is a placeholder.
-ExecStart=/usr/bin/env pnpm -r --if-present start
+ExecStart=/usr/bin/env pnpm dev
 Restart=always
 RestartSec=5
 TimeoutStartSec=60

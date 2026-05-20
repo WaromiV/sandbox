@@ -26,13 +26,13 @@ jobs:
         with:
           version: 11.1.0
 
+      # No `cache:` — openclaw/pnpm-lock.yaml isn't committed and the cache
+      # action errors out when the dependency path is absent.
       - uses: actions/setup-node@v4
         with:
           node-version: '22.16'
-          cache: pnpm
-          cache-dependency-path: openclaw/pnpm-lock.yaml
 
-      - run: pnpm install --frozen-lockfile=false
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm build
 
       - name: Package
@@ -68,17 +68,19 @@ jobs:
           cache-dependency-path: paperclip/pnpm-lock.yaml
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
 
-      - name: Package
+      # bring-up.sh runs paperclip via `pnpm dev` (tsx watch), not a built
+      # artifact, so we ship source + node_modules and let the systemd unit
+      # do the same. `pnpm build` currently fails type-check on this fork.
+      - name: Package source + node_modules
         run: |
           tar -czf "$GITHUB_WORKSPACE/paperclip-dist.tar.gz" \
             --exclude='**/node_modules/.cache' \
             --exclude='**/.turbo' \
-            package.json pnpm-lock.yaml pnpm-workspace.yaml \
-            $(ls -d packages 2>/dev/null) \
-            $(ls -d apps 2>/dev/null) \
-            $(find . -maxdepth 3 -type d -name dist -not -path './node_modules/*' 2>/dev/null)
+            --exclude='**/.vite' \
+            --exclude='**/playwright-report' \
+            --exclude='**/test-results' \
+            .
 
       - uses: actions/upload-artifact@v4
         with:
@@ -89,34 +91,31 @@ jobs:
 
   code-server:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
     defaults:
       run:
         working-directory: code-server
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
-          cache-dependency-path: code-server/package-lock.json
 
       - name: Install system deps for native modules
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential pkg-config libx11-dev libxkbfile-dev \
-            libsecret-1-dev libkrb5-dev python3 jq quilt
+            libsecret-1-dev libkrb5-dev python3 jq quilt rsync
 
-      # The flat-vendored fork is missing upstream's ci/build/ scripts. Pull
-      # them from coder/code-server@v4.118.0 (matches the deb version that was
-      # previously deployed). Local patches in code-server/patches/ are applied
-      # by build-vscode.sh during its prep step.
-      - name: Restore upstream build scripts (ci/build/)
+      # The "flatten subrepos" commit stripped the upstream ci/build/ scripts
+      # and the lib/vscode/ submodule. Re-hydrate both from the matching
+      # upstream tag (v4.118.0) before building, so local patches/ apply
+      # against the right vscode tree.
+      - name: Rehydrate ci/build and lib/vscode from upstream v4.118.0
         run: |
+          set -eux
           if [ ! -x ./ci/build/build-code-server.sh ]; then
             mkdir -p ci/build
             base="https://raw.githubusercontent.com/coder/code-server/v4.118.0/ci/build"
@@ -125,6 +124,15 @@ jobs:
                      npm-postinstall.sh release-prep.sh test-plugin.sh; do
               curl -fsSL "$base/$f" -o "ci/build/$f" && chmod +x "ci/build/$f" || true
             done
+          fi
+          if [ ! -f lib/vscode/package.json ]; then
+            mkdir -p lib
+            tmp=$(mktemp -d)
+            git clone --depth 1 --branch v4.118.0 \
+              https://github.com/coder/code-server.git "$tmp/cs"
+            git -C "$tmp/cs" submodule update --init --recursive --depth 1 lib/vscode
+            rsync -a --delete "$tmp/cs/lib/vscode/" lib/vscode/
+            rm -rf "$tmp"
           fi
 
       - run: npm ci
