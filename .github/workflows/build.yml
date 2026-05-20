@@ -195,10 +195,10 @@ jobs:
           # symbols exist in contextkeys.ts but aren't imported into
           # fileActions.contribution.ts. Inject the two names so tsc passes.
           fa=lib/vscode/src/vs/workbench/contrib/files/browser/fileActions.contribution.ts
-          if ! grep -q "IsEnabledFileDownloads" "$fa"; then
+          if ! grep -E "^import .*IsEnabledFileDownloads.* from '\\.\\./\\.\\./\\.\\./common/contextkeys" "$fa" >/dev/null; then
             sed -i "s|} from '\\.\\./\\.\\./\\.\\./common/contextkeys\\.js';|, IsEnabledFileDownloads, IsEnabledFileUploads & |" "$fa"
-            grep -q "IsEnabledFileDownloads" "$fa" \
-              || { echo "::error::failed to inject IsEnabledFileDownloads import"; exit 1; }
+            grep -E "^import .*IsEnabledFileDownloads.* from '\\.\\./\\.\\./\\.\\./common/contextkeys" "$fa" >/dev/null \
+              || { echo "::error::failed to inject IsEnabledFileDownloads into import"; exit 1; }
           fi
 
       # TS 6+ errors on moduleResolution=node/node10, downlevelIteration, and
