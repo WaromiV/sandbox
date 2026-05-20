@@ -245,6 +245,14 @@ jobs:
           print(f"patched {patched} tsconfigs")
           PY
 
+      # vscode's gulp tasks request --max-old-space-size=8192 and core-ci
+      # runs three esbuild bundles (desktop, reh-min, reh-web-min) in parallel,
+      # totalling >24GB of heap — the runner OOMs. Cap each bundle at 3GB.
+      - name: Cap vscode build heap so 3 parallel bundles fit on the runner
+        run: |
+          sed -i 's/--max-old-space-size=8192/--max-old-space-size=3072/g' \
+            lib/vscode/package.json
+
       # build-code-server.sh wraps the outer code-server but assumes vscode
       # has already been built into lib/vscode/out/. Run build-vscode.sh first.
       # build-vscode.sh requires VERSION; the value is just embedded in
