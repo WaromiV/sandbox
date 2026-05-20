@@ -145,6 +145,11 @@ jobs:
                      npm-postinstall.sh release-prep.sh test-plugin.sh; do
               curl -fsSL "$base/$f" -o "ci/build/$f" && chmod +x "ci/build/$f" || true
             done
+            # The upstream build-vscode.sh references a gulp task name
+            # (compile-copilot-extension-full-build) that the v4.118.0 vscode
+            # submodule does not define. Align with the actual task name.
+            sed -i 's/compile-copilot-extension-full-build/compile-copilot-extension-build/g' \
+              ci/build/build-vscode.sh
           fi
           if [ ! -f lib/vscode/package.json ]; then
             mkdir -p lib
