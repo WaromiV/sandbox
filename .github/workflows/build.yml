@@ -54,7 +54,11 @@ jobs:
 
       - name: Package
         run: |
+          # pnpm --prod left dangling .bin symlinks (devDep entries) which
+          # break `tar -h`. Sweep them first.
+          find node_modules -xtype l -delete 2>/dev/null || true
           tar -czhf "$GITHUB_WORKSPACE/openclaw-dist.tar.gz" \
+            --warning=no-file-removed \
             dist openclaw.mjs package.json pnpm-workspace.yaml node_modules \
             $( [ -f pnpm-lock.yaml ] && echo pnpm-lock.yaml )
 
@@ -206,10 +210,16 @@ jobs:
 
       # build-code-server.sh wraps the outer code-server but assumes vscode
       # has already been built into lib/vscode/out/. Run build-vscode.sh first.
+      # build-vscode.sh requires VERSION; the value is just embedded in
+      # product.json, so any placeholder is fine for a self-hosted build.
       - name: Build vscode (lib/vscode/out)
+        env:
+          VERSION: '0.0.0'
         run: ./ci/build/build-vscode.sh
 
       - name: Build code-server
+        env:
+          VERSION: '0.0.0'
         run: ./ci/build/build-code-server.sh
 
       - name: Package
