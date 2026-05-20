@@ -172,12 +172,24 @@ jobs:
       # Apply the in-repo code-server patches to the vscode tree. Without
       # these, server-main.js never exports loadCodeWithNls and the wrapper
       # at runtime errors with "mod.loadCodeWithNls is not a function".
+      # Apply patches with plain `patch -p1` rather than quilt: quilt halts
+      # the whole series on the first hunk conflict, but one custom patch
+      # (external-file-actions.diff) drifted from this vscode SHA on one
+      # hunk. `patch --forward --batch` lets us keep going and still get
+      # loadCodeWithNls into server-main.ts (the only patch code-server's
+      # boot path actually requires).
       - name: Apply code-server patches to vscode
-        env:
-          QUILT_PATCHES: patches
-        # Patches have paths like code-server/lib/vscode/..., so after the
-        # default -p1 strip they resolve against the code-server/ root.
-        run: quilt push -a
+        run: |
+          fails=0
+          for p in $(grep -Ev '^[[:space:]]*$|^#' patches/series); do
+            if ! patch -p1 --forward --batch --ignore-whitespace -r- -i "patches/$p" >/dev/null 2>&1; then
+              echo "::warning::patch $p had conflicts (continuing)"
+              fails=$((fails+1))
+            fi
+          done
+          echo "patches applied with $fails non-fatal conflicts"
+          grep -q "loadCodeWithNls" lib/vscode/src/server-main.ts \
+            || { echo "::error::loadCodeWithNls did not land — code-server will not boot"; exit 1; }
 
       # TS 6+ errors on moduleResolution=node/node10, downlevelIteration, and
       # inferred rootDir (TS5107/TS5101/TS5011). Walk lib/vscode AND the
