@@ -169,6 +169,14 @@ jobs:
 
       - run: npm ci
 
+      # Apply the in-repo code-server patches to the vscode tree. Without
+      # these, server-main.js never exports loadCodeWithNls and the wrapper
+      # at runtime errors with "mod.loadCodeWithNls is not a function".
+      - name: Apply code-server patches to vscode
+        run: |
+          cd lib/vscode
+          QUILT_PATCHES=../../patches quilt push -a
+
       # TS 6+ errors on moduleResolution=node/node10, downlevelIteration, and
       # inferred rootDir (TS5107/TS5101/TS5011). Walk lib/vscode AND the
       # code-server root, inject ignoreDeprecations + an explicit rootDir.
