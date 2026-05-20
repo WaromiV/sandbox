@@ -252,9 +252,26 @@ jobs:
       # follow-up step `vscode-reh-web-...-min-ci` is what produces the
       # output code-server actually consumes; the desktop and server-only
       # bundles aren't used. Drop the parallel-bundle step.
-      - name: Skip unneeded vscode parallel bundles
+      - name: Replace core-ci with single-bundle equivalent
+        # core-ci runs three esbuild bundles in parallel which OOMs the
+        # runner. Replace it with: transpile to out-build, write the date
+        # file (needed by vscode-reh-web-...-min-ci), then bundle ONLY the
+        # reh-web target serially. Skips the desktop + server-only bundles.
         run: |
-          sed -i '/^[[:space:]]*npm run gulp core-ci$/d' ci/build/build-vscode.sh
+          python3 - <<'PY'
+          import pathlib, re
+          fp = pathlib.Path("ci/build/build-vscode.sh")
+          s = fp.read_text()
+          replacement = (
+            "npm run gulp esbuild-out-build\n"
+            "  date -u +%Y-%m-%dT%H:%M:%SZ > lib/vscode/out-build/date\n"
+            "  pushd lib/vscode >/dev/null; date -u +%Y-%m-%dT%H:%M:%SZ > out-build/date; popd >/dev/null\n"
+            "  npm run gulp esbuild-vscode-reh-web-min"
+          )
+          s2, n = re.subn(r"(?m)^[ \t]*npm run gulp core-ci$", "  " + replacement, s)
+          assert n == 1, f"expected 1 replacement, got {n}"
+          fp.write_text(s2)
+          PY
 
       # build-code-server.sh wraps the outer code-server but assumes vscode
       # has already been built into lib/vscode/out/. Run build-vscode.sh first.
