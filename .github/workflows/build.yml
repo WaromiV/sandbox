@@ -32,7 +32,10 @@ jobs:
         with:
           node-version: '22.16'
 
-      - run: pnpm install --no-frozen-lockfile
+      # The workspace's minimumReleaseAge requires registry "time" metadata,
+      # which some scoped packages omit and pnpm 11 then refuses. Force
+      # highest-mode resolution for the install (cf. ERR_PNPM_MISSING_TIME).
+      - run: pnpm install --no-frozen-lockfile --config.resolution-mode=highest
       - run: pnpm build
 
       - name: Package
@@ -127,11 +130,17 @@ jobs:
           fi
           if [ ! -f lib/vscode/package.json ]; then
             mkdir -p lib
+            # vscode's postinstall runs `git config` and requires lib/vscode
+            # to be a real git repo, so clone the submodule directly in place
+            # (keeping its .git) rather than rsyncing the working tree.
             tmp=$(mktemp -d)
             git clone --depth 1 --branch v4.118.0 \
               https://github.com/coder/code-server.git "$tmp/cs"
-            git -C "$tmp/cs" submodule update --init --recursive --depth 1 lib/vscode
-            rsync -a --delete "$tmp/cs/lib/vscode/" lib/vscode/
+            submodule_sha=$(git -C "$tmp/cs" ls-tree HEAD lib/vscode | awk '{print $3}')
+            submodule_url=$(git -C "$tmp/cs" config --file .gitmodules submodule.lib/vscode.url)
+            rm -rf lib/vscode
+            git clone "$submodule_url" lib/vscode
+            git -C lib/vscode checkout --detach "$submodule_sha"
             rm -rf "$tmp"
           fi
 
