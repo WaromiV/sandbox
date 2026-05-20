@@ -43,10 +43,19 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
       - run: pnpm build
 
+      # dist/ imports runtime externals like `json5`. Re-install with --prod
+      # so node_modules only contains what production needs, then tar it
+      # alongside dist/. -h dereferences pnpm's symlinks for a portable
+      # archive.
+      - name: Install prod node_modules
+        env:
+          NODE_ENV: production
+        run: pnpm install --no-frozen-lockfile --prod
+
       - name: Package
         run: |
-          tar -czf "$GITHUB_WORKSPACE/openclaw-dist.tar.gz" \
-            dist openclaw.mjs package.json pnpm-workspace.yaml \
+          tar -czhf "$GITHUB_WORKSPACE/openclaw-dist.tar.gz" \
+            dist openclaw.mjs package.json pnpm-workspace.yaml node_modules \
             $( [ -f pnpm-lock.yaml ] && echo pnpm-lock.yaml )
 
       - uses: actions/upload-artifact@v4
@@ -194,6 +203,11 @@ jobs:
                           patched += 1
           print(f"patched {patched} tsconfigs")
           PY
+
+      # build-code-server.sh wraps the outer code-server but assumes vscode
+      # has already been built into lib/vscode/out/. Run build-vscode.sh first.
+      - name: Build vscode (lib/vscode/out)
+        run: ./ci/build/build-vscode.sh
 
       - name: Build code-server
         run: ./ci/build/build-code-server.sh
