@@ -109,6 +109,46 @@ export const authApi = {
     await authPost("/sign-in/email", input);
   },
 
+  /**
+   * Returns the OIDC providers this instance has configured. Empty array on
+   * vanilla email/password deployments.
+   */
+  listOidcProviders: async (): Promise<Array<{ id: string; displayName: string }>> => {
+    try {
+      const res = await fetch("/api/auth/oidc-providers", { credentials: "include" });
+      if (!res.ok) return [];
+      const payload = (await res.json().catch(() => null)) as
+        | { providers?: Array<{ id: string; displayName: string }> }
+        | null;
+      return Array.isArray(payload?.providers) ? payload!.providers : [];
+    } catch {
+      return [];
+    }
+  },
+
+  /**
+   * Kicks off the OIDC code flow against a provider returned by
+   * `listOidcProviders`. better-auth responds with `{ url }`; the caller
+   * navigates the browser there so the IdP sets its own cookies on its
+   * origin.
+   */
+  signInOidc: async (input: { providerId: string; callbackURL?: string }): Promise<{ url: string }> => {
+    const res = await fetch("/api/auth/sign-in/oauth2", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        providerId: input.providerId,
+        callbackURL: input.callbackURL ?? "/",
+      }),
+    });
+    const payload = await res.json().catch(() => null);
+    if (!res.ok || !payload || typeof (payload as { url?: unknown }).url !== "string") {
+      throw extractAuthError(payload as AuthErrorBody, res.status);
+    }
+    return { url: (payload as { url: string }).url };
+  },
+
   signUpEmail: async (input: { name: string; email: string; password: string }) => {
     await authPost("/sign-up/email", input);
   },

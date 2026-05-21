@@ -1,0 +1,114 @@
+# Authentik (IdP) for the openclaw cluster.
+#
+# Network shape:
+#   Three services on a Docker bridge network with a pinned subnet
+#   (172.20.0.0/16). Authentik publishes to 127.0.0.1:9000/9443 on the host.
+#
+#   The pinned subnet matters: on hosts running sing-box / mullvad-cli /
+#   transparent-proxy tooling, nftables hooks transparently redirect traffic
+#   to arbitrary 172.x ranges and the Docker port-forwarded payload silently
+#   disappears (TCP connects but the HTTP body never arrives). 172.20.0.0/16
+#   sits inside the typical "local" whitelist those tools ship.
+#
+#   If bridge mode still drops bytes on your host (curl 127.0.0.1:9000 →
+#   "Empty reply from server" while the container's healthcheck is green),
+#   layer in deploy/authentik/docker-compose.host.yml which switches
+#   everything to host networking. Use:
+#     docker compose -f docker-compose.yml -f docker-compose.host.yml up -d
+
+services:
+  postgresql:
+    image: docker.io/library/postgres:16-alpine
+    container_name: openclaw-authentik-postgres
+    restart: unless-stopped
+    networks:
+      authentik:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    environment:
+      POSTGRES_DB: ${PG_DB:-authentik}
+      POSTGRES_USER: ${PG_USER:-authentik}
+      POSTGRES_PASSWORD: ${PG_PASS:?database password required}
+    # Publish to host loopback so paperclip (running on the host outside
+    # Docker) can reach the shared PG. Custom host-port to avoid clashes.
+    ports:
+      - "127.0.0.1:${PG_HOST_PORT:-5436}:5432"
+    volumes:
+      - ./data/database:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  server:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2026.2.3}
+    container_name: openclaw-authentik-server
+    restart: unless-stopped
+    command: server
+    networks:
+      authentik:
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+      AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD}
+      AUTHENTIK_BOOTSTRAP_TOKEN: ${AUTHENTIK_BOOTSTRAP_TOKEN}
+      AUTHENTIK_BOOTSTRAP_EMAIL: ${AUTHENTIK_BOOTSTRAP_EMAIL:-akadmin@localhost}
+      AUTHENTIK_DISABLE_STARTUP_ANALYTICS: "true"
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "false"
+      # Force IPv4 bind. The bundled Go router would otherwise bind only
+      # [::]:9000 with IPV6_V6ONLY=1 on some kernels, dropping IPv4 traffic
+      # forwarded by Docker's port-mapper.
+      AUTHENTIK_LISTEN__HTTP: "0.0.0.0:9000"
+      AUTHENTIK_LISTEN__HTTPS: "0.0.0.0:9443"
+    ports:
+      - "${HOST_BIND_HTTP:-127.0.0.1:9000}:9000"
+      - "${HOST_BIND_HTTPS:-127.0.0.1:9443}:9443"
+    shm_size: 512mb
+    volumes:
+      - ./data/media:/media
+      - ./data/custom-templates:/templates
+    env_file:
+      - .env
+
+  worker:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2026.2.3}
+    container_name: openclaw-authentik-worker
+    restart: unless-stopped
+    command: worker
+    user: root
+    networks:
+      authentik:
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+      AUTHENTIK_DISABLE_STARTUP_ANALYTICS: "true"
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "false"
+    shm_size: 512mb
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/media:/media
+      - ./data/certs:/certs
+      - ./data/custom-templates:/templates
+    env_file:
+      - .env
+
+networks:
+  authentik:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${AUTHENTIK_BRIDGE_SUBNET:-172.20.0.0/16}

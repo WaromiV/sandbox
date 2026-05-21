@@ -2,6 +2,7 @@ import type { Request, RequestHandler } from "express";
 import type { IncomingHttpHeaders } from "node:http";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { genericOAuth } from "better-auth/plugins";
 import { toNodeHandler } from "better-auth/node";
 import type { Db } from "@paperclipai/db";
 import {
@@ -12,6 +13,13 @@ import {
 } from "@paperclipai/db";
 import type { Config } from "../config.js";
 import { resolvePaperclipInstanceId } from "../home-paths.js";
+import {
+  AUTHENTIK_PROVIDER_ID,
+  discoveryUrlFromIssuer,
+  loadPaperclipOidcConfig,
+} from "./oidc-config.js";
+import { maybeClaimFirstAdmin } from "./oidc-bootstrap.js";
+import { logger } from "../middleware/logger.js";
 
 export type BetterAuthSessionUser = {
   id: string;
@@ -102,6 +110,46 @@ export function createBetterAuthInstance(db: Db, config: Config, trustedOrigins:
   const publicUrl = process.env.PAPERCLIP_PUBLIC_URL ?? baseUrl;
   const isHttpOnly = publicUrl ? publicUrl.startsWith("http://") : false;
 
+  const oidcConfig = (() => {
+    try {
+      return loadPaperclipOidcConfig();
+    } catch (err) {
+      logger.warn(
+        { err },
+        "Failed to load paperclip OIDC config — continuing without OIDC. Re-run deploy/authentik/provision.sh to regenerate.",
+      );
+      return null;
+    }
+  })();
+
+  const plugins = oidcConfig
+    ? [
+        genericOAuth({
+          config: [
+            {
+              providerId: AUTHENTIK_PROVIDER_ID,
+              clientId: oidcConfig.client_id,
+              clientSecret: oidcConfig.client_secret,
+              discoveryUrl: discoveryUrlFromIssuer(oidcConfig.issuer),
+              scopes: oidcConfig.scopes,
+              pkce: true,
+            },
+          ],
+        }),
+      ]
+    : [];
+
+  if (oidcConfig) {
+    logger.info(
+      {
+        providerId: AUTHENTIK_PROVIDER_ID,
+        issuer: oidcConfig.issuer,
+        callback: oidcConfig.redirect_uri,
+      },
+      "OIDC enabled — authentik provider registered with better-auth",
+    );
+  }
+
   const authConfig = {
     baseURL: baseUrl,
     secret,
@@ -119,6 +167,19 @@ export function createBetterAuthInstance(db: Db, config: Config, trustedOrigins:
       enabled: true,
       requireEmailVerification: false,
       disableSignUp: config.authDisableSignUp,
+    },
+    plugins,
+    databaseHooks: {
+      user: {
+        create: {
+          after: async (user: { id: string }) => {
+            // First-login-wins admin promotion. Runs once per newly-created
+            // user — race-safe via conditional UPDATE on the singleton
+            // bootstrap row. See auth/oidc-bootstrap.ts for the invariant.
+            await maybeClaimFirstAdmin(db, user.id);
+          },
+        },
+      },
     },
     advanced: buildBetterAuthAdvancedOptions({ disableSecureCookies: isHttpOnly }),
   };

@@ -14,6 +14,7 @@ import {
 import { sendGatewayAuthFailure, sendMissingScopeForbidden } from "./http-common.js";
 import { ADMIN_SCOPE, CLI_DEFAULT_OPERATOR_SCOPES } from "./method-scopes.js";
 import { authorizeOperatorScopesForMethod } from "./method-scopes.js";
+import { looksLikeJwt, tryVerifyOidcBearer } from "./oidc-bearer.js";
 
 export function getHeader(req: IncomingMessage, name: string): string | undefined {
   const raw = req.headers[normalizeLowercaseStringOrEmpty(name)];
@@ -100,6 +101,16 @@ export async function authorizeGatewayHttpRequestOrReply(params: {
   return result.requestAuth;
 }
 
+// Stash for the OIDC-resolved operator scopes per request. Read by
+// resolveTrustedHttpOperatorScopes so OIDC-authed requests carry the scopes
+// the IdP+role-authority resolved, not whatever the caller declares via
+// HTTP headers. Cleared automatically when the request object is GC'd.
+const oidcRequestScopes: WeakMap<IncomingMessage, readonly string[]> = new WeakMap();
+
+export function readOidcRequestScopes(req: IncomingMessage): readonly string[] | undefined {
+  return oidcRequestScopes.get(req);
+}
+
 export async function checkGatewayHttpRequestAuth(params: {
   req: IncomingMessage;
   auth: ResolvedGatewayAuth;
@@ -109,6 +120,43 @@ export async function checkGatewayHttpRequestAuth(params: {
   cfg?: OpenClawConfig;
 }): Promise<GatewayHttpRequestAuthCheckResult> {
   const token = getBearerToken(params.req);
+
+  // OIDC bearer fast-path. Phase D wires this in: when the Authorization
+  // bearer looks like a JWT *and* ~/.openclaw/oidc/gateway.json exists, we
+  // validate against Authentik's JWKS and ask paperclip for the user's
+  // role. token_invalid hard-fails (no fallthrough — a forged JWT must not
+  // accidentally land on the shared-secret path). no_config / no_bearer
+  // fall through to the existing auth flow so non-OIDC deployments and
+  // service-to-service calls keep working unchanged.
+  if (looksLikeJwt(token)) {
+    const oidc = await tryVerifyOidcBearer(token);
+    if (oidc.ok) {
+      oidcRequestScopes.set(params.req, oidc.scopes);
+      return {
+        ok: true,
+        requestAuth: {
+          // Use the existing "token" method name — there's only one place
+          // (usesSharedSecretGatewayMethod) that branches on the method
+          // string and we set trustDeclaredOperatorScopes explicitly below.
+          authMethod: "token",
+          // The id_token IS per-operator identity; honor declared scopes.
+          trustDeclaredOperatorScopes: true,
+        },
+      };
+    }
+    if (oidc.reason === "token_invalid" || oidc.reason === "role_lookup_failed") {
+      return {
+        ok: false,
+        authResult: {
+          ok: false,
+          method: "token",
+          reason: `OIDC bearer rejected: ${oidc.message}`,
+        },
+      };
+    }
+    // no_config / no_bearer → silently fall through.
+  }
+
   const browserOriginPolicy = resolveHttpBrowserOriginPolicy(params.req, params.cfg);
   const authResult = await authorizeHttpGatewayConnect({
     auth: params.auth,
@@ -191,6 +239,14 @@ export function resolveTrustedHttpOperatorScopes(
     // Gateway bearer auth only proves possession of the shared secret. Do not
     // let HTTP clients self-assert operator scopes through request headers.
     return [];
+  }
+
+  // OIDC bearer fast-path: scopes were resolved up-front from the user's
+  // Authentik role (admin → full set; user → READ_SCOPE only). Take those
+  // verbatim and ignore any self-declared x-openclaw-scopes header.
+  const oidcScopes = readOidcRequestScopes(req);
+  if (oidcScopes !== undefined) {
+    return [...oidcScopes];
   }
 
   const headerValue = getHeader(req, "x-openclaw-scopes");

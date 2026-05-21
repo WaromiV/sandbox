@@ -1,0 +1,43 @@
+# Override file: switches the Authentik stack to host networking.
+#
+# Use this when the default bridge subnet (172.20.0.0/16) is being
+# transparently redirected by a host-level nftables hook (sing-box,
+# Mullvad split-tunnel, etc.) AND adjusting your local whitelist isn't
+# practical. Layer it on top of the base compose:
+#
+#   cd deploy/authentik
+#   docker compose -f docker-compose.yml -f docker-compose.host.yml up -d
+#
+# Trade-off: containers share the host's network namespace — no
+# container-level network isolation, and Postgres ends up reachable on
+# whatever interface the host listens on (we pin it to 127.0.0.1 below).
+
+services:
+  postgresql:
+    network_mode: host
+    networks: !reset []
+    ports: !reset []
+    command: ["-p", "${PG_HOST_PORT:-5436}", "-h", "127.0.0.1"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p ${PG_HOST_PORT:-5436} -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  server:
+    network_mode: host
+    networks: !reset []
+    ports: !reset []
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: 127.0.0.1
+      AUTHENTIK_POSTGRESQL__PORT: "${PG_HOST_PORT:-5436}"
+      AUTHENTIK_LISTEN__HTTP: "127.0.0.1:9000"
+      AUTHENTIK_LISTEN__HTTPS: "127.0.0.1:9443"
+
+  worker:
+    network_mode: host
+    networks: !reset []
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: 127.0.0.1
+      AUTHENTIK_POSTGRESQL__PORT: "${PG_HOST_PORT:-5436}"

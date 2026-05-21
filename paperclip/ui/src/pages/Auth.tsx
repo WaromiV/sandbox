@@ -30,6 +30,25 @@ export function AuthPage() {
     retry: false,
   });
 
+  // OIDC providers (Authentik etc). Hidden when empty so vanilla
+  // email/password instances stay untouched.
+  const { data: oidcProviders = [] } = useQuery({
+    queryKey: ["auth", "oidc-providers"],
+    queryFn: () => authApi.listOidcProviders(),
+    staleTime: Infinity,
+    retry: false,
+  });
+
+  const oidcMutation = useMutation({
+    mutationFn: async (providerId: string) => {
+      const { url } = await authApi.signInOidc({ providerId, callbackURL: nextPath });
+      window.location.assign(url);
+    },
+    onError: (err) => {
+      setError(err instanceof Error ? err.message : "OIDC sign-in failed");
+    },
+  });
+
   useEffect(() => {
     if (session) {
       navigate(nextPath, { replace: true });
@@ -90,6 +109,33 @@ export function AuthPage() {
               ? "Use your email and password to access this instance."
               : "Create an account for this instance. Email confirmation is not required in v1."}
           </p>
+
+          {oidcProviders.length > 0 && (
+            <div className="mt-6 space-y-3">
+              {oidcProviders.map((provider) => (
+                <Button
+                  key={provider.id}
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  disabled={oidcMutation.isPending}
+                  onClick={() => {
+                    setError(null);
+                    oidcMutation.mutate(provider.id);
+                  }}
+                >
+                  {oidcMutation.isPending
+                    ? "Redirecting…"
+                    : `Sign in with ${provider.displayName}`}
+                </Button>
+              ))}
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                <div className="h-px flex-1 bg-border" />
+                <span>or</span>
+                <div className="h-px flex-1 bg-border" />
+              </div>
+            </div>
+          )}
 
           <form
             className="mt-6 space-y-4"

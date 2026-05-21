@@ -1,6 +1,7 @@
 {
   "name": "openclaw",
   "version": "2026.5.12-beta.1",
+  "openclawSandboxIntegration": "Phase D adds jose as a runtime dependency for Authentik id_token validation. Wired via src/gateway/oidc-bearer.ts; integration point in src/gateway/auth.ts is left as a documented seam for Phase E or downstream merge.",
   "description": "Multi-channel AI gateway with extensible messaging integrations",
   "keywords": [],
   "homepage": "https://github.com/openclaw/openclaw#readme",

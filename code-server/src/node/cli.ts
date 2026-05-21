@@ -2,6 +2,8 @@ import { field, Level, logger } from "@coder/logger"
 import { promises as fs } from "fs"
 import { load } from "js-yaml"
 import * as path from "path"
+import { loadBridgeSecret } from "./bridgeAuth"
+import { loadOidcConfig, type OidcClientConfig } from "./oidcAuth"
 import { generateCertificate, generatePassword, paths, splitOnFirstEquals } from "./util"
 import { EditorSessionManagerClient } from "./vscodeSocket"
 
@@ -13,6 +15,8 @@ export enum Feature {
 export enum AuthType {
   Password = "password",
   None = "none",
+  Bridge = "bridge",
+  Oidc = "oidc",
 }
 
 export class Optional<T> {
@@ -97,6 +101,11 @@ export interface UserProvidedArgs extends UserProvidedCodeArgs {
   "abs-proxy-base-path"?: string
   i18n?: string
   "idle-timeout-seconds"?: number
+  "bridge-secret-file"?: string
+  "bridge-cookie-name"?: string
+  "bridge-header-name"?: string
+  "oidc-config-file"?: string
+  "oidc-role-authority-url"?: string
   /* Positional arguments. */
   _?: string[]
 }
@@ -316,6 +325,33 @@ export const options: Options<Required<UserProvidedArgs>> = {
     type: "number",
     description: "Timeout in seconds to wait before shutting down when idle.",
   },
+  "bridge-secret-file": {
+    type: "string",
+    path: true,
+    description:
+      "Path to the shared HMAC secret file for --auth bridge. The secret must match the one used by the paperclip front-end.",
+  },
+  "bridge-cookie-name": {
+    type: "string",
+    description: "Cookie name carrying the bridge token (default: pc_bridge).",
+  },
+  "bridge-header-name": {
+    type: "string",
+    description: "Header name carrying the bridge token (default: x-paperclip-bridge).",
+  },
+  "oidc-config-file": {
+    type: "string",
+    path: true,
+    description:
+      "Path to the JSON OIDC client config for --auth oidc. Default: ~/.openclaw/oidc/codeserver.json. " +
+      "File written by deploy/authentik/provision.sh.",
+  },
+  "oidc-role-authority-url": {
+    type: "string",
+    description:
+      "URL of paperclip's /api/access/role endpoint. Used to look up the caller's role " +
+      "after id_token validation. Default: read from the OIDC config file's role_authority_url field.",
+  },
   "reconnection-grace-time": {
     type: "string",
     description:
@@ -527,6 +563,11 @@ export interface DefaultedArgs extends ConfigArgs {
   "user-data-dir": string
   "session-socket": string
   "app-name": string
+  bridgeSecret?: Buffer
+  bridgeCookieName: string
+  bridgeHeaderName: string
+  oidcConfig?: OidcClientConfig
+  oidcCookieName: string
   /* Positional arguments. */
   _: string[]
 }
@@ -683,10 +724,46 @@ export async function setDefaults(cliArgs: UserProvidedArgs, configArgs?: Config
 
   args._ = getResolvedPathsFromArgs(args)
 
+  const bridgeCookieName = args["bridge-cookie-name"] || process.env.PAPERCLIP_BRIDGE_COOKIE || "pc_bridge"
+  const bridgeHeaderName =
+    args["bridge-header-name"] || process.env.PAPERCLIP_BRIDGE_HEADER || "x-paperclip-bridge"
+  let bridgeSecret: Buffer | undefined
+  if (args.auth === AuthType.Bridge) {
+    bridgeSecret = await loadBridgeSecret({
+      secretFile: args["bridge-secret-file"] || process.env.PAPERCLIP_BRIDGE_SECRET_FILE,
+      secretEnv: process.env.PAPERCLIP_BRIDGE_SECRET,
+    })
+    delete process.env.PAPERCLIP_BRIDGE_SECRET
+  }
+
+  const oidcCookieName = process.env.PAPERCLIP_OIDC_COOKIE || "code_server_session"
+  let oidcConfig: OidcClientConfig | undefined
+  if (args.auth === AuthType.Oidc) {
+    oidcConfig = await loadOidcConfig(
+      args["oidc-config-file"] || process.env.PAPERCLIP_OIDC_CONFIG_FILE,
+    )
+    const roleUrlOverride =
+      args["oidc-role-authority-url"] || process.env.PAPERCLIP_OIDC_ROLE_AUTHORITY_URL
+    if (roleUrlOverride) {
+      oidcConfig = { ...oidcConfig, role_authority_url: roleUrlOverride }
+    }
+    if (!oidcConfig.role_authority_url) {
+      throw new Error(
+        "--auth oidc requires role_authority_url in the OIDC config or " +
+          "--oidc-role-authority-url. Re-run deploy/authentik/provision.sh to regenerate.",
+      )
+    }
+  }
+
   return {
     ...args,
     usingEnvPassword,
     usingEnvHashedPassword,
+    bridgeSecret,
+    bridgeCookieName,
+    bridgeHeaderName,
+    oidcConfig,
+    oidcCookieName,
   } as DefaultedArgs // TODO: Technically no guarantee this is fulfilled.
 }
 

@@ -5,3 +5,23 @@
 logs/
 node_modules/
 .DS_Store
+dist/
+build/
+*.log
+.vite/
+.next/
+.turbo/
+.cache/
+.pnpm-store/
+*.tgz
+/tmp/
+
+# Authentik stack — secrets and persistent volumes never get committed.
+deploy/authentik/.env
+deploy/authentik/data/
+
+# Playwright MCP scratch — snapshots / screenshots from interactive sessions.
+.playwright-mcp/
+test-results/
+oidc-e2e-*.png
+authentik-stuck.png

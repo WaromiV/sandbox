@@ -11,7 +11,7 @@ import { App } from "../app"
 import { AuthType, DefaultedArgs } from "../cli"
 import { commit, rootPath } from "../constants"
 import { Heart } from "../heart"
-import { redirect } from "../http"
+import { ensureAuthenticated, redirect } from "../http"
 import { CoderSettings, SettingsProvider } from "../settings"
 import { UpdateProvider } from "../update"
 import { getMediaMime, paths } from "../util"
@@ -94,6 +94,25 @@ export const register = async (
     }
     next()
   })
+
+  if (args.auth === AuthType.Bridge || args.auth === AuthType.Oidc) {
+    // Same shape for both modes: every request (including HTML, WS upgrade,
+    // and static assets) must pass auth before we route it. Token/JWKS
+    // validation lives inside ensureAuthenticated -> authenticated().
+    const tokenGate: express.RequestHandler = async (req, res, next) => {
+      if (req.path === "/security.txt" || req.path === "/.well-known/security.txt" || req.path === "/robots.txt") {
+        return next()
+      }
+      try {
+        await ensureAuthenticated(req)
+        next()
+      } catch (err) {
+        next(err)
+      }
+    }
+    app.router.use(tokenGate)
+    app.wsRouter.use(tokenGate as any)
+  }
 
   app.router.get(["/security.txt", "/.well-known/security.txt"], async (_, res) => {
     const resourcePath = path.resolve(rootPath, "src/browser/security.txt")

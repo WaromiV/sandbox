@@ -6,6 +6,8 @@ import qs from "qs"
 import { Disposable } from "../common/emitter"
 import { HttpCode, HttpError } from "../common/http"
 import { normalize } from "../common/util"
+import { readBridgeTokenFromRequest, verifyBridgeToken } from "./bridgeAuth"
+import { performOidcCheck, readIdTokenFromRequest } from "./oidcAuth"
 import { AuthType, DefaultedArgs } from "./cli"
 import { version as codeServerVersion } from "./constants"
 import { Heart } from "./heart"
@@ -131,6 +133,37 @@ export const authenticated = async (req: express.Request): Promise<boolean> => {
       }
 
       return await isCookieValid(isCookieValidArgs)
+    }
+    case AuthType.Bridge: {
+      if (!req.args.bridgeSecret) return false
+      const token = readBridgeTokenFromRequest(req as any, {
+        cookieName: req.args.bridgeCookieName,
+        headerName: req.args.bridgeHeaderName,
+      })
+      if (!token) return false
+      return verifyBridgeToken(token, req.args.bridgeSecret) !== null
+    }
+    case AuthType.Oidc: {
+      if (!req.args.oidcConfig) return false
+      const token = readIdTokenFromRequest(req as any, req.args.oidcCookieName)
+      if (!token) return false
+      const roleAuthorityUrl = req.args.oidcConfig.role_authority_url
+      if (!roleAuthorityUrl) return false
+      try {
+        const result = await performOidcCheck({
+          token,
+          cfg: req.args.oidcConfig,
+          roleAuthorityUrl,
+        })
+        if (!result.ok) {
+          logger.debug("oidc check failed", field("reason", result.reason), field("message", result.message))
+          return false
+        }
+        return true
+      } catch (err) {
+        logger.warn("oidc check error", field("error", err instanceof Error ? err.message : String(err)))
+        return false
+      }
     }
     default: {
       throw new Error(`Unsupported auth type ${req.args.auth}`)
