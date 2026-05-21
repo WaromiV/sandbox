@@ -1685,6 +1685,7 @@ export function renderApp(state: AppViewState) {
                 filePath: state.editorFilePath,
                 onSelectAgent: (id) => state.setEditorTarget({ workspaceId: id, filePath: null }),
                 onSelectFile: (filePath) => state.setEditorTarget({ workspaceId: null, filePath }),
+                gatewayAgents: state.agentsList?.agents ?? null,
               }),
             )
           : nothing}

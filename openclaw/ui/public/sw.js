@@ -1,7 +1,12 @@
 // OpenClaw Control – Service Worker
 // Handles offline caching and push notifications.
 
-const CACHE_NAME = "openclaw-control-v1";
+const CACHE_NAME = "openclaw-control-v2";
+
+// Reverse-proxied service routes — must never go through the SW, otherwise
+// large/streaming/range responses from code-server (under /editor/) and
+// paperclip (under /issues/) trip "unexpected error" failures in event.respondWith.
+const PASSTHROUGH_PREFIXES = ["/editor/", "/issues/"];
 
 // Minimal app-shell files to precache.
 const PRECACHE_URLS = ["./"];
@@ -39,6 +44,13 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  // Skip reverse-proxied service routes (code-server, paperclip).
+  for (const prefix of PASSTHROUGH_PREFIXES) {
+    if (url.pathname.startsWith(prefix)) {
+      return;
+    }
+  }
+
   // Cache-first for hashed assets; network-first for HTML/other.
   if (url.pathname.includes("/assets/")) {
     event.respondWith(
@@ -64,7 +76,7 @@ self.addEventListener("fetch", (event) => {
           }
           return response;
         })
-        .catch(() => caches.match(event.request)),
+        .catch(() => caches.match(event.request).then((m) => m || fetch(event.request))),
     );
   }
 });

@@ -103,6 +103,23 @@ export function getAgentSpaces(): AgentSpace[] {
 }
 
 /**
+ * Build the agent-chip catalog from the live gateway `agents.list` result.
+ * Falls back to the build-time defaults when the gateway hasn't returned
+ * data yet (e.g. first paint before WS connect).
+ */
+export function spacesFromGatewayAgents(
+  rows: ReadonlyArray<{ id: string; name?: string; workspace?: string }> | null | undefined,
+): AgentSpace[] {
+  if (!rows || rows.length === 0) return getAgentSpaces();
+  return rows.map((r) => ({
+    id: r.id,
+    label: r.name && r.name.length > 0 ? r.name : r.id,
+    folder: r.workspace && r.workspace.length > 0 ? r.workspace : `/workspace/agents/${r.id}`,
+    icon: ICON_HINTS[r.id] ?? "folder",
+  }));
+}
+
+/**
  * Special system workspace id for the OpenClaw runtime state directory
  * (`$HOME/.openclaw`). Distinct from agent spaces — it surfaces only inside
  * the editor rail as a dedicated entry, not in the agent chip strip.

@@ -2,12 +2,13 @@ import { html, nothing, type TemplateResult } from "lit";
 import { t } from "../../i18n/index.ts";
 import {
   findSpaceById,
-  getAgentSpaces,
   getSystemSpaces,
   isSystemSpaceId,
+  spacesFromGatewayAgents,
   type AgentSpace,
 } from "./editor-spaces.ts";
 import { renderEmbedFrame, type EmbedFrameProps } from "./embed-frame.ts";
+import type { GatewayAgentRow } from "../types.ts";
 
 const BASE_URL = ((import.meta as unknown as { env?: Record<string, string | undefined> }).env
   ?.VITE_EDITOR_URL ?? "/editor/") as string;
@@ -32,6 +33,8 @@ export type EditorProps = Pick<EmbedFrameProps, "themeMode" | "themeName"> & {
   onSelectAgent: (id: string) => void;
   /** Called when the user picks a file from the rail. */
   onSelectFile: (filePath: string | null) => void;
+  /** Agents from live `agents.list`; chip catalog reflects these. */
+  gatewayAgents?: ReadonlyArray<GatewayAgentRow> | null;
 };
 
 function renderChips(
@@ -138,8 +141,12 @@ function renderRail(
 }
 
 export function renderEditor(props: EditorProps) {
-  const spaces = getAgentSpaces();
-  const active = findSpaceById(props.selectedAgentId) ?? spaces[0] ?? null;
+  const spaces = spacesFromGatewayAgents(props.gatewayAgents);
+  const active =
+    spaces.find((s) => s.id === props.selectedAgentId) ??
+    findSpaceById(props.selectedAgentId) ??
+    spaces[0] ??
+    null;
   const activeId = active?.id ?? "";
   const toolbar = renderChips(spaces, activeId, props.onSelectAgent);
 
