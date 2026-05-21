@@ -1,12 +1,15 @@
 // OpenClaw Control – Service Worker
 // Handles offline caching and push notifications.
 
-const CACHE_NAME = "openclaw-control-v2";
+const CACHE_NAME = "openclaw-control-v3";
 
 // Reverse-proxied service routes — must never go through the SW, otherwise
 // large/streaming/range responses from code-server (under /editor/) and
 // paperclip (under /issues/) trip "unexpected error" failures in event.respondWith.
-const PASSTHROUGH_PREFIXES = ["/editor/", "/issues/"];
+// Vite dev-server paths (/@vite/, /@react-refresh, /src/) are injected by
+// paperclip's HTML as relative module imports; they resolve to this origin and
+// must also bypass the SW or they 404 with "unexpected error".
+const PASSTHROUGH_PREFIXES = ["/editor/", "/issues/", "/@vite/", "/@react-refresh", "/src/"];
 
 // Minimal app-shell files to precache.
 const PRECACHE_URLS = ["./"];

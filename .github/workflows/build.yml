@@ -104,17 +104,31 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # bring-up.sh runs paperclip via `pnpm dev` (tsx watch), not a built
-      # artifact, so we ship source + node_modules and let the systemd unit
-      # do the same. `pnpm build` currently fails type-check on this fork.
-      - name: Package source + node_modules
+      - run: pnpm build
+
+      # Ship built output. The server entrypoint is server/dist/index.js.
+      # Workspace symlinks (server/node_modules/@paperclipai/* → ../../packages/*)
+      # require packages/ at the same relative path, so include the whole
+      # monorepo structure but strip source, caches, and dev tooling.
+      - name: Package built output
         run: |
           tar -czf "$GITHUB_WORKSPACE/paperclip-dist.tar.gz" \
             --exclude='**/node_modules/.cache' \
+            --exclude='**/node_modules/.pnpm' \
             --exclude='**/.turbo' \
             --exclude='**/.vite' \
             --exclude='**/playwright-report' \
             --exclude='**/test-results' \
+            --exclude='server/src' \
+            --exclude='packages/*/src' \
+            --exclude='ui/src' \
+            --exclude='**/*.tsbuildinfo' \
+            --exclude='scripts' \
+            --exclude='cli' \
+            --exclude='evals' \
+            --exclude='doc' \
+            --exclude='docs' \
+            --exclude='tests' \
             .
 
       - uses: actions/upload-artifact@v4
