@@ -37,6 +37,7 @@ import {
 import { llmRoutes } from "./routes/llms.js";
 import { authRoutes } from "./routes/auth.js";
 import { oidcProvidersRoutes } from "./routes/oidc-providers.js";
+import { oidcBackChannelLogoutRoutes } from "./routes/oidc-back-channel-logout.js";
 import { assetRoutes } from "./routes/assets.js";
 import { accessRoutes } from "./routes/access.js";
 import { accessRoleRoutes } from "./routes/access-role.js";
@@ -52,6 +53,7 @@ import { adapterRoutes } from "./routes/adapters.js";
 import { pluginUiStaticRoutes } from "./routes/plugin-ui-static.js";
 import { applyUiBranding } from "./ui-branding.js";
 import { createEditorBridgeRouter, logoutEditorBridge } from "./services/editor-bridge/proxy.js";
+import { getLatestAuthentikIdToken } from "./auth/oidc-id-token.js";
 import { logger } from "./middleware/logger.js";
 import { DEFAULT_LOCAL_PLUGIN_DIR, pluginLoader } from "./services/plugin-loader.js";
 import { createPluginWorkerManager, type PluginWorkerManager } from "./services/plugin-worker-manager.js";
@@ -197,6 +199,17 @@ export async function createApp(
         if (a.type === "agent") return `agent:${a.agentId}`;
         return "anon";
       },
+      // Forward the OIDC id_token when the signed-in user has one so
+      // code-server running with --auth oidc can validate it against
+      // Authentik's JWKS. Email/password and local_trusted actors fall
+      // through to the HMAC bridge cookie that's already set above.
+      idTokenForRequest: async (req) => {
+        const a = req.actor;
+        if (a.type !== "board" || !a.userId || a.source === "local_implicit") {
+          return null;
+        }
+        return getLatestAuthentikIdToken(db, a.userId);
+      },
     }),
   );
   app.use("/api/auth", authRoutes(db));
@@ -204,6 +217,9 @@ export async function createApp(
   // buttons. Must mount BEFORE the better-auth catch-all so the catch-all
   // doesn't claim /api/auth/oidc-providers.
   app.use("/api/auth", oidcProvidersRoutes());
+  // Back-channel logout receiver for Authentik. Same ordering requirement
+  // as the providers route — must precede the better-auth catch-all.
+  app.use("/api/auth", oidcBackChannelLogoutRoutes(db));
   if (opts.betterAuthHandler) {
     app.all("/api/auth/{*authPath}", opts.betterAuthHandler);
   }

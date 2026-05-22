@@ -187,6 +187,7 @@ provision_client() {
   local redirect_url="$3"  # callback URL
   local out_file="$4"      # JSON file path
   local extra_redirects="${5:-}"  # comma-separated additional URLs
+  local logout_url="${6:-}"      # optional back-channel logout URL
 
   # Look up existing provider by name.
   local provider_pk
@@ -204,6 +205,7 @@ provision_client() {
     --arg flow "$AUTH_FLOW_UUID" \
     --arg invflow "$INVALIDATION_FLOW_UUID" \
     --arg key "$SIGNING_KEY_UUID" \
+    --arg logout_url "$logout_url" \
     --argjson redirects "$redirect_array" \
     --argjson mappings "$SCOPE_MAPPING_UUIDS" \
     '{
@@ -219,7 +221,9 @@ provision_client() {
       sub_mode: "user_id",
       issuer_mode: "per_provider",
       redirect_uris: $redirects,
-      property_mappings: $mappings
+      property_mappings: $mappings,
+      logout_uri: (if $logout_url=="" then null else $logout_url end),
+      logout_method: (if $logout_url=="" then null else "backchannel" end)
     } | with_entries(select(.value != null))')"
 
   if [ -z "$provider_pk" ]; then
@@ -273,7 +277,9 @@ provision_client() {
 provision_client \
   "openclaw-paperclip" "openclaw paperclip" \
   "${PAPERCLIP_BASE_URL}/api/auth/oauth2/callback/authentik" \
-  "${OIDC_CONFIG_DIR}/paperclip.json"
+  "${OIDC_CONFIG_DIR}/paperclip.json" \
+  "" \
+  "${PAPERCLIP_BASE_URL}/api/auth/oidc/back-channel-logout"
 
 provision_client \
   "openclaw-codeserver" "openclaw code-server" \

@@ -656,6 +656,35 @@ export async function startServer(): Promise<StartedServer> {
     resolveSessionFromHeaders,
   });
 
+  {
+    const { attachEditorBridgeWebSocket } = await import("./services/editor-bridge/proxy.js");
+    const { getLatestAuthentikIdToken } = await import("./auth/oidc-id-token.js");
+    const editorUpstream =
+      process.env.PAPERCLIP_EDITOR_UPSTREAM ?? `http://127.0.0.1:${process.env.CODE_SERVER_PORT ?? "8080"}`;
+    const idTokenForUpgrade = resolveSessionFromHeaders
+      ? async (req: import("node:http").IncomingMessage) => {
+          const headers = new Headers();
+          for (const [name, raw] of Object.entries(req.headers)) {
+            if (!raw) continue;
+            if (Array.isArray(raw)) {
+              for (const value of raw) headers.append(name, value);
+              continue;
+            }
+            headers.set(name, raw);
+          }
+          const session = await resolveSessionFromHeaders!(headers).catch(() => null);
+          if (!session?.user?.id) return null;
+          return getLatestAuthentikIdToken(db as any, session.user.id);
+        }
+      : undefined;
+    attachEditorBridgeWebSocket(server, {
+      upstreamUrl: editorUpstream,
+      isAuthenticated: () => true,
+      subjectOf: () => "ws",
+      idTokenForUpgrade,
+    });
+  }
+
   void reconcilePersistedRuntimeServicesOnStartup(db as any)
     .then((result) => {
       if (result.reconciled > 0) {
