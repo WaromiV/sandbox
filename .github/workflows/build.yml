@@ -29,7 +29,7 @@ jobs:
         with:
           name: sandbox-deploy
           path: sandbox-deploy.tar.gz
-          retention-days: 14
+          retention-days: 5
           if-no-files-found: error
 
   openclaw:
@@ -99,7 +99,7 @@ jobs:
         with:
           name: openclaw-dist
           path: openclaw-dist.tar.gz
-          retention-days: 14
+          retention-days: 5
           if-no-files-found: error
 
   paperclip:
@@ -154,7 +154,7 @@ jobs:
         with:
           name: paperclip-dist
           path: paperclip-dist.tar.gz
-          retention-days: 14
+          retention-days: 5
           if-no-files-found: error
 
   code-server:
@@ -385,5 +385,5 @@ jobs:
         with:
           name: code-server-dist
           path: code-server-dist.tar.gz
-          retention-days: 14
+          retention-days: 5
           if-no-files-found: error
