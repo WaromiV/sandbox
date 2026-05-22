@@ -452,6 +452,18 @@ ARTIFACT_ORDER=(sandbox-deploy openclaw-dist paperclip-dist code-server-dist)
 
 install -d -o "$TARGET_USER" -g "$TARGET_GROUP" -m 0755 "$SOURCE_DIR"
 
+# Releases-based fetch: build.yml publishes all four tarballs to a single
+# prerelease tagged `ci-<run_id>`. One bulk download per run keeps things
+# tidy and bypasses the Actions storage quota entirely.
+RELEASE_TAG="ci-${ARTIFACT_RUN_ID}"
+sub "release tag: ${C_BOLD}${RELEASE_TAG}${C_RESET}"
+
+step "Downloading release ${RELEASE_TAG} (all four tarballs)"
+rm -rf "$ART_DOWNLOAD_DIR/release"
+install -d -o "$TARGET_USER" -g "$TARGET_GROUP" -m 0755 "$ART_DOWNLOAD_DIR/release"
+as_user "gh release download '$RELEASE_TAG' --repo='$ARTIFACT_REPO' --pattern '*.tar.gz' --dir '$ART_DOWNLOAD_DIR/release'" \
+  || die "gh release download failed for $RELEASE_TAG — has the build finished publishing? Check https://github.com/$ARTIFACT_REPO/releases/tag/$RELEASE_TAG"
+
 for artifact in "${ARTIFACT_ORDER[@]}"; do
   target="${ARTIFACT_TO_TARGET[$artifact]}"
   stamp="$target/.artifact-${artifact}-run-${ARTIFACT_RUN_ID}"
@@ -459,20 +471,15 @@ for artifact in "${ARTIFACT_ORDER[@]}"; do
     ok "$artifact already at run $ARTIFACT_RUN_ID — skipping"
     continue
   fi
-  step "Downloading $artifact"
-  art_dir="$ART_DOWNLOAD_DIR/$artifact"
-  rm -rf "$art_dir"
-  as_user "gh run download '$ARTIFACT_RUN_ID' --repo='$ARTIFACT_REPO' -n '$artifact' -D '$art_dir'" \
-    || die "gh run download failed for $artifact"
-  tarball="$(find "$art_dir" -maxdepth 2 -name '*.tar.gz' | head -1)"
-  [ -n "$tarball" ] || die "Expected a .tar.gz inside $art_dir, found nothing"
-  step "Extracting into $target"
+  tarball="$ART_DOWNLOAD_DIR/release/${artifact}.tar.gz"
+  [ -f "$tarball" ] || die "Release $RELEASE_TAG missing ${artifact}.tar.gz"
+  step "Extracting $artifact into $target"
   install -d -o "$TARGET_USER" -g "$TARGET_GROUP" -m 0755 "$target"
   # --no-same-owner avoids 'failed to set ownership' warnings when running
   # as root extracting files owned by the CI runner's uid/gid.
   tar -xzf "$tarball" --no-same-owner -C "$target"
   chown -R "$TARGET_USER:$TARGET_GROUP" "$target"
-  printf '%s\n%s\n' "run_id=$ARTIFACT_RUN_ID" "head_sha=$RUN_SHA" > "$stamp"
+  printf '%s\n%s\n%s\n' "run_id=$ARTIFACT_RUN_ID" "head_sha=$RUN_SHA" "release_tag=$RELEASE_TAG" > "$stamp"
   chown "$TARGET_USER:$TARGET_GROUP" "$stamp"
   ok "$artifact extracted ($(du -sh "$target" 2>/dev/null | cut -f1))"
 done

@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write  # required to create/upload the per-run prerelease that
+                   # carries each build's tarballs (replaces upload-artifact
+                   # to escape the per-repo Actions storage quota).
 
 concurrency:
   group: build-${{ github.ref }}
@@ -25,12 +27,21 @@ jobs:
       - name: Package deploy/
         run: |
           tar -czf "$GITHUB_WORKSPACE/sandbox-deploy.tar.gz" deploy
-      - uses: actions/upload-artifact@v4
-        with:
-          name: sandbox-deploy
-          path: sandbox-deploy.tar.gz
-          retention-days: 5
-          if-no-files-found: error
+      - name: Publish to per-run prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ci-${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          # All four jobs race to create the same release; first wins,
+          # others see "already exists" and proceed to upload.
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
+            || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --prerelease \
+                 --target "$GITHUB_SHA" \
+                 --title  "CI build ${{ github.run_id }} ($GITHUB_SHA)" \
+                 --notes  "Auto-published build artifacts. Pulled by deploy/install-openclaw-cluster.sh."
+          gh release upload "$TAG" "$GITHUB_WORKSPACE/sandbox-deploy.tar.gz" \
+            --repo "$GITHUB_REPOSITORY" --clobber
 
   openclaw:
     runs-on: [self-hosted, Linux, X64]
@@ -95,12 +106,20 @@ jobs:
             $( [ -d docs/reference/templates ] && echo docs/reference/templates ) \
             $( [ -f pnpm-lock.yaml ] && echo pnpm-lock.yaml )
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: openclaw-dist
-          path: openclaw-dist.tar.gz
-          retention-days: 5
-          if-no-files-found: error
+      - name: Publish to per-run prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ci-${{ github.run_id }}
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
+            || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --prerelease \
+                 --target "$GITHUB_SHA" \
+                 --title  "CI build ${{ github.run_id }} ($GITHUB_SHA)" \
+                 --notes  "Auto-published build artifacts. Pulled by deploy/install-openclaw-cluster.sh."
+          gh release upload "$TAG" "openclaw-dist.tar.gz" \
+            --repo "$GITHUB_REPOSITORY" --clobber
 
   paperclip:
     runs-on: [self-hosted, Linux, X64]
@@ -150,12 +169,20 @@ jobs:
             --exclude='tests' \
             .
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: paperclip-dist
-          path: paperclip-dist.tar.gz
-          retention-days: 5
-          if-no-files-found: error
+      - name: Publish to per-run prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ci-${{ github.run_id }}
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
+            || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --prerelease \
+                 --target "$GITHUB_SHA" \
+                 --title  "CI build ${{ github.run_id }} ($GITHUB_SHA)" \
+                 --notes  "Auto-published build artifacts. Pulled by deploy/install-openclaw-cluster.sh."
+          gh release upload "$TAG" "paperclip-dist.tar.gz" \
+            --repo "$GITHUB_REPOSITORY" --clobber
 
   code-server:
     runs-on: [self-hosted, Linux, X64]
@@ -381,9 +408,17 @@ jobs:
             $( [ -d patches ] && echo patches ) \
             node_modules package.json package-lock.json
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: code-server-dist
-          path: code-server-dist.tar.gz
-          retention-days: 5
-          if-no-files-found: error
+      - name: Publish to per-run prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ci-${{ github.run_id }}
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
+            || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --prerelease \
+                 --target "$GITHUB_SHA" \
+                 --title  "CI build ${{ github.run_id }} ($GITHUB_SHA)" \
+                 --notes  "Auto-published build artifacts. Pulled by deploy/install-openclaw-cluster.sh."
+          gh release upload "$TAG" "code-server-dist.tar.gz" \
+            --repo "$GITHUB_REPOSITORY" --clobber
