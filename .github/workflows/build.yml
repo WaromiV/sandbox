@@ -18,7 +18,7 @@ jobs:
   # and piped to bash on a bare server — can fetch everything it needs from
   # CI artifacts without expecting a local repo checkout.
   sandbox-deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
           if-no-files-found: error
 
   openclaw:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     timeout-minutes: 45
     defaults:
       run:
@@ -103,7 +103,7 @@ jobs:
           if-no-files-found: error
 
   paperclip:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     timeout-minutes: 30
     defaults:
       run:
@@ -158,7 +158,7 @@ jobs:
           if-no-files-found: error
 
   code-server:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     timeout-minutes: 120
     defaults:
       run:
