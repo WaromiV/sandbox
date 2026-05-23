@@ -212,7 +212,6 @@ jobs:
         run: |
           tar -czf "$GITHUB_WORKSPACE/paperclip-dist.tar.gz" \
             --exclude='**/node_modules/.cache' \
-            --exclude='**/node_modules/.pnpm' \
             --exclude='**/.turbo' \
             --exclude='**/.vite' \
             --exclude='**/playwright-report' \
