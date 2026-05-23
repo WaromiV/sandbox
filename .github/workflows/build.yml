@@ -26,7 +26,7 @@ jobs:
   #   - any code-server/** file in the diff
   #   - no prior CI prerelease has code-server-dist.tar.gz (bootstrap)
   detect:
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
       code-server: ${{ steps.f.outputs.code-server }}
@@ -80,7 +80,7 @@ jobs:
   # and piped to bash on a bare server — can fetch everything it needs from
   # CI artifacts without expecting a local repo checkout.
   sandbox-deploy:
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
@@ -104,7 +104,7 @@ jobs:
             --repo "$GITHUB_REPOSITORY" --clobber
 
   openclaw:
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     timeout-minutes: 45
     defaults:
       run:
@@ -182,7 +182,7 @@ jobs:
             --repo "$GITHUB_REPOSITORY" --clobber
 
   paperclip:
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     defaults:
       run:
@@ -247,7 +247,7 @@ jobs:
   code-server:
     needs: detect
     if: needs.detect.outputs.code-server == 'true'
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     timeout-minutes: 180
     defaults:
       run:
@@ -493,7 +493,7 @@ jobs:
   code-server-passthrough:
     needs: detect
     if: needs.detect.outputs.code-server == 'false'
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Republish prior code-server-dist
