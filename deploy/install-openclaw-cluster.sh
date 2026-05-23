@@ -256,30 +256,47 @@ sub "Package manager: ${C_BOLD}${PM}${C_RESET}"
 
 case "$PM" in
   apt)
-    export DEBIAN_FRONTEND=noninteractive
-    apt-get update -qq
-    apt-get install -y -qq \
-      nginx certbot python3-certbot-nginx \
-      docker.io docker-compose-v2 \
-      curl jq git openssl ca-certificates \
-      nodejs npm
+    REQUIRED_PKGS=(nginx certbot python3-certbot-nginx docker.io docker-compose-v2 curl jq git openssl ca-certificates nodejs npm)
+    missing=()
+    for pkg in "${REQUIRED_PKGS[@]}"; do
+      dpkg -s "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
+    done
+    if [ ${#missing[@]} -gt 0 ]; then
+      step "Installing ${#missing[@]} missing packages: ${missing[*]}"
+      export DEBIAN_FRONTEND=noninteractive
+      apt-get update -qq
+      apt-get install -y -qq "${missing[@]}"
+    else
+      ok "All OS packages already installed — skipping apt"
+    fi
     ;;
   pacman)
-    pacman -Sy --noconfirm --needed \
-      nginx certbot certbot-nginx \
-      docker docker-compose \
-      curl jq git openssl ca-certificates \
-      nodejs npm
+    REQUIRED_PKGS=(nginx certbot certbot-nginx docker docker-compose curl jq git openssl ca-certificates nodejs npm)
+    missing=()
+    for pkg in "${REQUIRED_PKGS[@]}"; do
+      pacman -Qi "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
+    done
+    if [ ${#missing[@]} -gt 0 ]; then
+      step "Installing ${#missing[@]} missing packages: ${missing[*]}"
+      pacman -Sy --noconfirm --needed "${missing[@]}"
+    else
+      ok "All OS packages already installed — skipping pacman"
+    fi
     ;;
   dnf)
-    dnf install -y \
-      nginx certbot python3-certbot-nginx \
-      docker docker-compose-plugin \
-      curl jq git openssl ca-certificates \
-      nodejs npm
+    REQUIRED_PKGS=(nginx certbot python3-certbot-nginx docker docker-compose-plugin curl jq git openssl ca-certificates nodejs npm)
+    missing=()
+    for pkg in "${REQUIRED_PKGS[@]}"; do
+      rpm -q "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
+    done
+    if [ ${#missing[@]} -gt 0 ]; then
+      step "Installing ${#missing[@]} missing packages: ${missing[*]}"
+      dnf install -y "${missing[@]}"
+    else
+      ok "All OS packages already installed — skipping dnf"
+    fi
     ;;
 esac
-ok "OS packages installed"
 
 # Compose plugin or standalone — figure out the right invocation
 DOCKER_COMPOSE="docker compose"
