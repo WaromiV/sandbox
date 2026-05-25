@@ -204,6 +204,14 @@ jobs:
 
       - run: pnpm build
 
+      # Workspace packages export ./src/*.ts for dev (tsx handles them).
+      # The tarball strips packages/*/src, so repoint exports to ./dist/*.js
+      # using each package's publishConfig.exports. Without this, `node
+      # server/dist/index.js` resolves @paperclipai/shared to a .ts file
+      # that doesn't exist in the deployed tree.
+      - name: Repoint workspace exports to compiled output
+        run: node scripts/apply-publish-exports.mjs
+
       # Ship built output. The server entrypoint is server/dist/index.js.
       # Workspace symlinks (server/node_modules/@paperclipai/* → ../../packages/*)
       # require packages/ at the same relative path, so include the whole

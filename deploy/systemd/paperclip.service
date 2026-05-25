@@ -17,6 +17,7 @@ Environment=NODE_ENV=production
 Environment=HOME=/var/lib/paperclip
 Environment=PATH=/usr/bin:/usr/local/bin:/bin
 Environment=PAPERCLIP_PORT=3100
+Environment=DATABASE_URL=postgres://paperclip:paperclip@127.0.0.1:5432/paperclip
 
 [Install]
 WantedBy=multi-user.target
