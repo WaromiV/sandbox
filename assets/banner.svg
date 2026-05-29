@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" role="img" aria-label="Sandbox — a self-hosted AI-agent workspace">
+  <defs>
+    <!-- Background -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#0a0e1a"/>
+      <stop offset="0.5" stop-color="#0d1430"/>
+      <stop offset="1"   stop-color="#090d1c"/>
+    </linearGradient>
+
+    <!-- Wordmark gradient -->
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0"    stop-color="#38bdf8"/>
+      <stop offset="0.45" stop-color="#818cf8"/>
+      <stop offset="0.75" stop-color="#c084fc"/>
+      <stop offset="1"    stop-color="#f472b6"/>
+    </linearGradient>
+
+    <!-- Connector gradient -->
+    <linearGradient id="wire" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+
+    <!-- Soft radial glows -->
+    <radialGradient id="glowA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity="0.40"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f472b6" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#f472b6" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.1" fill="#ffffff" opacity="0.05"/>
+    </pattern>
+
+    <style>
+      .title  { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 800; }
+      .mono   { font-family: 'SFMono-Regular', 'JetBrains Mono', Consolas, monospace; }
+      .sans   { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; }
+      .chip   { font-family: 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 600; }
+    </style>
+  </defs>
+
+  <!-- Backdrop -->
+  <rect width="1200" height="380" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="380" rx="18" fill="url(#dots)"/>
+  <ellipse cx="180" cy="80"  rx="360" ry="240" fill="url(#glowA)"/>
+  <ellipse cx="1040" cy="320" rx="380" ry="260" fill="url(#glowB)"/>
+  <rect x="1" y="1" width="1198" height="378" rx="18" fill="none" stroke="#ffffff" stroke-opacity="0.07"/>
+
+  <!-- Kicker -->
+  <text x="72" y="64" class="mono" font-size="15" letter-spacing="6" fill="#7c89a8">
+    SELF-HOSTED · SINGLE-HOST · OPEN SOURCE
+  </text>
+
+  <!-- Wordmark -->
+  <text x="68" y="150" class="title" font-size="96" letter-spacing="2" fill="url(#ink)" filter="url(#soft)">SANDBOX</text>
+
+  <!-- Accent underline -->
+  <rect x="74" y="168" width="430" height="4" rx="2" fill="url(#ink)" opacity="0.85"/>
+
+  <!-- Tagline -->
+  <text x="74" y="206" class="sans" font-size="21" fill="#c7d0e0">
+    A self-hosted AI-agent workspace in one command.
+  </text>
+  <text x="74" y="234" class="mono" font-size="15" fill="#8b96a8">
+    OpenClaw  ×  Paperclip  ×  code-server  ·  secured by Authentik SSO
+  </text>
+
+  <!-- ===================== Topology ===================== -->
+  <!-- connectors -->
+  <g fill="none" stroke="url(#wire)" stroke-width="2.5" opacity="0.9">
+    <path id="c1" d="M250,300 L330,300"/>
+    <path id="c2" d="M520,300 C600,300 600,250 690,250"/>
+    <path id="c3" d="M520,300 C600,300 600,350 690,350"/>
+  </g>
+
+  <!-- traveling packets -->
+  <circle r="4" fill="#e6f6ff">
+    <animateMotion dur="1.6s" repeatCount="indefinite" rotate="auto"><mpath href="#c1"/></animateMotion>
+  </circle>
+  <circle r="4" fill="#d6ffe9">
+    <animateMotion dur="2.2s" repeatCount="indefinite" rotate="auto"><mpath href="#c2"/></animateMotion>
+  </circle>
+  <circle r="4" fill="#ffe2d1">
+    <animateMotion dur="2.6s" repeatCount="indefinite" rotate="auto"><mpath href="#c3"/></animateMotion>
+  </circle>
+
+  <!-- chip: Browser -->
+  <g class="chip">
+    <rect x="92" y="278" width="158" height="44" rx="22" fill="#10182e" stroke="#2a3656"/>
+    <rect x="112" y="293" width="18" height="13" rx="2" fill="none" stroke="#7c89a8" stroke-width="1.6"/>
+    <line x1="112" y1="299" x2="130" y2="299" stroke="#7c89a8" stroke-width="1.6"/>
+    <text x="142" y="305" font-size="16" fill="#c7d0e0">Browser</text>
+  </g>
+
+  <!-- chip: Paperclip (role authority / front door) -->
+  <g class="chip">
+    <rect x="330" y="276" width="190" height="48" rx="24" fill="#1a1430" stroke="#f472b6" stroke-opacity="0.55"/>
+    <circle cx="356" cy="300" r="6" fill="#f472b6"><animate attributeName="opacity" values="1;0.45;1" dur="2.4s" repeatCount="indefinite"/></circle>
+    <text x="372" y="306" font-size="17" fill="#fbd2e6">Paperclip</text>
+  </g>
+
+  <!-- chip: code-server -->
+  <g class="chip">
+    <rect x="690" y="228" width="210" height="44" rx="22" fill="#0f2018" stroke="#34d399" stroke-opacity="0.5"/>
+    <text x="712" y="256" class="mono" font-size="15" fill="#34d399">&lt;/&gt;</text>
+    <text x="748" y="256" font-size="16" fill="#cdeede">code-server</text>
+  </g>
+
+  <!-- chip: OpenClaw -->
+  <g class="chip">
+    <rect x="690" y="328" width="210" height="44" rx="22" fill="#231708" stroke="#fb923c" stroke-opacity="0.5"/>
+    <circle cx="714" cy="350" r="6" fill="#fb923c"><animate attributeName="opacity" values="1;0.5;1" dur="2.8s" repeatCount="indefinite"/></circle>
+    <text x="730" y="356" font-size="16" fill="#ffd9b8">OpenClaw gateway</text>
+  </g>
+
+  <!-- SSO lock badge -->
+  <g transform="translate(948,276)">
+    <rect x="0" y="0" width="170" height="48" rx="12" fill="#0e1530" stroke="#2a3656"/>
+    <rect x="20" y="18" width="20" height="15" rx="3" fill="none" stroke="#818cf8" stroke-width="1.8"/>
+    <path d="M24,18 v-4 a6,6 0 0 1 12,0 v4" fill="none" stroke="#818cf8" stroke-width="1.8"/>
+    <text x="52" y="22" class="chip" font-size="13" fill="#c7d0e0">Authentik</text>
+    <text x="52" y="38" class="mono" font-size="11" fill="#8b96a8">OIDC · SSO</text>
+  </g>
+</svg>
