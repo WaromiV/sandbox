@@ -87,6 +87,7 @@ import type {
 } from "./controllers/dreaming.ts";
 import type { ExecApprovalRequest } from "./controllers/exec-approval.ts";
 import type { ExecApprovalsFile, ExecApprovalsSnapshot } from "./controllers/exec-approvals.ts";
+import type { StackUpdateStatus } from "./controllers/stack-update.ts";
 import type {
   ClawHubSearchResult,
   ClawHubSkillDetail,
@@ -320,6 +321,10 @@ export class OpenClawApp extends LitElement {
   @state() configSaving = false;
   @state() configApplying = false;
   @state() updateRunning = false;
+  @state() stackUpdateBusy = false;
+  @state() stackUpdateStatus: StackUpdateStatus | null = null;
+  @state() stackUpdateError: string | null = null;
+  @state() stackUpdatePassword = "";
   @state() applySessionKey = this.settings.lastActiveSessionKey;
   @state() configSnapshot: ConfigSnapshot | null = null;
   @state() configSchema: unknown = null;
@@ -624,6 +629,7 @@ export class OpenClawApp extends LitElement {
   nodesPollInterval: number | null = null;
   logsPollInterval: number | null = null;
   debugPollInterval: number | null = null;
+  stackUpdatePollInterval: number | null = null;
   sessionsChangedReloadTimer: number | ReturnType<typeof globalThis.setTimeout> | null = null;
   logsScrollFrame: number | null = null;
   controlUiResponsivenessObserver: { disconnect: () => void } | null = null;

@@ -31,7 +31,8 @@
   <a href="#-whats-inside"><b>What's inside</b></a> ·
   <a href="#-architecture"><b>Architecture</b></a> ·
   <a href="#-single-sign-on"><b>SSO</b></a> ·
-  <a href="#-deploy-to-a-server"><b>Deploy</b></a>
+  <a href="#-deploy-to-a-server"><b>Deploy</b></a> ·
+  <a href="#-updating"><b>Update</b></a>
 </p>
 
 ---
@@ -163,6 +164,40 @@ sudo ./openclaw-bridge-installer.sh            # install
 sudo ./openclaw-bridge-installer.sh --verify   # check
 sudo ./openclaw-bridge-installer.sh --rollback # undo
 ```
+
+---
+
+## 🔄 Updating
+
+Once the cluster is live you can pull the latest build straight from the **OpenClaw Control UI** — open **Settings**, find **"Update from OpenClaw UI"**, and click. It pulls the newest successful `build.yml` artifacts from this **public** repo (no token needed), deploys **only the components whose content hash changed**, atomically repoints the `current` symlink each systemd unit runs from, restarts just those units, and **rolls back automatically** if one fails its health check. `code-server` is republished byte-identical when untouched, so it's skipped — no needless editor restart.
+
+The action is **admin-only** (`operator.admin`). Prefer a shell? [`deploy/fetch-artifacts.sh`](deploy/fetch-artifacts.sh) does the same pull → swap → restart from the command line.
+
+### 🧩 If OpenClaw runs under systemd
+
+The updater **discovers each unit's scope at runtime**, so it works whether your services are **system** units (`/etc/systemd/system`, run as root) or **user** units (`systemctl --user`, `~/.config/systemd/user/…` — the default for `openclaw onboard --install-daemon`).
+
+| Your setup | What the click does |
+| --- | --- |
+| **System / root units** (the cluster default) | The gateway is already root, so it swaps + restarts directly. One click, done. |
+| **User units / non-root gateway** | The gateway can't write a root-owned stack or restart system units on its own, so the panel shows a **password** field. Enter your login password and it escalates the privileged steps via `sudo` — validated up front, sent only over **HTTPS or loopback**, and **never logged or stored**. |
+
+> The updater repoints a `…/<component>/current` symlink, so a unit qualifies only if its `WorkingDirectory` points at one (as the units in [`deploy/systemd/`](deploy/systemd/) do). A stock `openclaw onboard` user daemon whose `ExecStart` points at the global npm/`bin` path isn't symlink-versioned — keep using `openclaw update` for that gateway; the button still updates the other components.
+
+### 📦 If you installed "as is" from the dist bundle
+
+This is the layout [`deploy/install-openclaw-cluster.sh`](deploy/install-openclaw-cluster.sh) + [`deploy/fetch-artifacts.sh`](deploy/fetch-artifacts.sh) produce: each service lives under `/opt/openclaw-stack/<component>/releases/<run-id>/` with a `current` symlink, and the systemd units run from `…/current`. That's exactly what the button drives — every click drops a fresh `releases/<run-id>/`, flips `current`, and restarts only the changed unit:
+
+```
+/opt/openclaw-stack/
+├── openclaw/      releases/<run-id>/  +  current ──▶ unit WorkingDirectory
+├── paperclip/     releases/<run-id>/  +  current
+└── code-server/   releases/<run-id>/  +  current
+```
+
+Old releases are kept, so rollback is just flipping the symlink back — which the updater does for you on a failed health check.
+
+> The **first** click after a fresh install has no recorded baseline, so all three components are treated as changed (a full deploy). Every click after that is selective by content hash.
 
 ---
 

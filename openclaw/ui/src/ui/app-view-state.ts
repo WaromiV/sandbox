@@ -8,6 +8,7 @@ import type { CronModelSuggestionsState, CronState } from "./controllers/cron.ts
 import type { DevicePairingList } from "./controllers/devices.ts";
 import type { ExecApprovalRequest } from "./controllers/exec-approval.ts";
 import type { ExecApprovalsFile, ExecApprovalsSnapshot } from "./controllers/exec-approvals.ts";
+import type { StackUpdateStatus } from "./controllers/stack-update.ts";
 import type {
   ClawHubSearchResult,
   ClawHubSkillDetail,
@@ -172,6 +173,10 @@ export type AppViewState = {
   configSaving: boolean;
   configApplying: boolean;
   updateRunning: boolean;
+  stackUpdateBusy: boolean;
+  stackUpdateStatus: StackUpdateStatus | null;
+  stackUpdateError: string | null;
+  stackUpdatePassword: string;
   applySessionKey: string;
   configSnapshot: ConfigSnapshot | null;
   configSchema: unknown;
