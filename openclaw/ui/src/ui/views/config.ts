@@ -1,6 +1,7 @@
 import JSON5 from "json5";
 import { html, nothing, type TemplateResult } from "lit";
 import { t } from "../../i18n/index.ts";
+import type { StackUpdateStatus } from "../controllers/stack-update.ts";
 import { icons } from "../icons.ts";
 import { BORDER_RADIUS_STOPS, type BorderRadiusStop } from "../storage.ts";
 import type { ThemeTransitionContext } from "../theme-transition.ts";
@@ -101,7 +102,71 @@ export type ConfigProps = {
   onWebPushUnsubscribe?: () => void;
   onWebPushTest?: () => void;
   onRequestUpdate?: () => void;
+  stackUpdate?: ConfigStackUpdateProps;
 };
+
+export type ConfigStackUpdateProps = {
+  busy: boolean;
+  password: string;
+  status: StackUpdateStatus | null;
+  error: string | null;
+  onPasswordChange: (value: string) => void;
+  onStart: () => void;
+};
+
+// "Update from OpenClaw UI": pull the latest CI build and restart only the
+// services whose content hash changed. Distinct from the WS-based "Update"
+// button above (which self-updates the openclaw package over git/npm).
+function renderStackUpdatePanel(p: ConfigStackUpdateProps): TemplateResult {
+  const status = p.status;
+  const phase = status?.phase ?? "idle";
+  const components = status?.components ?? {};
+  const componentNames = Object.keys(components);
+  return html`
+    <div class="config-stack-update">
+      <div class="config-stack-update__header">
+        <strong>Update from OpenClaw UI</strong>
+        <span class="muted"
+          >Pull the latest build artifacts and restart only the changed services.</span
+        >
+      </div>
+      <div class="config-stack-update__row">
+        <input
+          class="input config-stack-update__password"
+          type="password"
+          autocomplete="off"
+          placeholder="Password — only if the gateway runs as a non-root user"
+          .value=${p.password}
+          ?disabled=${p.busy}
+          @input=${(e: Event) => p.onPasswordChange((e.target as HTMLInputElement).value)}
+        />
+        <button
+          class="btn btn--sm primary"
+          ?disabled=${p.busy}
+          aria-busy=${p.busy ? "true" : "false"}
+          @click=${p.onStart}
+        >
+          ${p.busy ? "Updating…" : "Update from OpenClaw UI"}
+        </button>
+      </div>
+      ${phase !== "idle"
+        ? html`<div class="config-stack-update__status">
+            Status: <strong>${phase}</strong>${status?.runId ? html` · build ${status.runId}` : nothing}
+          </div>`
+        : nothing}
+      ${componentNames.length
+        ? html`<ul class="config-stack-update__components">
+            ${componentNames.map(
+              (name) => html`<li>${name}: ${components[name]?.state ?? "?"}</li>`,
+            )}
+          </ul>`
+        : nothing}
+      ${p.error
+        ? html`<div class="config-stack-update__error" role="alert">${p.error}</div>`
+        : nothing}
+    </div>
+  `;
+}
 
 // SVG Icons for sidebar (Lucide-style)
 const sidebarIcons = {
@@ -1461,6 +1526,8 @@ export function renderConfig(props: ConfigProps) {
             </div>
           </div>
         </div>
+
+        ${props.stackUpdate ? renderStackUpdatePanel(props.stackUpdate) : nothing}
 
         ${settingsLayout === "accordion"
           ? renderAccordionNav()

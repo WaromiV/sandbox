@@ -59,6 +59,7 @@ import {
   updateConfigFormValue,
   removeConfigFormValue,
 } from "./controllers/config.ts";
+import { startStackUpdate } from "./controllers/stack-update.ts";
 import {
   loadCronJobsPage,
   loadCronRuns,
@@ -967,6 +968,18 @@ export function renderApp(state: AppViewState) {
     onSave: () => saveConfig(state),
     onApply: () => applyConfig(state),
     onUpdate: () => runUpdate(state),
+    stackUpdate: {
+      busy: state.stackUpdateBusy,
+      password: state.stackUpdatePassword,
+      status: state.stackUpdateStatus,
+      error: state.stackUpdateError,
+      onPasswordChange: (value: string) => {
+        state.stackUpdatePassword = value;
+      },
+      onStart: () => {
+        void startStackUpdate(state);
+      },
+    },
     onOpenFile: () => openConfigFile(state),
     version: state.hello?.server?.version ?? "",
     theme: state.theme,

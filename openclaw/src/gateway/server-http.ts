@@ -81,6 +81,7 @@ let sessionHistoryHttpModulePromise:
   | undefined;
 let sessionKillHttpModulePromise: Promise<typeof import("./session-kill-http.js")> | undefined;
 let toolsInvokeHttpModulePromise: Promise<typeof import("./tools-invoke-http.js")> | undefined;
+let stackUpdateHttpModulePromise: Promise<typeof import("./stack-update-http.js")> | undefined;
 let pluginNodeCapabilityAuthModulePromise:
   | Promise<typeof import("./server/plugin-node-capability-auth.js")>
   | undefined;
@@ -137,6 +138,11 @@ function getSessionKillHttpModule() {
 function getToolsInvokeHttpModule() {
   toolsInvokeHttpModulePromise ??= import("./tools-invoke-http.js");
   return toolsInvokeHttpModulePromise;
+}
+
+function getStackUpdateHttpModule() {
+  stackUpdateHttpModulePromise ??= import("./stack-update-http.js");
+  return stackUpdateHttpModulePromise;
 }
 
 function getPluginNodeCapabilityAuthModule() {
@@ -229,6 +235,11 @@ function isSessionKillPath(pathname: string): boolean {
 
 function isSessionHistoryPath(pathname: string): boolean {
   return /^\/sessions\/[^/]+\/history$/.test(pathname);
+}
+
+function isStackUpdatePath(pathname: string, basePath: string): boolean {
+  const base = basePath.replace(/\/$/, "");
+  return pathname === `${base}/update/run` || pathname === `${base}/update/status`;
 }
 
 function shouldEnforceDefaultPluginGatewayAuth(pathContext: PluginRoutePathContext): boolean {
@@ -766,6 +777,20 @@ export function createGatewayHttpServer(opts: {
             });
           },
         });
+        if (isStackUpdatePath(scopedRequestPath, controlUiBasePath)) {
+          requestStages.push({
+            name: "stack-update",
+            run: async () =>
+              (await getStackUpdateHttpModule()).handleStackUpdateHttpRequest(req, res, {
+                basePath: controlUiBasePath,
+                auth: resolvedAuth,
+                getResolvedAuth,
+                trustedProxies,
+                allowRealIpFallback,
+                rateLimiter,
+              }),
+          });
+        }
         requestStages.push({
           name: "control-ui-http",
           run: async () =>

@@ -150,6 +150,13 @@ jobs:
           NODE_ENV: production
         run: pnpm install --no-frozen-lockfile --prod
 
+      # Ship the stack-update worker with the gateway so the "Update from
+      # OpenClaw UI" launcher can find it at dist/stack-update.sh at runtime.
+      - name: Bundle stack-update worker
+        run: |
+          cp "$GITHUB_WORKSPACE/deploy/stack-update.sh" dist/stack-update.sh
+          chmod +x dist/stack-update.sh
+
       - name: Package
         run: |
           # pnpm --prod left dangling .bin symlinks (devDep entries) which
@@ -178,7 +185,10 @@ jobs:
                  --target "$GITHUB_SHA" \
                  --title  "CI build ${{ github.run_id }} ($GITHUB_SHA)" \
                  --notes  "Auto-published build artifacts. Pulled by deploy/install-openclaw-cluster.sh."
-          gh release upload "$TAG" "openclaw-dist.tar.gz" \
+          # Per-component content digest (git subtree id): stable across rebuilds
+          # when openclaw/** is unchanged, so the UI updater can skip it by hash.
+          git rev-parse "HEAD:openclaw" > openclaw-dist.rev
+          gh release upload "$TAG" "openclaw-dist.tar.gz" "openclaw-dist.rev" \
             --repo "$GITHUB_REPOSITORY" --clobber
 
   paperclip:
@@ -248,7 +258,8 @@ jobs:
                  --target "$GITHUB_SHA" \
                  --title  "CI build ${{ github.run_id }} ($GITHUB_SHA)" \
                  --notes  "Auto-published build artifacts. Pulled by deploy/install-openclaw-cluster.sh."
-          gh release upload "$TAG" "paperclip-dist.tar.gz" \
+          git rev-parse "HEAD:paperclip" > paperclip-dist.rev
+          gh release upload "$TAG" "paperclip-dist.tar.gz" "paperclip-dist.rev" \
             --repo "$GITHUB_REPOSITORY" --clobber
 
   code-server:
@@ -489,7 +500,8 @@ jobs:
                  --target "$GITHUB_SHA" \
                  --title  "CI build ${{ github.run_id }} ($GITHUB_SHA)" \
                  --notes  "Auto-published build artifacts. Pulled by deploy/install-openclaw-cluster.sh."
-          gh release upload "$TAG" "code-server-dist.tar.gz" \
+          git rev-parse "HEAD:code-server" > code-server-dist.rev
+          gh release upload "$TAG" "code-server-dist.tar.gz" "code-server-dist.rev" \
             --repo "$GITHUB_REPOSITORY" --clobber
 
   # Runs when detect says code-server/** was untouched. Walks recent CI
@@ -503,6 +515,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v4
       - name: Republish prior code-server-dist
         env:
           GH_TOKEN: ${{ github.token }}
@@ -527,10 +540,13 @@ jobs:
           workdir=$(mktemp -d)
           cd "$workdir"
           gh release download "$prev_tag" --repo "$GITHUB_REPOSITORY" -p code-server-dist.tar.gz
+          # code-server/** is unchanged this run, so its subtree id still matches
+          # what we deployed; publish the sidecar so the UI updater skips by hash.
+          git -C "$GITHUB_WORKSPACE" rev-parse "HEAD:code-server" > code-server-dist.rev
           gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
             || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --prerelease \
                  --target "$GITHUB_SHA" \
                  --title  "CI build ${{ github.run_id }} ($GITHUB_SHA)" \
                  --notes  "Auto-published build artifacts. code-server-dist sourced from $prev_tag (no code-server/** changes since)."
-          gh release upload "$TAG" code-server-dist.tar.gz --repo "$GITHUB_REPOSITORY" --clobber
+          gh release upload "$TAG" code-server-dist.tar.gz code-server-dist.rev --repo "$GITHUB_REPOSITORY" --clobber
           echo "OK: republished code-server-dist from $prev_tag → $TAG"
