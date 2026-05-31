@@ -49,7 +49,7 @@ function resolveScopedExecConfig(cfg: OpenClawConfig, agentId?: string) {
 function resolveScopedSandboxMode(
   cfg: OpenClawConfig,
   agentId?: string,
-): "off" | "non-main" | "all" {
+): "off" | "non-main" | "all" | "telegram-topic" {
   return (
     resolveAgentEntry(cfg, agentId)?.sandbox?.mode ?? cfg.agents?.defaults?.sandbox?.mode ?? "off"
   );

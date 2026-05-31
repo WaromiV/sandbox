@@ -151,7 +151,7 @@ function listKnownNodeCommands(cfg: OpenClawConfig): Set<string> {
 function resolveToolPolicies(params: {
   cfg: OpenClawConfig;
   agentTools?: AgentToolsConfig;
-  sandboxMode?: "off" | "non-main" | "all";
+  sandboxMode?: "off" | "non-main" | "all" | "telegram-topic";
   agentId?: string | null;
 }): SandboxToolPolicy[] {
   const policies: SandboxToolPolicy[] = [];

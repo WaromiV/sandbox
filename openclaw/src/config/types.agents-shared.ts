@@ -27,7 +27,17 @@ export type AgentRuntimePolicyConfig = {
 };
 
 export type AgentSandboxConfig = {
-  mode?: "off" | "non-main" | "all";
+  /**
+   * When to sandbox an agent run:
+   * - "off" (default): never sandbox.
+   * - "non-main": sandbox every non-main session.
+   * - "all": sandbox every session.
+   * - "telegram-topic": sandbox only runs that originate from a Telegram forum
+   *   topic — one container + isolated workspace per topic — so per-topic agents
+   *   stop sharing one checkout/branch. DMs, non-topic groups, and CLI runs stay
+   *   on the host.
+   */
+  mode?: "off" | "non-main" | "all" | "telegram-topic";
   /** Sandbox runtime backend id. Default: "docker". */
   backend?: string;
   /** Agent workspace access inside the sandbox. */

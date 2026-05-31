@@ -53,6 +53,15 @@ Not sandboxed:
   <Tab title="all">
     Every session runs in a sandbox.
   </Tab>
+  <Tab title="telegram-topic">
+    Sandbox **only** runs that originate from a Telegram forum **topic** (a group
+    thread bound to an agent via `channels.telegram.groups[chatId].topics[topicId]`).
+    DMs, non-topic groups, and CLI runs stay on the host.
+
+    Pair with `scope: "session"` to get **one container + one isolated workspace per
+    topic**, so per-topic agents stop sharing a single checkout/branch. The General
+    topic (thread id `1`) is treated as non-topic and is not sandboxed.
+  </Tab>
 </Tabs>
 
 ## Scope

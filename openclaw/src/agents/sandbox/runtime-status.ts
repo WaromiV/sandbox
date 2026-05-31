@@ -7,15 +7,26 @@ import type { OpenClawConfig } from "../../config/types.openclaw.js";
 import { normalizeOptionalLowercaseString } from "../../shared/string-coerce.js";
 import { resolveSessionAgentId } from "../agent-scope.js";
 import { resolveSandboxConfigForAgent } from "./config.js";
+import { isTelegramGroupTopic } from "./topic-scope.js";
 import {
   classifyToolAgainstSandboxToolPolicy,
   resolveSandboxToolPolicyForAgent,
 } from "./tool-policy.js";
 import type { SandboxConfig, SandboxToolPolicyResolved } from "./types.js";
 
-function shouldSandboxSession(cfg: SandboxConfig, sessionKey: string, mainSessionKey: string) {
+function shouldSandboxSession(
+  cfg: SandboxConfig,
+  sessionKey: string,
+  mainSessionKey: string,
+  rawSessionKey: string,
+) {
   if (cfg.mode === "off") {
     return false;
+  }
+  // Isolate only Telegram forum-topic runs; DMs / non-topic / CLI stay on the host.
+  // Uses the raw (uncanonicalized) session key so the topic peer survives.
+  if (cfg.mode === "telegram-topic") {
+    return isTelegramGroupTopic(rawSessionKey);
   }
   if (cfg.mode === "all") {
     return true;
@@ -72,6 +83,7 @@ export function resolveSandboxRuntimeStatus(params: {
         sandboxCfg,
         resolveComparableSessionKeyForSandbox({ cfg, agentId, sessionKey }),
         mainSessionKey,
+        sessionKey,
       )
     : false;
   return {

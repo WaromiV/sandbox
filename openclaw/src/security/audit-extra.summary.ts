@@ -60,7 +60,7 @@ function extractAgentIdFromSource(source: string): string | null {
 function resolveToolPolicies(params: {
   cfg: OpenClawConfig;
   agentTools?: AgentToolsConfig;
-  sandboxMode?: "off" | "non-main" | "all";
+  sandboxMode?: "off" | "non-main" | "all" | "telegram-topic";
   agentId?: string | null;
   modelProvider?: string;
   modelId?: string;

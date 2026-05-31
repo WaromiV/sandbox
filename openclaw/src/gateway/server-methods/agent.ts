@@ -17,6 +17,7 @@ import { AGENT_INTERNAL_EVENT_TYPE_TASK_COMPLETION } from "../../agents/internal
 import type { AgentInternalEvent } from "../../agents/internal-events.js";
 import { resolveTrustedGroupId } from "../../agents/pi-tools.policy.js";
 import { resolveSandboxConfigForAgent } from "../../agents/sandbox/config.js";
+import { resolveSandboxRuntimeStatus } from "../../agents/sandbox/runtime-status.js";
 import {
   normalizeSpawnedRunMetadata,
   resolveIngressWorkspaceOverrideForSpawnedRun,
@@ -241,17 +242,15 @@ function shouldSkipStartupContextForSpawnedSandbox(params: {
   }
   const agentId = resolveAgentIdFromSessionKey(params.sessionKey);
   const sandboxCfg = resolveSandboxConfigForAgent(params.cfg, agentId);
-  if (sandboxCfg.mode === "off") {
+  // Defer the "is this session actually sandboxed?" decision to the canonical
+  // resolver so every mode (off / non-main / all / telegram-topic) stays
+  // consistent. A run that executes on the host is never a spawned-sandbox skip.
+  const sandboxed = resolveSandboxRuntimeStatus({
+    cfg: params.cfg,
+    sessionKey: params.sessionKey,
+  }).sandboxed;
+  if (!sandboxed) {
     return false;
-  }
-  if (sandboxCfg.mode === "non-main") {
-    const mainSessionKey = resolveAgentMainSessionKey({
-      cfg: params.cfg,
-      agentId,
-    });
-    if (params.sessionKey.trim() === mainSessionKey.trim()) {
-      return false;
-    }
   }
   return sandboxCfg.workspaceAccess !== "rw";
 }

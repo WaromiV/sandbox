@@ -1,5 +1,5 @@
 import { resolveAgentConfig } from "../agents/agent-scope.js";
-import { resolveSandboxConfigForAgent } from "../agents/sandbox.js";
+import { resolveSandboxConfigForAgent, resolveSandboxRuntimeStatus } from "../agents/sandbox.js";
 import { resolveSandboxToolPolicyForAgent } from "../agents/sandbox/tool-policy.js";
 import { normalizeAnyChannelId } from "../channels/registry.js";
 import { getRuntimeConfig } from "../config/config.js";
@@ -160,12 +160,9 @@ export async function sandboxExplainCommand(
     cfg,
     agentId: resolvedAgentId,
   });
-  const sessionIsSandboxed =
-    sandboxCfg.mode === "all"
-      ? true
-      : sandboxCfg.mode === "off"
-        ? false
-        : sessionKey.trim() !== mainSessionKey.trim();
+  // Defer to the canonical resolver so every mode (off / non-main / all /
+  // telegram-topic) reports the same sandbox state the runtime actually uses.
+  const sessionIsSandboxed = resolveSandboxRuntimeStatus({ cfg, sessionKey }).sandboxed;
 
   const channel = resolveActiveChannel({
     cfg,

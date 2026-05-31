@@ -14,7 +14,7 @@ export type ExecFilesystemPolicyDriftHit = {
   scopeLabel: string;
   runtimeTools: string[];
   disabledFilesystemTools: string[];
-  sandboxMode: "off" | "non-main" | "all";
+  sandboxMode: "off" | "non-main" | "all" | "telegram-topic";
   sandboxWorkspaceAccess: "none" | "ro" | "rw";
   execHost: NonNullable<ExecToolConfig["host"]>;
 };
@@ -22,7 +22,7 @@ export type ExecFilesystemPolicyDriftHit = {
 function resolveToolPolicies(params: {
   cfg: OpenClawConfig;
   agentTools?: AgentToolsConfig;
-  sandboxMode: "off" | "non-main" | "all";
+  sandboxMode: "off" | "non-main" | "all" | "telegram-topic";
   agentId?: string;
 }): SandboxToolPolicy[] {
   const policies: SandboxToolPolicy[] = [];
@@ -57,7 +57,7 @@ function resolveExecHost(params: {
 }
 
 function isExecFilesystemConstrained(params: {
-  sandboxMode: "off" | "non-main" | "all";
+  sandboxMode: "off" | "non-main" | "all" | "telegram-topic";
   sandboxWorkspaceAccess: "none" | "ro" | "rw";
   execHost: NonNullable<ExecToolConfig["host"]>;
 }): boolean {

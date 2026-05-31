@@ -68,7 +68,7 @@ export type SandboxSshConfig = {
 export type SandboxScope = "session" | "agent" | "shared";
 
 export type SandboxConfig = {
-  mode: "off" | "non-main" | "all";
+  mode: "off" | "non-main" | "all" | "telegram-topic";
   backend: SandboxBackendId;
   scope: SandboxScope;
   workspaceAccess: SandboxWorkspaceAccess;

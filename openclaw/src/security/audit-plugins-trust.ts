@@ -153,7 +153,7 @@ function resolveToolPolicies(params: {
   cfg: OpenClawConfig;
   deps: PluginTrustPolicyDeps;
   agentTools?: AgentToolsConfig;
-  sandboxMode?: "off" | "non-main" | "all";
+  sandboxMode?: "off" | "non-main" | "all" | "telegram-topic";
   agentId?: string | null;
 }): Array<SandboxToolPolicy | undefined> {
   const profile = params.agentTools?.profile ?? params.cfg.tools?.profile;
