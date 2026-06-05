@@ -140,6 +140,26 @@ if [ -d paperclip ]; then
       paperclip_env+=("DATABASE_URL=$db_url")
     fi
   fi
+  # Wire the openclaw-bridge so paperclip mirrors openclaw agents and stages
+  # per-agent tokens + the paperclip skill into their workspaces.
+  # Reads the gateway auth token from ~/.openclaw/openclaw.json (the same
+  # credential openclaw uses for operator access).
+  _oc_gateway_token=$(python3 -c "
+import json, sys
+try:
+    d = json.load(open('$HOME/.openclaw/openclaw.json'))
+    print(d.get('gateway', {}).get('auth', {}).get('token', ''))
+except Exception:
+    pass
+" 2>/dev/null || true)
+  if [ -n "$_oc_gateway_token" ]; then
+    paperclip_env+=(
+      "OPENCLAW_GATEWAY_URL=ws://127.0.0.1:${OC_PORT}"
+      "OPENCLAW_GATEWAY_TOKEN=$_oc_gateway_token"
+    )
+    echo "    (openclaw-bridge enabled: ws://127.0.0.1:${OC_PORT})"
+  fi
+
   # When the OIDC config is present, run paperclip in authenticated/private
   # so the OIDC plugin actually mounts (dev-runner deletes the deployment
   # mode env otherwise). Without OIDC config, default to local_trusted.

@@ -1449,7 +1449,9 @@ export function createExecTool(
       }
       rejectUnsafeControlShellCommand(params.command);
 
-      const inheritedBaseEnv = coerceEnv(process.env);
+      const inheritedBaseEnv = defaults?.extraBaseEnv
+        ? { ...coerceEnv(process.env), ...defaults.extraBaseEnv }
+        : coerceEnv(process.env);
       const hostEnvResult =
         host === "sandbox"
           ? null

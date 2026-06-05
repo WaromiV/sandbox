@@ -6,7 +6,7 @@ This is intentionally separate from OpenClaw's own `openclaw/package.json` versi
 (`2026.5.x-beta`, upstream CalVer) — this file versions *our integration stack*.
 
 - **Repo:** https://github.com/WaromiV/sandbox  (`origin`, branch `main`)
-- **Current version:** `0.1.0`
+- **Current version:** `0.2.0`
 - **Versioning:** SemVer `MAJOR.MINOR.PATCH`
   - **MAJOR** — breaking deploy/config contract or a migration requiring manual steps.
   - **MINOR** — new backward-compatible feature (ships default-off / opt-in).
@@ -33,6 +33,71 @@ git -C <repo> pull origin main && pnpm -C <repo>/openclaw install && pnpm -C <re
   && systemctl restart openclaw   # (or your gateway unit)
 ```
 A feature's *code* is only live once the gateway runs a build that **contains its commit**.
+
+---
+
+## v0.2.0 — 2026-06-05 — Paperclip reporter identity + per-agent token injection
+
+**Summary.** openclaw agents now automatically receive their Paperclip identity at run time.
+The openclaw-bridge stager (paperclip-side) already wrote a `paperclip-claimed-api-key.json`
+token + `skills/paperclip/SKILL.md` into each agent's workspace directory; this release wires
+the other half: openclaw reads those files at agent start and injects `PAPERCLIP_*` env vars
+into both the sandbox (Docker) environment and the host exec environment. As a result,
+`createdByAgentId` on issues filed via the Paperclip API is now set correctly for every
+openclaw-launched agent (previously null). The Paperclip skill is also bundled into openclaw
+core (`openclaw/skills/paperclip/SKILL.md`) so it's available even without bridge-staged copies.
+`bring-up.sh` auto-enables the bridge when the gateway token is present in
+`~/.openclaw/openclaw.json`. **Ships automatically — no config changes required once the bridge
+is wired.**
+
+- **Commit:** `11e4e81e` (`feat(paperclip): per-agent token injection + reporter identity (v0.2.0)`)
+- **Build artifact:** CI run for `11e4e81e` → tag `ci-<run-id>`.
+- **Docs:** `openclaw/skills/paperclip/SKILL.md`; `tests/paperclip-reporter/`
+- **Status:** typecheck clean; 7 vitest unit tests (loadPaperclipRunEnv) green; 8 Playwright
+  integration tests green (1 skipped — multi-agent, requires ≥2 staged tokens). Enabled
+  automatically when `OPENCLAW_GATEWAY_URL` / `OPENCLAW_GATEWAY_TOKEN` are set in paperclip's
+  env (done by `bring-up.sh` when `~/.openclaw/openclaw.json` has `gateway.auth.token`).
+
+### Install / enable
+
+No new config keys required. The full pipeline activates once the openclaw-bridge is wired:
+
+1. **Deploy** a build containing this commit.
+2. Run `./bring-up.sh` from the repo root. The script detects `gateway.auth.token` in
+   `~/.openclaw/openclaw.json` and sets `OPENCLAW_GATEWAY_URL` + `OPENCLAW_GATEWAY_TOKEN` in
+   paperclip's env automatically. Bridge-sync log line:
+   ```
+       (openclaw-bridge enabled: ws://127.0.0.1:18789)
+   ```
+3. Paperclip will mirror openclaw agents and stage per-agent tokens. On the next agent run,
+   openclaw reads `<workspace>/paperclip-claimed-api-key.json` and injects the vars.
+
+### Verify
+```bash
+# Static checks (no running stack needed):
+cd tests && npx playwright test --config paperclip-reporter/playwright.config.ts
+
+# Expected:
+#  ✓ SKILL.md exists at openclaw/skills/paperclip/SKILL.md
+#  ✓ SKILL.md has required frontmatter fields
+#  ✓ SKILL.md documents the key API endpoints
+#  ✓ agent workspace has a staged token file          <- needs bridge running once
+#  ✓ staged token file has required fields
+#  ✓ staged skill file exists in agent workspace
+#  ✓ GET /api/agents/me returns the mirrored agent    <- needs paperclip running
+#  ✓ issue created with staged token records reporter <- needs paperclip running
+```
+
+### Rollback
+Remove `OPENCLAW_GATEWAY_URL` and `OPENCLAW_GATEWAY_TOKEN` from paperclip's env (or set
+`USE_AUTHENTIK` / restart without bridge). Agents fall back to no token → `createdByAgentId`
+returns to null. No DB migration needed; the column already existed.
+
+### Known gaps (not in this version)
+- Per-topic Docker containers do not auto-clone the target repo (carried from v0.1.0). → v0.3.0.
+- Sandbox observability not surfaced into Telegram or Paperclip (carried from v0.1.0). → v0.3.0.
+- Multi-agent reporter test (test 9) is skipped unless ≥2 agent workspaces have staged tokens.
+  Run the stack with at least two named agents (`flow-dev` + `tech-lead`) to exercise it.
 
 ---
 

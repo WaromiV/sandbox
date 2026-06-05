@@ -83,6 +83,7 @@ import {
   isSilentOverflowProneModel,
 } from "../pi-settings.js";
 import { createOpenClawCodingTools, resolveProcessToolScopeKey } from "../pi-tools.js";
+import { loadPaperclipRunEnv } from "../skills/paperclip-bridge-env.js";
 import { wrapStreamFnTextTransforms } from "../plugin-text-transforms.js";
 import { registerProviderStreamForModel } from "../provider-stream.js";
 import { collectRuntimeChannelCapabilities } from "../runtime-capabilities.js";
@@ -685,10 +686,12 @@ async function compactEmbeddedPiSessionDirectOnce(
         thinkingLevel: thinkLevel,
       });
 
+    const paperclipRunEnv = await loadPaperclipRunEnv(resolvedWorkspace);
     const runAbortController = new AbortController();
     const toolsRaw = createOpenClawCodingTools({
       exec: {
         elevated: params.bashElevated,
+        ...(Object.keys(paperclipRunEnv).length > 0 ? { extraBaseEnv: paperclipRunEnv } : {}),
       },
       sandbox,
       messageProvider: resolvedMessageProvider,

@@ -1,0 +1,13 @@
+{
+  "name": "sandbox-tests",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  },
+  "scripts": {
+    "test:bridge-auth": "playwright test --config bridge-auth/playwright.config.ts",
+    "test:oidc-auth": "playwright test --config oidc-auth/playwright.config.ts",
+    "test:paperclip-reporter": "playwright test --config paperclip-reporter/playwright.config.ts"
+  }
+}

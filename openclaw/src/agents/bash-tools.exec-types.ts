@@ -26,6 +26,8 @@ export type ExecToolDefaults = {
   approvalFollowupMode?: "agent" | "direct";
   approvalRunningNoticeMs?: number;
   sandbox?: BashSandboxConfig;
+  /** Extra env vars merged into the process env base for host (non-sandbox) exec runs. */
+  extraBaseEnv?: Record<string, string>;
   elevated?: ExecElevatedDefaults;
   allowBackground?: boolean;
   scopeKey?: string;

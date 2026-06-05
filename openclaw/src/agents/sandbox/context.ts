@@ -20,6 +20,7 @@ import { resolveSandboxRuntimeStatus } from "./runtime-status.js";
 import { resolveSandboxScopeKey, resolveSandboxWorkspaceDir } from "./shared.js";
 import type { SandboxContext, SandboxDockerConfig, SandboxWorkspaceInfo } from "./types.js";
 import { ensureSandboxWorkspace } from "./workspace.js";
+import { loadPaperclipRunEnv } from "../skills/paperclip-bridge-env.js";
 
 async function ensureSandboxWorkspaceLayout(params: {
   cfg: ReturnType<typeof resolveSandboxConfigForAgent>;
@@ -156,13 +157,25 @@ export async function resolveSandboxContext(params: {
   });
   const resolvedCfg = docker === cfg.docker ? cfg : { ...cfg, docker };
 
-  const backendFactory = requireSandboxBackendFactory(resolvedCfg.backend);
+  // Inject Paperclip identity env vars (token, agent/company ids, API URL) when
+  // the openclaw-bridge has staged a claimed key into the agent's workspace.
+  const paperclipEnv = await loadPaperclipRunEnv(agentWorkspaceDir);
+  const dockerWithPaperclip =
+    Object.keys(paperclipEnv).length > 0
+      ? { ...resolvedCfg.docker, env: { ...resolvedCfg.docker.env, ...paperclipEnv } }
+      : resolvedCfg.docker;
+  const stagedCfg =
+    dockerWithPaperclip !== resolvedCfg.docker
+      ? { ...resolvedCfg, docker: dockerWithPaperclip }
+      : resolvedCfg;
+
+  const backendFactory = requireSandboxBackendFactory(stagedCfg.backend);
   const backend = await backendFactory({
     sessionKey: rawSessionKey,
     scopeKey,
     workspaceDir,
     agentWorkspaceDir,
-    cfg: resolvedCfg,
+    cfg: stagedCfg,
   });
   await updateRegistry({
     containerName: backend.runtimeId,
@@ -171,7 +184,7 @@ export async function resolveSandboxContext(params: {
     sessionKey: scopeKey,
     createdAtMs: Date.now(),
     lastUsedAtMs: Date.now(),
-    image: backend.configLabel ?? resolvedCfg.docker.image,
+    image: backend.configLabel ?? stagedCfg.docker.image,
     configLabelKind: backend.configLabelKind ?? "Image",
   });
 
@@ -227,8 +240,8 @@ export async function resolveSandboxContext(params: {
     runtimeLabel: backend.runtimeLabel,
     containerName: backend.runtimeId,
     containerWorkdir: backend.workdir,
-    docker: resolvedCfg.docker,
-    tools: resolvedCfg.tools,
+    docker: stagedCfg.docker,
+    tools: stagedCfg.tools,
     browserAllowHostControl: resolvedCfg.browser.allowHostControl,
     browser: browser ?? undefined,
     backend,

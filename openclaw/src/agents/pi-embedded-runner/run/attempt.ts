@@ -122,6 +122,7 @@ import {
   resolveProcessToolScopeKey,
   resolveToolLoopDetectionConfig,
 } from "../../pi-tools.js";
+import { loadPaperclipRunEnv } from "../../skills/paperclip-bridge-env.js";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
@@ -986,6 +987,7 @@ export async function runEmbeddedAttempt(
       ? createToolSearchCatalogRef()
       : undefined;
     const toolSearchTargetTranscriptProjections: ToolSearchTargetTranscriptProjection[] = [];
+    const paperclipRunEnv = await loadPaperclipRunEnv(resolvedWorkspace);
     const toolsRaw = !shouldConstructTools
       ? []
       : (() => {
@@ -995,6 +997,7 @@ export async function runEmbeddedAttempt(
             exec: {
               ...params.execOverrides,
               elevated: params.bashElevated,
+              ...(Object.keys(paperclipRunEnv).length > 0 ? { extraBaseEnv: paperclipRunEnv } : {}),
             },
             sandbox,
             messageProvider: resolveAttemptToolPolicyMessageProvider(params),
