@@ -11,11 +11,29 @@ description: >
 
 # Paperclip Skill
 
-You run in **heartbeats** — short execution windows triggered by Paperclip. Each heartbeat, you wake up, check your work, do something useful, and exit. You do not run continuously.
+You can interact with Paperclip in two modes:
+
+1. **Heartbeat mode** — Paperclip triggers you via the adapter. Env vars are pre-injected. Follow the Heartbeat Procedure below.
+2. **Ad-hoc mode** — A user asks you from Telegram/DM to create tasks, check backlog, etc. Env vars are NOT set. Self-authenticate using the claimed API key file (see Authentication below), then call the API directly with `curl`. Skip the heartbeat procedure — just fulfill the user's request.
 
 ## Authentication
 
-Env vars auto-injected: `PAPERCLIP_AGENT_ID`, `PAPERCLIP_COMPANY_ID`, `PAPERCLIP_API_URL`, `PAPERCLIP_RUN_ID`. Optional wake-context vars may also be present: `PAPERCLIP_TASK_ID` (issue/task that triggered this wake), `PAPERCLIP_WAKE_REASON` (why this run was triggered), `PAPERCLIP_WAKE_COMMENT_ID` (specific comment that triggered this wake), `PAPERCLIP_APPROVAL_ID`, `PAPERCLIP_APPROVAL_STATUS`, and `PAPERCLIP_LINKED_ISSUE_IDS` (comma-separated). For local adapters, `PAPERCLIP_API_KEY` is auto-injected as a short-lived run JWT. For non-local adapters, your operator should set `PAPERCLIP_API_KEY` in adapter config. All requests use `Authorization: Bearer $PAPERCLIP_API_KEY`. All endpoints under `/api`, all JSON. Never hard-code the API URL.
+**Heartbeat mode (auto-injected):** When Paperclip triggers you via the openclaw-bridge adapter, env vars are auto-injected: `PAPERCLIP_AGENT_ID`, `PAPERCLIP_COMPANY_ID`, `PAPERCLIP_API_URL`, `PAPERCLIP_RUN_ID`. Optional wake-context vars may also be present: `PAPERCLIP_TASK_ID`, `PAPERCLIP_WAKE_REASON`, `PAPERCLIP_WAKE_COMMENT_ID`, `PAPERCLIP_APPROVAL_ID`, `PAPERCLIP_APPROVAL_STATUS`, and `PAPERCLIP_LINKED_ISSUE_IDS`.
+
+**Telegram / ad-hoc mode (self-auth):** When a user asks you to interact with Paperclip from Telegram or any non-heartbeat context, the env vars will NOT be set. Instead, read your claimed API key file to authenticate:
+
+Your workspace directory contains `paperclip-claimed-api-key.json`. Read it to get credentials:
+
+```bash
+CREDS=$(cat paperclip-claimed-api-key.json 2>/dev/null || cat ~/.openclaw/workspace/agents/*/paperclip-claimed-api-key.json 2>/dev/null | head -1)
+PAPERCLIP_API_KEY=$(echo "$CREDS" | python3 -c "import json,sys; print(json.load(sys.stdin)['token'])")
+PAPERCLIP_AGENT_ID=$(echo "$CREDS" | python3 -c "import json,sys; print(json.load(sys.stdin)['agentId'])")
+PAPERCLIP_COMPANY_ID=$(echo "$CREDS" | python3 -c "import json,sys; print(json.load(sys.stdin)['companyId'])")
+```
+
+Always use `http://localhost:3100` as the API URL for direct calls (not the public URL, which goes through authentik SSO).
+
+All requests use `Authorization: Bearer $PAPERCLIP_API_KEY`. All endpoints under `/api`, all JSON.
 
 Some adapters also inject `PAPERCLIP_WAKE_PAYLOAD_JSON` on comment-driven wakes. When present, it contains the compact issue summary and the ordered batch of new comment payloads for this wake. Use it first. For comment wakes, treat that batch as the highest-priority new context in the heartbeat: in your first task update or response, acknowledge the latest comment and say how it changes your next action before broad repo exploration or generic wake boilerplate. Only fetch the thread/comments API immediately when `fallbackFetchNeeded` is true or you need broader context than the inline batch provides.
 
