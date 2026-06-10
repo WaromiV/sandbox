@@ -11,6 +11,13 @@ export type ContextVisibilityMode = "all" | "allowlist" | "allowlist_quote";
 export type TextChunkMode = "length" | "newline";
 export type StreamingMode = "off" | "partial" | "block" | "progress";
 export type ChannelStreamingCommandTextMode = "raw" | "status";
+/**
+ * How much command/tool OUTPUT (stdout/stderr, HTTP response bodies from exec'd
+ * curl, etc.) to surface in the progress draft. "off" preserves released
+ * behavior (status + exit code only); "tail" shows the last chunk of output;
+ * "full" shows as much as fits the channel's message budget.
+ */
+export type ChannelStreamingCommandOutputMode = "off" | "tail" | "full";
 
 export type OutboundRetryConfig = {
   /** Max retry attempts for outbound requests (default: 3). */
@@ -48,6 +55,8 @@ export type ChannelStreamingProgressConfig = {
   toolProgress?: boolean;
   /** Command/exec progress detail in the draft. "raw" preserves released behavior; "status" shows only the tool label. Default: "raw". */
   commandText?: ChannelStreamingCommandTextMode;
+  /** Surface command/tool output (stdout, HTTP response bodies) in the draft. Default: "off". */
+  commandOutput?: ChannelStreamingCommandOutputMode;
 };
 
 export type ChannelStreamingPreviewConfig = {
@@ -61,6 +70,8 @@ export type ChannelStreamingPreviewConfig = {
   toolProgress?: boolean;
   /** Command/exec progress detail in the preview. "raw" preserves released behavior; "status" shows only the tool label. Default: "raw". */
   commandText?: ChannelStreamingCommandTextMode;
+  /** Surface command/tool output (stdout, HTTP response bodies) in the preview. Default: "off". */
+  commandOutput?: ChannelStreamingCommandOutputMode;
 };
 
 export type ChannelStreamingBlockConfig = {

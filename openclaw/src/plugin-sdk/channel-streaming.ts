@@ -3,6 +3,7 @@ import { formatToolAggregate } from "../auto-reply/tool-meta.js";
 import type {
   BlockStreamingChunkConfig,
   BlockStreamingCoalesceConfig,
+  ChannelStreamingCommandOutputMode,
   ChannelStreamingCommandTextMode,
   ChannelStreamingProgressConfig,
   ChannelStreamingConfig,
@@ -89,6 +90,36 @@ function asCommandTextMode(value: unknown): ChannelStreamingCommandTextMode | un
   return value === "raw" || value === "status" ? value : undefined;
 }
 
+function asCommandOutputMode(value: unknown): ChannelStreamingCommandOutputMode | undefined {
+  return value === "off" || value === "tail" || value === "full" ? value : undefined;
+}
+
+// Per-line output budgets. Telegram caps messages at 4096 chars and the draft
+// keeps several lines, so cap a single output snippet well below that.
+const COMMAND_OUTPUT_TAIL_CHARS = 800;
+const COMMAND_OUTPUT_FULL_CHARS = 3000;
+
+function formatCommandOutputSnippet(
+  output: string | undefined,
+  mode: ChannelStreamingCommandOutputMode,
+): string | undefined {
+  if (mode === "off" || !output) {
+    return undefined;
+  }
+  // Collapse to single-spaced text so the snippet stays a compact progress line.
+  const normalized = output.replace(/\s+/g, " ").trim();
+  if (!normalized) {
+    return undefined;
+  }
+  const cap = mode === "tail" ? COMMAND_OUTPUT_TAIL_CHARS : COMMAND_OUTPUT_FULL_CHARS;
+  if (normalized.length <= cap) {
+    return normalized;
+  }
+  return mode === "tail"
+    ? `…${normalized.slice(normalized.length - cap)}`
+    : `${normalized.slice(0, cap)}…`;
+}
+
 export const DEFAULT_PROGRESS_DRAFT_LABELS = [
   "Thinking...",
   "Shelling...",
@@ -134,6 +165,7 @@ export type ChannelProgressLineOptions = {
   markdown?: boolean;
   detailMode?: "explain" | "raw";
   commandText?: ChannelStreamingCommandTextMode;
+  commandOutput?: ChannelStreamingCommandOutputMode;
 };
 
 export type ChannelProgressDraftRenderMode = "text" | "rich";
@@ -180,6 +212,7 @@ export type ChannelProgressDraftLineInput =
       name?: string;
       status?: string;
       exitCode?: number | null;
+      output?: string;
     }
   | {
       event: "patch";
@@ -312,6 +345,7 @@ export function resolveChannelProgressDraftLineOptions(
   return {
     ...options,
     commandText: options?.commandText ?? resolveChannelStreamingPreviewCommandText(entry),
+    commandOutput: options?.commandOutput ?? resolveChannelStreamingPreviewCommandOutput(entry),
   };
 }
 
@@ -411,10 +445,14 @@ export function buildChannelProgressDraftLine(
           : input.exitCode != null
             ? `exit ${input.exitCode}`
             : input.status;
+      const outputSnippet = formatCommandOutputSnippet(
+        input.output,
+        options?.commandOutput ?? "off",
+      );
       return buildNamedProgressLine(
         input.event,
         input.name ?? "exec",
-        [status, input.title],
+        [status, input.title, outputSnippet],
         options,
         { status },
       );
@@ -574,6 +612,18 @@ export function resolveChannelStreamingPreviewCommandText(
   return (
     asCommandTextMode(config?.progress?.commandText) ??
     asCommandTextMode(config?.preview?.commandText) ??
+    defaultValue
+  );
+}
+
+export function resolveChannelStreamingPreviewCommandOutput(
+  entry: StreamingCompatEntry | null | undefined,
+  defaultValue: ChannelStreamingCommandOutputMode = "off",
+): ChannelStreamingCommandOutputMode {
+  const config = getChannelStreamingConfigObject(entry);
+  return (
+    asCommandOutputMode(config?.progress?.commandOutput) ??
+    asCommandOutputMode(config?.preview?.commandOutput) ??
     defaultValue
   );
 }

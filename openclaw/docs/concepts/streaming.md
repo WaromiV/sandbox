@@ -204,6 +204,7 @@ Supported surfaces:
 - **Mattermost** already folds tool activity into its single draft preview post (see above).
 - Tool-progress edits follow the active preview streaming mode; they are skipped when preview streaming is `off` or when block streaming has taken over the message. On Telegram, `streaming.mode: "off"` is final-only: generic progress chatter is also suppressed instead of being delivered as standalone status messages, while approval prompts, media payloads, and errors still route normally.
 - To keep preview streaming but hide tool-progress lines, set `streaming.preview.toolProgress` to `false` for that channel. To keep tool-progress lines visible while hiding command/exec text, set `streaming.preview.commandText` to `"status"` or `streaming.progress.commandText` to `"status"`; the default is `"raw"` to preserve released behavior. This policy is shared by draft/progress channels that use OpenClaw's compact progress renderer, including Discord, Matrix, Microsoft Teams, Mattermost, Slack draft previews, and Telegram. To disable preview edits entirely, set `streaming.mode` to `off`.
+- To surface command/tool OUTPUT (stdout/stderr and HTTP response bodies from exec'd `curl`, etc.) in the progress line, set `streaming.progress.commandOutput` (or `streaming.preview.commandOutput`). Values: `"off"` (default, preserves released behavior: status and exit code only), `"tail"` (last portion of the output), `"full"` (as much output as fits the per-line budget; long output is truncated to stay within channel message limits). The full result is always delivered to the model regardless of this setting; `commandOutput` only controls what is mirrored into the visible progress draft.
 - Telegram selected quote replies are an exception: when `replyToMode` is not `"off"` and selected quote text is present, OpenClaw skips the answer preview stream for that turn so tool-progress preview lines cannot render. Current-message replies without selected quote text still keep preview streaming. See [Telegram channel docs](/channels/telegram) for details.
 
 Keep progress lines visible but hide raw command/exec text:
@@ -235,6 +236,25 @@ Use the same shape under another compact progress channel key, for example `chan
         "progress": {
           "toolProgress": true,
           "commandText": "status"
+        }
+      }
+    }
+  }
+}
+```
+
+Show command/tool output (for example HTTP response bodies from exec'd `curl`) inline in the progress draft:
+
+```json
+{
+  "channels": {
+    "telegram": {
+      "streaming": {
+        "mode": "progress",
+        "progress": {
+          "toolProgress": true,
+          "commandText": "raw",
+          "commandOutput": "full"
         }
       }
     }
