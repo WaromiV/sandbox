@@ -1537,13 +1537,14 @@ export const dispatchTelegramMessage = async ({
                       return;
                     }
                     await pushStreamToolProgress(
-                      formatChannelProgressDraftLine({
+                      formatChannelProgressDraftLineForEntry(telegramCfg, {
                         event: "command-output",
                         phase: payload.phase,
                         title: payload.title,
                         name: payload.name,
                         status: payload.status,
                         exitCode: payload.exitCode,
+                        output: payload.output,
                       }),
                     );
                   },

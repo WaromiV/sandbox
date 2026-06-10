@@ -378,6 +378,54 @@ describe("channel-streaming", () => {
         },
       ),
     ).toBe("🛠️ Exec");
+    // commandOutput defaults to "off": output is dropped, only status shows.
+    const commandOutputOff = formatChannelProgressDraftLine({
+      event: "command-output",
+      phase: "end",
+      name: "exec",
+      exitCode: 0,
+      output: '{"id":115,"name":"card_uah"}',
+    });
+    expect(commandOutputOff).toBe("🛠️ completed");
+    expect(commandOutputOff).not.toContain("card_uah");
+    // commandOutput "full" surfaces the response body in the progress line.
+    const commandOutputFull = formatChannelProgressDraftLine(
+      {
+        event: "command-output",
+        phase: "end",
+        name: "exec",
+        exitCode: 0,
+        output: '{"id":115,"name":"card_uah"}',
+      },
+      { commandOutput: "full" },
+    );
+    expect(commandOutputFull).toContain('{"id":115,"name":"card_uah"}');
+    // Resolves from channel config (progress.commandOutput).
+    expect(
+      formatChannelProgressDraftLineForEntry(
+        { streaming: { progress: { commandOutput: "full" } } },
+        {
+          event: "command-output",
+          phase: "end",
+          name: "exec",
+          exitCode: 0,
+          output: "hello world",
+        },
+      ),
+    ).toContain("hello world");
+    // "tail" keeps the end of long output and prefixes an ellipsis.
+    const longTail = formatChannelProgressDraftLine(
+      {
+        event: "command-output",
+        phase: "end",
+        name: "exec",
+        exitCode: 0,
+        output: `${"x".repeat(2000)}TAIL_MARKER`,
+      },
+      { commandOutput: "tail" },
+    );
+    expect(longTail).toContain("TAIL_MARKER");
+    expect(longTail).toContain("…");
     expect(
       formatChannelProgressDraftLine({
         event: "item",
