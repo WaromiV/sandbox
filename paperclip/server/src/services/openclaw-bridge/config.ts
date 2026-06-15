@@ -15,7 +15,13 @@
 export type OpenclawBridgeConfig = {
   /** ws:// or wss:// URL of the openclaw gateway, e.g. ws://localhost:18789 */
   url: string;
-  /** Bearer token for the openclaw gateway (`OPENCLAW_GATEWAY_TOKEN`). */
+  /**
+   * Bearer token for the openclaw gateway (`OPENCLAW_GATEWAY_TOKEN`).
+   * Empty string when the gateway runs with `gateway.auth.mode=none` — the
+   * supported default for this stack. openclaw has no built-in auth; it is
+   * gated by Authentik forward-auth at the reverse proxy. The gateway ignores
+   * this value when auth is disabled.
+   */
   token: string;
   /** Paperclip base URL advertised to agents (the URL the skill calls). */
   paperclipApiUrl: string;
@@ -51,8 +57,11 @@ export function loadOpenclawBridgeConfig(
   env: NodeJS.ProcessEnv = process.env,
 ): OpenclawBridgeConfig | null {
   const url = trimmed(env.OPENCLAW_GATEWAY_URL);
-  const token = trimmed(env.OPENCLAW_GATEWAY_TOKEN);
-  if (!url || !token) {
+  // Token is optional: the gateway runs with no built-in auth (mode=none) and
+  // is gated by Authentik forward-auth at the reverse proxy. Only the gateway
+  // URL is required to enable the bridge.
+  const token = trimmed(env.OPENCLAW_GATEWAY_TOKEN) ?? "";
+  if (!url) {
     return null;
   }
   const paperclipApiUrl =

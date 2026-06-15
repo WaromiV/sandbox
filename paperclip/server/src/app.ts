@@ -52,8 +52,6 @@ import { pluginRoutes } from "./routes/plugins.js";
 import { adapterRoutes } from "./routes/adapters.js";
 import { pluginUiStaticRoutes } from "./routes/plugin-ui-static.js";
 import { applyUiBranding } from "./ui-branding.js";
-import { createEditorBridgeRouter, logoutEditorBridge } from "./services/editor-bridge/proxy.js";
-import { getLatestAuthentikIdToken } from "./auth/oidc-id-token.js";
 import { logger } from "./middleware/logger.js";
 import { DEFAULT_LOCAL_PLUGIN_DIR, pluginLoader } from "./services/plugin-loader.js";
 import { createPluginWorkerManager, type PluginWorkerManager } from "./services/plugin-worker-manager.js";
@@ -178,40 +176,11 @@ export async function createApp(
       resolveSession: opts.resolveSession,
     }),
   );
-  const editorUpstream =
-    process.env.PAPERCLIP_EDITOR_UPSTREAM ?? `http://127.0.0.1:${process.env.CODE_SERVER_PORT ?? "8080"}`;
-  app.post("/editor/logout", logoutEditorBridge);
-  app.use(
-    "/editor",
-    createEditorBridgeRouter({
-      upstreamUrl: editorUpstream,
-      // Editor access = full shell on the host. Admin-only by policy. The
-      // gate is enforced again inside code-server when it's running with
-      // --auth oidc (defense in depth via the role-authority lookup).
-      isAuthenticated: (req) => {
-        const a = req.actor;
-        if (a.type !== "board") return false;
-        return a.source === "local_implicit" || a.isInstanceAdmin === true;
-      },
-      subjectOf: (req) => {
-        const a = req.actor;
-        if (a.type === "board") return `board:${a.userId}`;
-        if (a.type === "agent") return `agent:${a.agentId}`;
-        return "anon";
-      },
-      // Forward the OIDC id_token when the signed-in user has one so
-      // code-server running with --auth oidc can validate it against
-      // Authentik's JWKS. Email/password and local_trusted actors fall
-      // through to the HMAC bridge cookie that's already set above.
-      idTokenForRequest: async (req) => {
-        const a = req.actor;
-        if (a.type !== "board" || !a.userId || a.source === "local_implicit") {
-          return null;
-        }
-        return getLatestAuthentikIdToken(db, a.userId);
-      },
-    }),
-  );
+  // The editor (code-server) is no longer proxied through paperclip. It runs
+  // with no built-in auth and is exposed at /editor directly by the reverse
+  // proxy (nginx), which gates it via Authentik forward-auth. See AGENTS.md
+  // ("Auth model"). Removing the in-app proxy keeps Authentik as the single
+  // gate instead of double-gating with a paperclip session.
   app.use("/api/auth", authRoutes(db));
   // Public discovery — UI uses this to decide whether to render OIDC sign-in
   // buttons. Must mount BEFORE the better-auth catch-all so the catch-all

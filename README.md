@@ -54,14 +54,16 @@ cd sandbox
 ./bring-up.sh
 ```
 
-`bring-up.sh` generates secrets, provisions Authentik, starts every service, health-checks each URL, and opens your browser at **Paperclip** — the only door you walk through:
+`bring-up.sh` provisions Authentik, starts every service on loopback, and health-checks each URL:
 
 | Service        | URL                              | Notes                                          |
 | -------------- | -------------------------------- | ---------------------------------------------- |
-| 📎 **Paperclip**   | <http://127.0.0.1:3110>          | Browser-facing UI · role authority             |
-| `</>` code-server  | proxied at `/editor/`            | Loopback-only; reached *through* Paperclip      |
-| 🦞 OpenClaw        | <http://127.0.0.1:18789/healthz> | Backend gateway (server-to-server)             |
-| 🔐 Authentik       | <http://127.0.0.1:9000>          | Identity provider (OIDC)                       |
+| 📎 **Paperclip**   | <http://127.0.0.1:3110>          | Browser-facing UI · Authentik OIDC client · role authority |
+| `</>` code-server  | <http://127.0.0.1:8090>          | **No built-in auth** (`--auth none`); gate with Authentik forward-auth |
+| 🦞 OpenClaw        | <http://127.0.0.1:18789/healthz> | **No built-in auth** (`--auth none`); gate with Authentik forward-auth |
+| 🔐 Authentik       | <http://127.0.0.1:9000>          | Identity provider (OIDC + forward-auth)        |
+
+> **Dev has no reverse proxy.** openclaw + code-server run ungated on loopback. To gate them like production, front them with nginx + Authentik forward-auth — see [`AGENTS.md`](AGENTS.md) (“Auth model”) for a ready-to-paste config.
 
 ```bash
 # Skip the SSO stack entirely (no Docker needed):
@@ -71,7 +73,7 @@ USE_AUTHENTIK=0 ./bring-up.sh
 pkill -f 'openclaw|paperclip|code-server'
 ```
 
-> **Logs** stream to `./logs/`. The shared bridge secret lives at `~/.openclaw/bridge.secret` — keep it private.
+> **Logs** stream to `./logs/`. openclaw + code-server run with `--auth none`; the only gate is Authentik forward-auth at the reverse proxy (see [`AGENTS.md`](AGENTS.md)).
 
 ---
 
@@ -83,8 +85,8 @@ Sandbox is the integration layer. The product is what these three pieces become 
 |---|---|---|---|
 | 🦞 | **[OpenClaw](openclaw/)** | Multi-channel AI gateway — *the employee*. Talks to you on the channels you already use and executes work. | `:18789` |
 | 📎 | **[Paperclip](paperclip/)** | Node + React orchestration UI — *the company*. Org charts, budgets, goals, and agent coordination. Owns the user/role DB and is the **only browser-facing service**. | `:3110` |
-| `</>` | **[code-server](code-server/)** | Patched VS Code in the browser — *the workbench*. Loopback-only; surfaced through Paperclip's `/editor/` proxy. | `:8090` |
-| 🔐 | **[Authentik](deploy/authentik/)** | Self-hosted OIDC identity provider — single sign-on across all three. | `:9000` |
+| `</>` | **[code-server](code-server/)** | Patched VS Code in the browser — *the workbench*. Loopback, no built-in auth; gated by Authentik forward-auth at `/editor`. | `:8090` |
+| 🔐 | **[Authentik](deploy/authentik/)** | Self-hosted OIDC identity provider — paperclip's OIDC login **and** the forward-auth gate for code-server + openclaw. | `:9000` |
 
 > **If OpenClaw is an _employee_, Paperclip is the _company_** — and code-server is the desk they share.
 
@@ -92,52 +94,44 @@ Sandbox is the integration layer. The product is what these three pieces become 
 
 ## 🏗 Architecture
 
-Single host, everything on `127.0.0.1`, no reverse proxy in dev. Your browser only ever connects to **Paperclip**; it proxies the editor and calls the gateway server-to-server.
+In production, one nginx vhost fronts the whole cluster and **Authentik is the single gate**. paperclip logs in via OIDC; code-server and openclaw have no auth of their own and are protected by an Authentik forward-auth subrequest (`auth_request`) on their paths.
 
 ```
                                 ┌──────────────────────────┐
                                 │   🔐 Authentik (OIDC IdP) │  :9000
+                                │   • paperclip OIDC login   │
+                                │   • forward-auth outpost   │
                                 └────────────┬─────────────┘
-                       silent SSO bounce ····│···· (3 independent clients)
+                                   nginx auth_request │ + OIDC bounce
               ┌──────────────────────────────┼──────────────────────────────┐
               ▼                               ▼                              ▼
    ┌─────────────────────┐        ┌──────────────────────┐       ┌────────────────────┐
-   │  🌐  Your browser   │ ─────▶ │  📎  Paperclip  :3110 │ ────▶ │ </> code-server     │ :8090
-   └─────────────────────┘        │  • role authority     │  HMAC │     (loopback only) │
-                                   │  • /editor/ proxy     │ /OIDC └────────────────────┘
-                                   │  • user + role DB     │
-                                   └───────────┬───────────┘
-                                  server-to-server (bearer token)
-                                               ▼
+   │  🌐  Your browser   │ ─────▶ │  📎  Paperclip  :3110 │       │ </> code-server     │ :8090
+   └─────────────────────┘  nginx │  • OIDC client        │       │   --auth none       │
+              │              ▲     │  • role authority     │       │ (loopback; gated by │
+              │              │     │  • user + role DB     │       │  forward-auth)      │
+              └──────────────┘     └───────────┬───────────┘       └────────────────────┘
+       /editor, /openclaw gated by             │ ws (no token)
+       Authentik forward-auth                  ▼
                                    ┌──────────────────────┐
-                                   │  🦞  OpenClaw  :18789 │  multi-channel gateway
+                                   │  🦞  OpenClaw  :18789 │  --auth none (loopback)
                                    └──────────────────────┘
 ```
 
-**Roles:** `admin` and `user`. The first person to ever sign in becomes `admin` (race-safe singleton bootstrap); everyone else defaults to `user` and is promoted by an admin. Paperclip is the source of truth — the other services consult `GET /api/access/role`.
+**Roles:** `admin` and `user`. The first person to ever sign in becomes `admin` (race-safe singleton bootstrap); everyone else defaults to `user` and is promoted by an admin. Paperclip is the source of truth (`GET /api/access/role`). To restrict a forward-auth path (e.g. the editor) to admins, bind a group policy to the `openclaw-forward-auth` application in Authentik.
 
 ---
 
 ## 🔐 Single sign-on
 
-Sandbox is migrating from HMAC **bridge tokens** to real **OIDC SSO** via [Authentik](https://goauthentik.io/) (MIT, self-hosted). Every service is its own *independent* OIDC client — not a delegation chain — so a shared session is just Authentik's IdP session: hit a second service and you land without a second login prompt.
+Auth is centralized on [Authentik](https://goauthentik.io/) (MIT, self-hosted). There are exactly two kinds of integration:
 
-The migration ships in **five independently-deployable phases** (each is reversible):
+- **paperclip is an OIDC client.** It runs Authentik's OIDC login, owns the user/role DB, and exposes `GET /api/access/role`. The provisioner writes its client config to `~/.openclaw/oidc/paperclip.json`.
+- **code-server and openclaw have no auth of their own** (`--auth none`, loopback). A single Authentik **forward-auth** proxy provider (`openclaw-forward-auth`, assigned to the embedded outpost) guards them — the reverse proxy runs an `auth_request` against `/outpost.goauthentik.io/auth/nginx` on `/editor` and `/openclaw`.
 
-| Phase | Scope | Status |
-|:-----:|-------|--------|
-| **A** | Authentik in Compose; provisioner creates the 3 OIDC apps → `~/.openclaw/oidc/` | ✅ wired |
-| **B** | Paperclip becomes OIDC client + role authority (`PAPERCLIP_AUTH_MODE=oidc`) | 🟡 |
-| **C** | code-server OIDC client (`--auth oidc`); Paperclip forwards `id_token` | 🟡 |
-| **D** | OpenClaw OIDC resource server (`Authorization: Bearer <id_token>`) | 🟡 |
-| **E** | Cleanup — retire HMAC bridge, delete `bridge.secret`, drop the flag | ⬜ |
+This means there's **one place** to reason about who can reach the editor and the gateway: Authentik. Any signed-in user passes by default; bind a group policy to the `openclaw-forward-auth` application to lock a path down (e.g. editor = admins only).
 
-```bash
-# Opt code-server into OIDC once Authentik has provisioned its config:
-CODE_SERVER_AUTH=oidc ./bring-up.sh
-```
-
-> Until Phase C lands, code-server runs with `--auth bridge`: Paperclip mints a short-lived HMAC token from the shared secret and injects it on the `/editor/` proxy. The bridge secret is kept on disk for one release after each phase as a rollback path.
+> The reverse proxy is what enforces this. `bring-up.sh` runs the services on loopback but does **not** stand up nginx, so in dev they're ungated unless you add the proxy yourself — copy the config from [`AGENTS.md`](AGENTS.md). Production (`deploy/install-openclaw-cluster.sh`) wires nginx + forward-auth + TLS for you.
 
 ---
 
@@ -210,7 +204,7 @@ sandbox/
 ├── paperclip/                   # 📎 orchestration server + React UI (browser-facing)
 ├── code-server/                 # </> patched VS Code in the browser
 ├── deploy/                      # systemd units + Authentik SSO stack
-├── tests/                       # cross-service tests (bridge-auth, e2e)
+├── tests/                       # cross-service tests (e2e)
 ├── assets/                      # README banner
 └── logs/                        # runtime logs (gitignored)
 ```

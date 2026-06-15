@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
-# Stand up Authentik next to the openclaw cluster and create OIDC clients
-# for paperclip, code-server, and openclaw.
+# Stand up Authentik next to the openclaw cluster and configure auth:
+#   - paperclip: an OIDC (OAuth2) client — paperclip owns the browser session
+#     and is the role authority. Config written to ~/.openclaw/oidc/paperclip.json.
+#   - code-server + openclaw: NO built-in auth. They are guarded by an
+#     Authentik forward-auth proxy provider (domain-level) assigned to the
+#     embedded outpost. nginx applies auth_request on /editor and /openclaw.
+#     See deploy/install-openclaw-cluster.sh (nginx block) and AGENTS.md.
 #
 # Idempotent:
 #   - first run generates secrets, writes deploy/authentik/.env, brings the
-#     stack up, then creates OIDC providers + applications.
-#   - subsequent runs reuse the existing .env and skip provider/app creation
-#     if the targets already exist.
-#
-# Writes per-client config files to ~/.openclaw/oidc/{paperclip,codeserver,gateway}.json
-# (mode 0600) for downstream services to consume.
+#     stack up, then creates the OIDC client, the forward-auth provider, and
+#     assigns it to the embedded outpost.
+#   - subsequent runs reuse the existing .env and update in place.
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -22,9 +24,12 @@ ENV_FILE="$HERE/.env"
 AUTHENTIK_HTTP_PORT="${AUTHENTIK_HTTP_PORT:-9000}"
 AUTHENTIK_BASE_URL="http://127.0.0.1:${AUTHENTIK_HTTP_PORT}"
 PAPERCLIP_BASE_URL="${PAPERCLIP_BASE_URL:-http://127.0.0.1:3110}"
-CODESERVER_BASE_URL="${CODESERVER_BASE_URL:-http://127.0.0.1:8090}"
-OPENCLAW_BASE_URL="${OPENCLAW_BASE_URL:-http://127.0.0.1:18789}"
 PAPERCLIP_ROLE_AUTHORITY_URL="${PAPERCLIP_ROLE_AUTHORITY_URL:-${PAPERCLIP_BASE_URL}/api/access/role}"
+# Public domain the cluster is served on (e.g. openclaw.example.com). Used for
+# the forward-auth proxy provider that guards /editor + /openclaw. In dev this
+# can be left at localhost; forward-auth only matters once nginx is in front.
+CLUSTER_DOMAIN="${CLUSTER_DOMAIN:-localhost}"
+CLUSTER_EXTERNAL_URL="${CLUSTER_EXTERNAL_URL:-https://${CLUSTER_DOMAIN}}"
 
 # ---- prereqs -------------------------------------------------------------
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing: $1" >&2; exit 1; }; }
@@ -281,16 +286,73 @@ provision_client \
   "" \
   "${PAPERCLIP_BASE_URL}/api/auth/oidc/back-channel-logout"
 
-provision_client \
-  "openclaw-codeserver" "openclaw code-server" \
-  "${CODESERVER_BASE_URL}/oidc/callback" \
-  "${OIDC_CONFIG_DIR}/codeserver.json" \
-  "${PAPERCLIP_BASE_URL}/editor/oidc/callback"
+# ---- forward-auth proxy provider for code-server + openclaw -------------
+# code-server (/editor) and openclaw (/openclaw) have no built-in auth. A
+# single domain-level proxy provider, assigned to the embedded outpost, lets
+# nginx gate them via `auth_request /outpost.goauthentik.io/auth/nginx`. Any
+# user with a valid Authentik session is allowed; to restrict (e.g. admins
+# only for the editor), bind a group policy to the "openclaw-forward-auth"
+# application in the Authentik admin UI.
+provision_forward_auth() {
+  local slug="openclaw-forward-auth"
+  local name="openclaw forward auth"
 
-provision_client \
-  "openclaw-gateway" "openclaw gateway" \
-  "${OPENCLAW_BASE_URL}/oidc/callback" \
-  "${OIDC_CONFIG_DIR}/gateway.json"
+  local provider_pk
+  provider_pk="$(ak_get "/api/v3/providers/proxy/?name=$(printf '%s' "$slug" | jq -sRr @uri)" | jq -r '.results[0].pk // empty')"
+
+  local body
+  body="$(jq -nc \
+    --arg name "$slug" \
+    --arg flow "$AUTH_FLOW_UUID" \
+    --arg invflow "$INVALIDATION_FLOW_UUID" \
+    --arg ext "$CLUSTER_EXTERNAL_URL" \
+    --arg cookie "$CLUSTER_DOMAIN" \
+    '{
+      name: $name,
+      authorization_flow: $flow,
+      invalidation_flow: (if $invflow=="" then null else $invflow end),
+      mode: "forward_domain",
+      external_host: $ext,
+      cookie_domain: $cookie,
+      access_token_validity: "hours=24"
+    } | with_entries(select(.value != null))')"
+
+  if [ -z "$provider_pk" ]; then
+    echo ">> creating forward-auth proxy provider: $slug"
+    provider_pk="$(ak_post '/api/v3/providers/proxy/' "$body" | jq -r '.pk')"
+  else
+    echo ">> updating forward-auth proxy provider: $slug (pk=$provider_pk)"
+    ak_patch "/api/v3/providers/proxy/$provider_pk/" "$body" >/dev/null
+  fi
+
+  # Application bound to the proxy provider.
+  local app_pk
+  app_pk="$(ak_get "/api/v3/core/applications/?slug=$slug" | jq -r '.results[0].pk // empty')"
+  if [ -z "$app_pk" ]; then
+    echo ">> creating application: $slug"
+    ak_post '/api/v3/core/applications/' "$(jq -nc \
+      --arg name "$name" --arg slug "$slug" --argjson provider "$provider_pk" \
+      '{name:$name, slug:$slug, provider:$provider, policy_engine_mode:"any", group:""}')" >/dev/null
+  else
+    ak_patch "/api/v3/core/applications/$app_pk/" "$(jq -nc \
+      --argjson provider "$provider_pk" '{provider:$provider}')" >/dev/null
+  fi
+
+  # Assign the provider to the embedded outpost so /outpost.goauthentik.io
+  # actually serves this provider's forward-auth endpoint.
+  local outpost_pk outpost_providers
+  outpost_pk="$(ak_get "/api/v3/outposts/instances/?name__iexact=$(printf '%s' 'authentik Embedded Outpost' | jq -sRr @uri)" | jq -r '.results[0].pk // empty')"
+  if [ -z "$outpost_pk" ]; then
+    echo "!! embedded outpost not found — forward-auth will not be served. Is Authentik fully started?" >&2
+    return 1
+  fi
+  outpost_providers="$(ak_get "/api/v3/outposts/instances/$outpost_pk/" \
+    | jq -c --argjson p "$provider_pk" '(.providers // []) + [$p] | unique')"
+  ak_patch "/api/v3/outposts/instances/$outpost_pk/" \
+    "$(jq -nc --argjson providers "$outpost_providers" '{providers:$providers}')" >/dev/null
+  echo "   forward-auth provider assigned to embedded outpost (pk=$outpost_pk)"
+}
+provision_forward_auth
 
 # ---- ensure a "paperclip" database exists in the same PG cluster -------
 # paperclip's embedded-postgres dep fails on some hosts (binary not found /
@@ -334,4 +396,7 @@ echo "   wrote $PAPERCLIP_DB_FILE"
 echo ">> Authentik admin UI: ${AUTHENTIK_BASE_URL}/if/admin/"
 echo "   username: akadmin"
 echo "   password: see AUTHENTIK_BOOTSTRAP_PASSWORD in $ENV_FILE"
-echo ">> OIDC client configs written to $OIDC_CONFIG_DIR/"
+echo ">> paperclip OIDC client config written to $OIDC_CONFIG_DIR/paperclip.json"
+echo ">> code-server + openclaw are gated by the 'openclaw-forward-auth' proxy"
+echo "   provider (embedded outpost). They have no built-in auth; nginx must"
+echo "   apply auth_request to /editor and /openclaw (see install-openclaw-cluster.sh)."

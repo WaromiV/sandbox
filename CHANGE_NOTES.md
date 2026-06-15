@@ -6,7 +6,7 @@ This is intentionally separate from OpenClaw's own `openclaw/package.json` versi
 (`2026.5.x-beta`, upstream CalVer) — this file versions *our integration stack*.
 
 - **Repo:** https://github.com/WaromiV/sandbox  (`origin`, branch `main`)
-- **Current version:** `0.2.0`
+- **Current version:** `1.0.0`
 - **Versioning:** SemVer `MAJOR.MINOR.PATCH`
   - **MAJOR** — breaking deploy/config contract or a migration requiring manual steps.
   - **MINOR** — new backward-compatible feature (ships default-off / opt-in).
@@ -33,6 +33,45 @@ git -C <repo> pull origin main && pnpm -C <repo>/openclaw install && pnpm -C <re
   && systemctl restart openclaw   # (or your gateway unit)
 ```
 A feature's *code* is only live once the gateway runs a build that **contains its commit**.
+
+---
+
+## v1.0.0 — 2026-06-15 — Authentik is the only gate for openclaw + code-server
+
+**Summary.** Stripped all built-in auth from openclaw and code-server. They now
+run `--auth none` on loopback and are guarded **solely** by Authentik
+forward-auth at the reverse proxy. paperclip is unchanged — it keeps its own
+Authentik OIDC client and remains the role authority.
+
+> **Breaking** deploy/config contract → **MAJOR** bump (first 1.x). Re-run the
+> Authentik provisioner and reload nginx on deploy; see migration below.
+
+**What changed.**
+- **code-server:** removed the patched `--auth bridge` and `--auth oidc` modes
+  entirely (deleted `bridgeAuth.ts`, `oidcAuth.ts`, `tests/bridge-auth/`, and
+  the `bridge-*`/`oidc-*` CLI flags). It only supports `none` / `password` now
+  and is run with `--auth none`.
+- **openclaw:** runs `gateway --bind loopback --auth none`. No openclaw core
+  change — its dormant OIDC-bearer capability is simply never exercised.
+- **paperclip:** removed the `/editor` editor-bridge proxy (HMAC token minting +
+  WS gate) and the `oidc-id-token` forwarding. nginx now serves `/editor`
+  straight to code-server. The openclaw-bridge connects tokenlessly
+  (`OPENCLAW_GATEWAY_URL` only; `OPENCLAW_GATEWAY_TOKEN` no longer required).
+- **deploy:** nginx gains an Authentik forward-auth `auth_request` on `/editor`
+  and `/openclaw` (embedded outpost at `/outpost.goauthentik.io`); `/editor`
+  routes directly to code-server with the prefix stripped. systemd units bind
+  loopback + `--auth none`. No more `~/.openclaw/bridge.secret`.
+- **provisioner:** drops the `codeserver.json` / `gateway.json` OIDC clients;
+  keeps `paperclip.json`; adds a domain-level forward-auth proxy provider
+  (`openclaw-forward-auth`) assigned to the embedded outpost.
+- **docs:** new root `AGENTS.md` ("Auth model") with a ready-to-paste manual
+  nginx config for dev/custom hosts.
+
+**Migrate.** Pull, rebuild code-server + paperclip + openclaw, then
+`deploy/authentik/provision.sh` (creates the forward-auth provider) and reload
+nginx. `~/.openclaw/bridge.secret` and `oidc/{codeserver,gateway}.json` are now
+unused and can be deleted. To restrict the editor to admins, bind a group
+policy to the `openclaw-forward-auth` application in Authentik.
 
 ---
 

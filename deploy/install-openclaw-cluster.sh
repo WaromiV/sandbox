@@ -537,11 +537,12 @@ fi
 
 # First provision run — uses temporary local URLs because TLS isn't installed
 # yet. We re-provision with the public domain after certbot succeeds.
+# CLUSTER_DOMAIN drives the Authentik forward-auth proxy provider that guards
+# code-server (/editor) and openclaw (/openclaw) at nginx.
 step "Initial Authentik bring-up (local URLs)"
 as_user "cd '$SOURCE_DIR' && AUTHENTIK_HTTP_PORT=9000 \
   PAPERCLIP_BASE_URL='http://127.0.0.1:3110' \
-  CODESERVER_BASE_URL='http://127.0.0.1:8090' \
-  OPENCLAW_BASE_URL='http://127.0.0.1:18789' \
+  CLUSTER_DOMAIN='$DOMAIN' \
   bash deploy/authentik/provision.sh" >/dev/null
 ok "Authentik provisioned (HTTP)"
 
@@ -561,9 +562,16 @@ cat > "$NGINX_SITE" <<NGX
 # Managed by deploy/install-openclaw-cluster.sh.
 # Layout:
 #   /            → Authentik (SSO entry, registration, admin UI, OIDC)
-#   /issues      → paperclip (app)
-#   /editor      → code-server (admin-only, proxied through paperclip)
-#   /openclaw    → openclaw gateway
+#   /issues      → paperclip (app — its own Authentik OIDC client)
+#   /editor      → code-server (NO built-in auth; gated here by Authentik
+#                  forward-auth, prefix stripped, served direct from :8090)
+#   /openclaw    → openclaw gateway (NO built-in auth; gated here by Authentik
+#                  forward-auth)
+#
+# Auth model: openclaw + code-server run with --auth none on loopback. The
+# ONLY thing standing between the internet and them is the Authentik
+# forward-auth subrequest (auth_request) below, served by Authentik's embedded
+# outpost at /outpost.goauthentik.io. paperclip keeps its own OIDC session.
 #
 # paperclip API namespaces (/api/auth, /api/access, /api/admin, etc.) are
 # peeled off as more-specific matches so they don't fall into Authentik.
@@ -625,11 +633,58 @@ server {
   location ^~ /assets/ { proxy_pass http://127.0.0.1:3110; }
   location = /favicon.ico { proxy_pass http://127.0.0.1:3110; access_log off; }
 
-  # ----- code-server through paperclip /editor proxy --------------------
-  location ^~ /editor  { proxy_pass http://127.0.0.1:3110; }
+  # ----- Authentik forward-auth (embedded outpost) ----------------------
+  # Subrequest target used by auth_request on the protected locations below.
+  # Authentik's embedded outpost lives inside the server container on :9000.
+  location /outpost.goauthentik.io {
+    proxy_pass              http://127.0.0.1:9000/outpost.goauthentik.io;
+    proxy_set_header        Host \$host;
+    proxy_set_header        X-Original-URL \$scheme://\$http_host\$request_uri;
+    add_header              Set-Cookie \$auth_cookie;
+    auth_request_set        \$auth_cookie \$upstream_http_set_cookie;
+    proxy_pass_request_body off;
+    proxy_set_header        Content-Length "";
+  }
 
-  # ----- openclaw gateway -----------------------------------------------
+  # Unauthenticated requests to a protected location land here → Authentik
+  # login flow, returning to the originally requested URL afterwards.
+  location @goauthentik_proxy_signin {
+    internal;
+    add_header Set-Cookie \$auth_cookie;
+    return 302 /outpost.goauthentik.io/start?rd=\$scheme://\$http_host\$request_uri;
+  }
+
+  # ----- code-server (no built-in auth; Authentik forward-auth gate) ----
+  # Prefix stripped so code-server sees root-relative paths; it emits relative
+  # URLs (see relativeRoot in code-server/src/node/http.ts) that resolve under
+  # /editor/ in the browser.
+  location ^~ /editor/ {
+    auth_request     /outpost.goauthentik.io/auth/nginx;
+    error_page       401 = @goauthentik_proxy_signin;
+    auth_request_set \$auth_cookie \$upstream_http_set_cookie;
+    add_header       Set-Cookie \$auth_cookie;
+    auth_request_set \$authentik_username \$upstream_http_x_authentik_username;
+    auth_request_set \$authentik_email    \$upstream_http_x_authentik_email;
+    proxy_set_header X-authentik-username \$authentik_username;
+    proxy_set_header X-authentik-email    \$authentik_email;
+    proxy_set_header X-Forwarded-Prefix   /editor;
+
+    rewrite ^/editor/(.*)\$ /\$1 break;
+    proxy_pass http://127.0.0.1:8090;
+  }
+  location = /editor { return 301 /editor/; }
+
+  # ----- openclaw gateway (no built-in auth; Authentik forward-auth gate) -
   location /openclaw/ {
+    auth_request     /outpost.goauthentik.io/auth/nginx;
+    error_page       401 = @goauthentik_proxy_signin;
+    auth_request_set \$auth_cookie \$upstream_http_set_cookie;
+    add_header       Set-Cookie \$auth_cookie;
+    auth_request_set \$authentik_username \$upstream_http_x_authentik_username;
+    auth_request_set \$authentik_email    \$upstream_http_x_authentik_email;
+    proxy_set_header X-authentik-username \$authentik_username;
+    proxy_set_header X-authentik-email    \$authentik_email;
+
     rewrite ^/openclaw/(.*)\$ /\$1 break;
     proxy_pass http://127.0.0.1:18789;
   }
@@ -669,10 +724,9 @@ banner "Authentik — reprovision with public URLs"
 step "Re-running provisioner with https://$DOMAIN as the base URL"
 as_user "cd '$SOURCE_DIR' && AUTHENTIK_HTTP_PORT=9000 \
   PAPERCLIP_BASE_URL='https://$DOMAIN' \
-  CODESERVER_BASE_URL='https://$DOMAIN/editor' \
-  OPENCLAW_BASE_URL='https://$DOMAIN/openclaw' \
+  CLUSTER_DOMAIN='$DOMAIN' \
   bash deploy/authentik/provision.sh" >/dev/null
-ok "Authentik OIDC providers point at https://$DOMAIN"
+ok "Authentik paperclip OIDC client + forward-auth provider point at https://$DOMAIN"
 
 # ---------------------------------------------------------------------------
 #  EnvironmentFiles for the systemd units
@@ -694,11 +748,10 @@ write_env() {
   chown "root:$TARGET_GROUP" "$path"
 }
 
-BRIDGE_SECRET_FILE="$TARGET_HOME/.openclaw/bridge.secret"
-if [ ! -f "$BRIDGE_SECRET_FILE" ]; then
-  install -d -o "$TARGET_USER" -g "$TARGET_GROUP" -m 0700 "$TARGET_HOME/.openclaw"
-  as_user "openssl rand -hex 32 > '$BRIDGE_SECRET_FILE' && chmod 600 '$BRIDGE_SECRET_FILE'"
-fi
+# No bridge secret any more: openclaw + code-server run with NO built-in auth
+# and are gated solely by Authentik forward-auth at nginx (see the nginx block
+# below). Ensure the ~/.openclaw dir still exists for the OIDC + db env files.
+install -d -o "$TARGET_USER" -g "$TARGET_GROUP" -m 0700 "$TARGET_HOME/.openclaw"
 
 # Keep BETTER_AUTH_SECRET stable across re-runs.
 if [ -f "$ENV_DIR/paperclip.env" ] && grep -q '^BETTER_AUTH_SECRET=' "$ENV_DIR/paperclip.env"; then
@@ -732,10 +785,10 @@ PAPERCLIP_LISTEN_HOST=127.0.0.1
 PAPERCLIP_LISTEN_PORT=3110
 PAPERCLIP_PUBLIC_URL=https://$DOMAIN
 PAPERCLIP_ALLOWED_HOSTNAMES=$DOMAIN
-PAPERCLIP_EDITOR_UPSTREAM=http://127.0.0.1:8090
-PAPERCLIP_BRIDGE_SECRET_FILE=$BRIDGE_SECRET_FILE
-CODE_SERVER_PORT=8090
 BETTER_AUTH_SECRET=$BA_SECRET
+# openclaw gateway runs with --auth none; the bridge needs only the URL (no
+# token). Per-agent paperclip API keys are minted by the bridge itself.
+OPENCLAW_GATEWAY_URL=ws://127.0.0.1:18789
 ${DATABASE_URL_LINE}
 "
 
@@ -769,7 +822,7 @@ NODE_BIN="$(command -v node)"
 # CLAUDE_BIN + MERIDIAN_BIN were resolved up-front under Dependencies.
 
 write_unit openclaw "[Unit]
-Description=OpenClaw gateway
+Description=OpenClaw gateway (no built-in auth; gated by Authentik forward-auth)
 After=network-online.target docker.service
 Wants=network-online.target
 [Service]
@@ -778,7 +831,7 @@ User=$TARGET_USER
 Group=$TARGET_GROUP
 WorkingDirectory=$SOURCE_DIR/openclaw
 EnvironmentFile=$ENV_DIR/openclaw.env
-ExecStart=$NODE_BIN dist/index.js gateway --bind lan --port \${OPENCLAW_GATEWAY_PORT}
+ExecStart=$NODE_BIN dist/index.js gateway --bind loopback --auth none --port \${OPENCLAW_GATEWAY_PORT}
 Restart=always
 RestartSec=5
 StandardOutput=journal
@@ -788,7 +841,7 @@ WantedBy=multi-user.target
 "
 
 write_unit paperclip "[Unit]
-Description=Paperclip server (UI + better-auth + editor proxy)
+Description=Paperclip server (UI + better-auth + Authentik OIDC client)
 After=network-online.target openclaw.service
 [Service]
 Type=simple
@@ -804,7 +857,7 @@ WantedBy=multi-user.target
 "
 
 write_unit code-server "[Unit]
-Description=code-server (patched, OIDC-gated, admin-only)
+Description=code-server (patched, no built-in auth; gated by Authentik forward-auth)
 After=network-online.target paperclip.service
 [Service]
 Type=simple
@@ -812,7 +865,7 @@ User=$TARGET_USER
 Group=$TARGET_GROUP
 WorkingDirectory=$SOURCE_DIR
 EnvironmentFile=$ENV_DIR/code-server.env
-ExecStart=$NODE_BIN $SOURCE_DIR/code-server/out/node/entry.js --auth oidc --oidc-config-file $TARGET_HOME/.openclaw/oidc/codeserver.json --bind-addr 127.0.0.1:8090 --disable-update-check
+ExecStart=$NODE_BIN $SOURCE_DIR/code-server/out/node/entry.js --auth none --bind-addr 127.0.0.1:8090 --disable-update-check
 Restart=always
 RestartSec=5
 [Install]

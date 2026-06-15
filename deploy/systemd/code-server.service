@@ -6,6 +6,8 @@ Wants=network-online.target
 [Service]
 Type=simple
 WorkingDirectory=/opt/openclaw-stack/code-server/current
+# No built-in auth: bound to loopback and gated by Authentik forward-auth at
+# the reverse proxy (nginx). Do not expose this port directly.
 ExecStart=/usr/bin/node out/node/entry.js --auth none --bind-addr 127.0.0.1:8080
 Restart=always
 RestartSec=5

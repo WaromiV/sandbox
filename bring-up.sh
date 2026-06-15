@@ -3,14 +3,22 @@
 # for the services themselves), optionally fronted by Authentik (in docker).
 # Logs to ./logs/, opens each URL via xdg-open.
 #
-# Auth model (transitional during the SSO migration):
-#  - Authentik runs in deploy/authentik/ via docker compose. Provisioner
-#    creates OIDC apps for paperclip, code-server, and openclaw on first run
-#    and persists client configs to ~/.openclaw/oidc/. Skip with
-#    USE_AUTHENTIK=0.
-#  - code-server still runs with --auth bridge (HMAC token) until Phase C
-#    migrates it to OIDC. Paperclip mints the token from the shared secret.
-#  - Browser only ever talks to paperclip; code-server stays loopback-only.
+# Auth model:
+#  - openclaw and code-server have NO built-in auth. openclaw runs with
+#    `--auth none` and code-server with `--auth none`, both bound to loopback.
+#    They are gated SOLELY by Authentik forward-auth at the reverse proxy.
+#  - paperclip is the role authority + its own Authentik OIDC client (it owns
+#    the users table and the browser session). It is NOT stripped of auth.
+#  - Authentik runs in deploy/authentik/ via docker compose. The provisioner
+#    creates the paperclip OIDC client plus an Authentik forward-auth proxy
+#    provider (embedded outpost) used to guard /editor and /openclaw. Skip the
+#    whole Authentik stack with USE_AUTHENTIK=0.
+#  - DEV NOTE: this script runs the services on loopback but does NOT stand up
+#    nginx. Because openclaw + code-server have no auth, /editor and /openclaw
+#    are UNGATED unless you put a reverse proxy with Authentik forward-auth in
+#    front of them. See AGENTS.md ("Auth model") for a ready-to-use manual
+#    nginx config. Production (deploy/install-openclaw-cluster.sh) wires this
+#    nginx + forward-auth automatically.
 set -euo pipefail
 cd "$(dirname "$0")"
 mkdir -p logs
@@ -22,34 +30,20 @@ BIND_HOST="${PAPERCLIP_BIND_HOST:-127.0.0.1}"
 USE_AUTHENTIK="${USE_AUTHENTIK:-1}"
 AUTHENTIK_HTTP_PORT="${AUTHENTIK_HTTP_PORT:-9000}"
 
-# --- Shared bridge secret -----------------------------------------------------
-BRIDGE_DIR="${PAPERCLIP_BRIDGE_DIR:-$HOME/.openclaw}"
-BRIDGE_SECRET_FILE="${PAPERCLIP_BRIDGE_SECRET_FILE:-$BRIDGE_DIR/bridge.secret}"
-if [ ! -f "$BRIDGE_SECRET_FILE" ]; then
-  mkdir -p "$BRIDGE_DIR"
-  chmod 700 "$BRIDGE_DIR"
-  if command -v openssl >/dev/null 2>&1; then
-    openssl rand -hex 32 > "$BRIDGE_SECRET_FILE"
-  else
-    head -c 32 /dev/urandom | od -An -tx1 | tr -d ' \n' > "$BRIDGE_SECRET_FILE"
-  fi
-  chmod 600 "$BRIDGE_SECRET_FILE"
-  echo "Generated new bridge secret at $BRIDGE_SECRET_FILE"
-fi
-export PAPERCLIP_BRIDGE_SECRET_FILE="$BRIDGE_SECRET_FILE"
 export CODE_SERVER_PORT="$CS_PORT"
-export PAPERCLIP_EDITOR_UPSTREAM="http://127.0.0.1:$CS_PORT"
 export PAPERCLIP_LISTEN_HOST="$BIND_HOST"
 export PAPERCLIP_LISTEN_PORT="$PC_PORT"
 
-# --- Authentik (Phase A — stack only, no service-side OIDC wiring yet) ---
+# --- Authentik (provisions paperclip OIDC client + forward-auth provider) ---
+# Note: in dev there is no nginx in front, so the forward-auth provider isn't
+# exercised here — see AGENTS.md ("Auth model") for the manual nginx config
+# that turns it on. CLUSTER_DOMAIN stays localhost in dev.
 if [ "$USE_AUTHENTIK" = "1" ]; then
   if [ -x deploy/authentik/provision.sh ]; then
     echo "=== Provisioning Authentik (deploy/authentik/) ==="
     AUTHENTIK_HTTP_PORT="$AUTHENTIK_HTTP_PORT" \
     PAPERCLIP_BASE_URL="http://127.0.0.1:$PC_PORT" \
-    CODESERVER_BASE_URL="http://127.0.0.1:$CS_PORT" \
-    OPENCLAW_BASE_URL="http://127.0.0.1:$OC_PORT" \
+    CLUSTER_DOMAIN="${CLUSTER_DOMAIN:-localhost}" \
       deploy/authentik/provision.sh 2>&1 | tee logs/authentik-provision.log
   else
     echo "!! deploy/authentik/provision.sh missing or not executable — skipping Authentik"
@@ -63,47 +57,29 @@ node -v 2>&1 || true
 pnpm -v 2>&1 || true
 
 # --- openclaw gateway (uses prebuilt dist/) ---
+# No built-in auth (--auth none) bound to loopback. Authentik forward-auth at
+# the reverse proxy is the only gate for browser access; paperclip reaches it
+# server-to-server on loopback.
 if [ -f openclaw/dist/index.js ]; then
-  echo "=== Starting openclaw gateway on :$OC_PORT ==="
-  (cd openclaw && nohup node dist/index.js gateway --bind lan --port "$OC_PORT" >../logs/openclaw.log 2>&1 & echo "openclaw pid=$!")
+  echo "=== Starting openclaw gateway on 127.0.0.1:$OC_PORT (auth=none) ==="
+  (cd openclaw && nohup node dist/index.js gateway --bind loopback --auth none --port "$OC_PORT" >../logs/openclaw.log 2>&1 & echo "openclaw pid=$!")
 else
   echo "!! openclaw/dist/index.js not found — needs build (pnpm install && pnpm build inside openclaw/)"
 fi
 
-# --- code-server (patched code-server with auth=bridge or auth=oidc) ---
-#
-# Default: --auth bridge (HMAC token from paperclip's editor proxy).
-# Opt-in: --auth oidc (validates Authentik id_token in Authorization: Bearer).
-#   Enable by setting CODE_SERVER_AUTH=oidc. Requires the OIDC config at
-#   ~/.openclaw/oidc/codeserver.json (created by deploy/authentik/provision.sh)
-#   AND the paperclip editor proxy must be forwarding id_tokens (Phase E
-#   follow-up; not on by default yet).
+# --- code-server (patched code-server, no built-in auth) ---
+# code-server runs with --auth none bound to loopback. It is gated SOLELY by
+# Authentik forward-auth at the reverse proxy (see AGENTS.md). No bridge/OIDC
+# tokens are involved any more.
 CODE_SERVER_ENTRY="./code-server/out/node/entry.js"
-CODE_SERVER_AUTH="${CODE_SERVER_AUTH:-bridge}"
-OIDC_CODESERVER_CONFIG="$HOME/.openclaw/oidc/codeserver.json"
 if [ -f "$CODE_SERVER_ENTRY" ]; then
-  if [ "$CODE_SERVER_AUTH" = "oidc" ] && [ -f "$OIDC_CODESERVER_CONFIG" ]; then
-    echo "=== Starting patched code-server on 127.0.0.1:$CS_PORT (auth=oidc) ==="
-    nohup node "$CODE_SERVER_ENTRY" \
-      --auth oidc \
-      --oidc-config-file "$OIDC_CODESERVER_CONFIG" \
-      --bind-addr "127.0.0.1:$CS_PORT" \
-      --disable-update-check \
-      >logs/code-server.log 2>&1 &
-    echo "code-server pid=$!"
-  else
-    if [ "$CODE_SERVER_AUTH" = "oidc" ]; then
-      echo "!! CODE_SERVER_AUTH=oidc but $OIDC_CODESERVER_CONFIG missing — falling back to bridge"
-    fi
-    echo "=== Starting patched code-server on 127.0.0.1:$CS_PORT (auth=bridge) ==="
-    nohup node "$CODE_SERVER_ENTRY" \
-      --auth bridge \
-      --bridge-secret-file "$BRIDGE_SECRET_FILE" \
-      --bind-addr "127.0.0.1:$CS_PORT" \
-      --disable-update-check \
-      >logs/code-server.log 2>&1 &
-    echo "code-server pid=$!"
-  fi
+  echo "=== Starting patched code-server on 127.0.0.1:$CS_PORT (auth=none) ==="
+  nohup node "$CODE_SERVER_ENTRY" \
+    --auth none \
+    --bind-addr "127.0.0.1:$CS_PORT" \
+    --disable-update-check \
+    >logs/code-server.log 2>&1 &
+  echo "code-server pid=$!"
 else
   echo "!! patched code-server build missing. Run: (cd code-server && npm install && npx tsc && ./ci/build/build-code-server.sh)"
 fi
@@ -124,8 +100,6 @@ if [ -d paperclip ]; then
   paperclip_db_env="$HOME/.openclaw/oidc/paperclip-db.env"
   paperclip_env=(
     "PORT=$PC_PORT"
-    "PAPERCLIP_BRIDGE_SECRET_FILE=$BRIDGE_SECRET_FILE"
-    "PAPERCLIP_EDITOR_UPSTREAM=$PAPERCLIP_EDITOR_UPSTREAM"
     "PAPERCLIP_LISTEN_HOST=$BIND_HOST"
     "PAPERCLIP_LISTEN_PORT=$PC_PORT"
     "CODE_SERVER_PORT=$CS_PORT"
@@ -141,24 +115,12 @@ if [ -d paperclip ]; then
     fi
   fi
   # Wire the openclaw-bridge so paperclip mirrors openclaw agents and stages
-  # per-agent tokens + the paperclip skill into their workspaces.
-  # Reads the gateway auth token from ~/.openclaw/openclaw.json (the same
-  # credential openclaw uses for operator access).
-  _oc_gateway_token=$(python3 -c "
-import json, sys
-try:
-    d = json.load(open('$HOME/.openclaw/openclaw.json'))
-    print(d.get('gateway', {}).get('auth', {}).get('token', ''))
-except Exception:
-    pass
-" 2>/dev/null || true)
-  if [ -n "$_oc_gateway_token" ]; then
-    paperclip_env+=(
-      "OPENCLAW_GATEWAY_URL=ws://127.0.0.1:${OC_PORT}"
-      "OPENCLAW_GATEWAY_TOKEN=$_oc_gateway_token"
-    )
-    echo "    (openclaw-bridge enabled: ws://127.0.0.1:${OC_PORT})"
-  fi
+  # per-agent paperclip API keys + the paperclip skill into their workspaces.
+  # The gateway runs with --auth none, so no gateway token is needed — only
+  # the URL. (Per-agent paperclip API keys are minted by the bridge itself and
+  # are unrelated to gateway auth.)
+  paperclip_env+=("OPENCLAW_GATEWAY_URL=ws://127.0.0.1:${OC_PORT}")
+  echo "    (openclaw-bridge enabled: ws://127.0.0.1:${OC_PORT}, gateway auth=none)"
 
   # When the OIDC config is present, run paperclip in authenticated/private
   # so the OIDC plugin actually mounts (dev-runner deletes the deployment
@@ -181,7 +143,6 @@ status_urls=(
   "http://127.0.0.1:$OC_PORT/healthz"
   "http://127.0.0.1:$PC_PORT/api/health"
   "http://127.0.0.1:$CS_PORT/"
-  "http://127.0.0.1:$PC_PORT/editor/"
 )
 if [ "$USE_AUTHENTIK" = "1" ]; then
   status_urls+=("http://127.0.0.1:$AUTHENTIK_HTTP_PORT/-/health/ready/")
@@ -197,11 +158,10 @@ if [ "${OPEN_BROWSER:-1}" = "1" ] && command -v xdg-open >/dev/null 2>&1; then
 fi
 
 echo "Done. Logs in ./logs/. To stop: pkill -f 'openclaw|paperclip|code-server'"
-echo "Bridge secret: $BRIDGE_SECRET_FILE  (keep this private and shared between paperclip + code-server)"
+echo "Auth model: openclaw + code-server run with NO auth on loopback."
+echo "            They are ungated unless you front them with nginx + Authentik"
+echo "            forward-auth (see AGENTS.md, \"Auth model\")."
 if [ "$USE_AUTHENTIK" = "1" ]; then
   echo "Authentik admin: http://127.0.0.1:$AUTHENTIK_HTTP_PORT/if/admin/  (akadmin / see deploy/authentik/.env)"
-  echo "OIDC configs:   $HOME/.openclaw/oidc/{paperclip,codeserver,gateway}.json"
-  if [ -f "$HOME/.openclaw/oidc/codeserver.json" ] && [ "${CODE_SERVER_AUTH:-bridge}" = "bridge" ]; then
-    echo "Hint:           code-server OIDC ready — re-run with CODE_SERVER_AUTH=oidc to opt in"
-  fi
+  echo "OIDC config:    $HOME/.openclaw/oidc/paperclip.json  (paperclip is the only OIDC client)"
 fi

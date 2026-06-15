@@ -7,7 +7,9 @@ Wants=network-online.target
 [Service]
 Type=simple
 WorkingDirectory=/opt/openclaw-stack/openclaw/current
-ExecStart=/usr/bin/node dist/index.js gateway --bind lan --port 18789
+# No built-in auth: bound to loopback and gated by Authentik forward-auth at
+# the reverse proxy (nginx). Do not expose this port directly.
+ExecStart=/usr/bin/node dist/index.js gateway --bind loopback --auth none --port 18789
 Restart=always
 RestartSec=5
 TimeoutStartSec=60
