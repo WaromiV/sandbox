@@ -24,6 +24,7 @@ import { approvalRoutes } from "./routes/approvals.js";
 import { secretRoutes } from "./routes/secrets.js";
 import { costRoutes } from "./routes/costs.js";
 import { activityRoutes } from "./routes/activity.js";
+import { meRoutes } from "./routes/me.js";
 import { dashboardRoutes } from "./routes/dashboard.js";
 import { userProfileRoutes } from "./routes/user-profiles.js";
 import { sidebarBadgeRoutes } from "./routes/sidebar-badges.js";
@@ -48,6 +49,11 @@ import {
   loadOpenclawBridgeConfig,
   type OpenclawBridge,
 } from "./services/openclaw-bridge/index.js";
+import { createOpenclawBridgeMultiplexer } from "./services/openclaw-bridge/multiplexer.js";
+import {
+  createWorkspaceProxyRouter,
+  type WorkspaceUserResolver,
+} from "./services/workspace-containers/proxy.js";
 import { pluginRoutes } from "./routes/plugins.js";
 import { adapterRoutes } from "./routes/adapters.js";
 import { pluginUiStaticRoutes } from "./routes/plugin-ui-static.js";
@@ -143,9 +149,17 @@ export async function createApp(
     pluginWorkerManager?: PluginWorkerManager;
     betterAuthHandler?: express.RequestHandler;
     resolveSession?: (req: ExpressRequest) => Promise<BetterAuthSessionResult | null>;
+    workspaceUserResolver?: WorkspaceUserResolver;
+    workspaceContainers?: boolean;
   },
 ) {
   const app = express();
+
+  // Per-user workspace proxy (/editor, /openclaw) — mounted BEFORE body
+  // parsing so the request stream can be piped to the user's container.
+  if (opts.workspaceUserResolver) {
+    app.use(createWorkspaceProxyRouter(opts.workspaceUserResolver));
+  }
 
   app.use(express.json({
     // Company import/export payloads can inline full portable packages.
@@ -218,7 +232,7 @@ export async function createApp(
   api.use(
     agentRoutes(db, {
       pluginWorkerManager: workerManager,
-      openclawBridgeEnabled: openclawConfig !== null,
+      openclawBridgeEnabled: opts.workspaceContainers === true || openclawConfig !== null,
     }),
   );
   api.use(assetRoutes(db, opts.storageService));
@@ -236,6 +250,7 @@ export async function createApp(
   api.use(secretRoutes(db));
   api.use(costRoutes(db, { pluginWorkerManager: workerManager }));
   api.use(activityRoutes(db));
+  api.use(meRoutes(db));
   api.use(dashboardRoutes(db));
   api.use(userProfileRoutes(db));
   api.use(sidebarBadgeRoutes(db));
@@ -321,7 +336,18 @@ export async function createApp(
   // The bridge is the only source of truth for agent identity; the legacy
   // local agents table is being deprecated.
   let openclawBridge: OpenclawBridge | null = null;
-  if (openclawConfig) {
+  if (opts.workspaceContainers) {
+    // Per-user model: one bridge per user container, managed by the multiplexer
+    // (watches the workspace registry). No single shared gateway.
+    openclawBridge = createOpenclawBridgeMultiplexer({
+      db,
+      log: (msg, meta) => logger.info({ ...(meta ?? {}) }, `[openclaw-bridge] ${msg}`),
+      paperclipApiUrl: openclawConfig?.paperclipApiUrl,
+    });
+    void openclawBridge.start().catch((err) => {
+      logger.error({ err }, "openclaw bridge multiplexer failed to start");
+    });
+  } else if (openclawConfig) {
     openclawBridge = createOpenclawBridge(openclawConfig, {
       db,
       log: (msg, meta) => logger.info({ ...(meta ?? {}) }, `[openclaw-bridge] ${msg}`),
@@ -331,7 +357,7 @@ export async function createApp(
     });
   } else {
     logger.info(
-      "openclaw bridge disabled (set OPENCLAW_GATEWAY_URL, OPENCLAW_GATEWAY_TOKEN, OPENCLAW_MIRROR_COMPANY_ID to enable)",
+      "openclaw bridge disabled (set WORKSPACE_CONTAINERS=true for per-user containers, or OPENCLAW_GATEWAY_URL for a single shared gateway)",
     );
   }
   api.use("/openclaw", openclawRoutes(openclawBridge));

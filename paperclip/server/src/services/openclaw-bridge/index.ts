@@ -36,8 +36,14 @@ export type OpenclawAgentIdentity = {
 };
 
 export type OpenclawAgent = {
-  /** Slug from openclaw (e.g. "viktor", "yaromir"). */
+  /** Slug from openclaw (e.g. "viktor", "yaromir") — used for run routing. */
   id: string;
+  /**
+   * Paperclip-side external id, namespaced by container/user so the same
+   * openclaw slug in two users' containers maps to two distinct paperclip
+   * rows. Equals `id` when no namespace (legacy single-gateway mode).
+   */
+  externalAgentId: string;
   /** Display name — identity.name if present, else id. */
   label: string;
   workspace: string | null;
@@ -91,17 +97,22 @@ function deterministicUuid(openclawAgentId: string): string {
   return `${final.slice(0, 8)}-${final.slice(8, 12)}-${final.slice(12, 16)}-${final.slice(16, 20)}-${final.slice(20, 32)}`;
 }
 
-function normaliseAgent(raw: GatewayListResult["agents"][number]): OpenclawAgent {
+function normaliseAgent(
+  raw: GatewayListResult["agents"][number],
+  namespace: string | null,
+): OpenclawAgent {
   const id = raw.id;
+  const externalAgentId = namespace ? `${namespace}:${id}` : id;
   const identity = raw.identity ?? null;
   const label = identity?.name?.trim() || raw.name?.trim() || id;
   return {
     id,
+    externalAgentId,
     label,
     workspace: raw.workspace ?? null,
     model: raw.model ?? null,
     identity,
-    paperclipUuid: deterministicUuid(id),
+    paperclipUuid: deterministicUuid(externalAgentId),
   };
 }
 
@@ -128,6 +139,18 @@ export type OpenclawBridgeDeps = {
    * monorepo-relative `skills/paperclip/SKILL.md`.
    */
   skillSourcePath?: string;
+  /**
+   * Namespace for external agent ids + deterministic uuids (the owning user
+   * id in the per-user multiplex). Null/undefined in legacy single-gateway
+   * mode where openclaw slugs are globally unique.
+   */
+  namespace?: string;
+  /**
+   * When set, the agent's workspace lives inside this Docker container and is
+   * NOT on a shared filesystem — token + skill are staged via `docker exec`
+   * instead of direct fs writes.
+   */
+  containerName?: string;
 };
 
 function defaultSkillSourcePath(): string {
@@ -199,7 +222,7 @@ export function createOpenclawBridge(
 
   async function fetchRosterOnce(): Promise<OpenclawRoster> {
     const result = (await client.request<GatewayListResult>("agents.list", {})) as GatewayListResult;
-    const agents = (result.agents ?? []).map(normaliseAgent);
+    const agents = (result.agents ?? []).map((a) => normaliseAgent(a, deps.namespace ?? null));
     const next: OpenclawRoster = {
       fetchedAtMs: Date.now(),
       defaultId: result.defaultId || null,
@@ -217,6 +240,7 @@ export function createOpenclawBridge(
             companyId: resolvedCompanyId,
             skillSourcePath: deps.skillSourcePath ?? defaultSkillSourcePath(),
             resolveWorkspaceDir: (agent) => agent.workspace,
+            stageViaExec: deps.containerName ? { containerName: deps.containerName } : undefined,
             log,
           },
           agents,

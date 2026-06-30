@@ -20,9 +20,12 @@ export function MyIssues() {
     setBreadcrumbs([{ label: "My Issues" }]);
   }, [setBreadcrumbs]);
 
+  // Server-side per-user filter. touchedByUserId=me already matches issues the
+  // user created, is assigned to, commented on, or read — i.e. "my chats".
+  // "me" resolves to the session user on the server (board-only).
   const { data: issues, isLoading, error } = useQuery({
-    queryKey: queryKeys.issues.list(selectedCompanyId!),
-    queryFn: () => issuesApi.list(selectedCompanyId!),
+    queryKey: [...queryKeys.issues.list(selectedCompanyId!), "mine"],
+    queryFn: () => issuesApi.list(selectedCompanyId!, { touchedByUserId: "me" }),
     enabled: !!selectedCompanyId,
   });
 
@@ -34,9 +37,8 @@ export function MyIssues() {
     return <PageSkeleton variant="list" />;
   }
 
-  // Show issues that are not assigned (user-created or unassigned)
   const myIssues = (issues ?? []).filter(
-    (i) => !i.assigneeAgentId && !["done", "cancelled"].includes(i.status)
+    (i) => !["done", "cancelled"].includes(i.status)
   );
 
   return (

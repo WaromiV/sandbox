@@ -6,6 +6,7 @@ import type { Db } from "@paperclipai/db";
 import { agents, agentApiKeys } from "@paperclipai/db";
 import type { OpenclawAgent } from "./index.js";
 import type { OpenclawBridgeConfig } from "./config.js";
+import { dockerExecWrite } from "../workspace-containers/manager.js";
 
 /**
  * Stager: upserts a paperclip row + paperclip-issued token for every
@@ -34,6 +35,12 @@ export type StagerDeps = {
   skillSourcePath: string;
   /** Compute the workspace dir from the openclaw-reported agent. */
   resolveWorkspaceDir: (agent: OpenclawAgent) => string | null;
+  /**
+   * When set, the workspace lives inside this container (no shared fs) — token
+   * + skill are written via `docker exec` instead of direct fs writes. The
+   * workspace dir from resolveWorkspaceDir is then a container-internal path.
+   */
+  stageViaExec?: { containerName: string };
   log?: (msg: string, meta?: Record<string, unknown>) => void;
 };
 
@@ -159,7 +166,7 @@ export async function stageRoster(
       })
       .from(agents)
       .where(
-        and(eq(agents.externalSource, "openclaw"), eq(agents.externalAgentId, agent.id)),
+        and(eq(agents.externalSource, "openclaw"), eq(agents.externalAgentId, agent.externalAgentId)),
       )
       .limit(1)
       .then((rows) => rows[0] ?? null);
@@ -180,7 +187,8 @@ export async function stageRoster(
           status: "idle",
           metadata: {
             externalSource: "openclaw",
-            externalAgentId: agent.id,
+            externalAgentId: agent.externalAgentId,
+            openclawAgentId: agent.id,
             workspace: agent.workspace,
             model: agent.model,
             identity: agent.identity,
@@ -204,13 +212,14 @@ export async function stageRoster(
           permissions: {},
           metadata: {
             externalSource: "openclaw",
-            externalAgentId: agent.id,
+            externalAgentId: agent.externalAgentId,
+            openclawAgentId: agent.id,
             workspace: agent.workspace,
             model: agent.model,
             identity: agent.identity,
           },
           externalSource: "openclaw",
-          externalAgentId: agent.id,
+          externalAgentId: agent.externalAgentId,
         })
         .returning({ id: agents.id })
         .then((rows) => rows[0]);
@@ -239,8 +248,45 @@ export async function stageRoster(
       result.tokensMinted += 1;
     }
 
-    // Write token + skill to disk if workspace path is available.
-    if (workspaceDir && tokenFsPath) {
+    // Stage token + skill into the agent's workspace, via docker exec when the
+    // workspace is inside a container (no shared fs), else direct fs writes.
+    if (workspaceDir && tokenFsPath && deps.stageViaExec) {
+      // Container path: write on mint only. The /workspace volume persists the
+      // file across container restarts, so we don't re-exec every sync.
+      // ponytail: relies on volume persistence; if the volume is wiped while a
+      // DB key survives, re-mint by clearing the key.
+      if (tokenForFs) {
+        try {
+          await dockerExecWrite(
+            deps.stageViaExec.containerName,
+            tokenFsPath,
+            buildTokenJson({
+              token: tokenForFs,
+              agentId: upsertedId,
+              companyId: deps.companyId,
+              apiUrl: deps.config.paperclipApiUrl,
+            }),
+            "600",
+          );
+          result.filesWritten += 1;
+          if (skillContent) {
+            await dockerExecWrite(
+              deps.stageViaExec.containerName,
+              path.posix.join(workspaceDir, SKILL_DIR_REL, SKILL_FILE_NAME),
+              skillContent,
+              "644",
+            );
+            result.filesWritten += 1;
+          }
+        } catch (err) {
+          log("failed to stage workspace files (exec)", {
+            agent: agent.id,
+            container: deps.stageViaExec.containerName,
+            err: String(err),
+          });
+        }
+      }
+    } else if (workspaceDir && tokenFsPath) {
       try {
         await fs.mkdir(workspaceDir, { recursive: true });
         if (tokenForFs) {
@@ -295,11 +341,14 @@ export async function stageRoster(
     }
   }
 
-  // Retire openclaw-sourced rows that no longer appear in the roster.
+  // Retire openclaw-sourced rows that no longer appear in the roster. Scoped to
+  // THIS bridge's company — in the per-user multiplex each bridge sees only its
+  // own container's roster, so a global retire would terminate other users'
+  // agents.
   const allMirroredIds = await deps.db
     .select({ id: agents.id, status: agents.status })
     .from(agents)
-    .where(eq(agents.externalSource, "openclaw"));
+    .where(and(eq(agents.externalSource, "openclaw"), eq(agents.companyId, deps.companyId)));
   for (const row of allMirroredIds) {
     if (seenPaperclipIds.has(row.id)) continue;
     if (row.status === "terminated") continue;

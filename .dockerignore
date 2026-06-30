@@ -1,0 +1,8 @@
+# Only the per-user workspace image (deploy/workspace/Dockerfile) builds with
+# this repo as the context. It needs just the openclaw artifact, so exclude
+# everything else — notably deploy/authentik/data (root-owned docker volumes
+# that the build can't even stat). Note: a sub-dir's own .dockerignore is NOT
+# consulted, so openclaw/.dockerignore (which drops node_modules/dist) is
+# bypassed and the COPYs below resolve.
+*
+!openclaw

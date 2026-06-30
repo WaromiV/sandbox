@@ -18,7 +18,7 @@ import {
   discoveryUrlFromIssuer,
   loadPaperclipOidcConfig,
 } from "./oidc-config.js";
-import { maybeClaimFirstAdmin } from "./oidc-bootstrap.js";
+import { maybeClaimFirstAdmin, setInstanceAdmin } from "./oidc-bootstrap.js";
 import { logger } from "../middleware/logger.js";
 
 export type BetterAuthSessionUser = {
@@ -177,6 +177,11 @@ export function createBetterAuthInstance(db: Db, config: Config, trustedOrigins:
             // user — race-safe via conditional UPDATE on the singleton
             // bootstrap row. See auth/oidc-bootstrap.ts for the invariant.
             await maybeClaimFirstAdmin(db, user.id);
+            // Trust+audit posture: when enabled, every SSO user is instance_admin
+            // (full cross-company access, governed only by attribution + audit).
+            if (config.allSsoUsersAdmin) {
+              await setInstanceAdmin(db, user.id, true);
+            }
           },
         },
       },

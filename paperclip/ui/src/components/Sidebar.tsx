@@ -12,6 +12,9 @@ import {
   Repeat,
   GitBranch,
   Settings,
+  MonitorSmartphone,
+  MessagesSquare,
+  ShieldCheck,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { NavLink } from "@/lib/router";
@@ -98,6 +101,11 @@ export function Sidebar() {
           />
         </div>
 
+        <SidebarSection label="Personal">
+          <SidebarNavItem to="/workspace" label="My Workspace" icon={MonitorSmartphone} />
+          <SidebarNavItem to="/my/chats" label="My Chats" icon={MessagesSquare} />
+        </SidebarSection>
+
         <SidebarSection label="Work">
           <SidebarNavItem to="/issues" label="Issues" icon={CircleDot} />
           <SidebarNavItem to="/routines" label="Routines" icon={Repeat} />
@@ -116,6 +124,7 @@ export function Sidebar() {
           <SidebarNavItem to="/skills" label="Skills" icon={Boxes} />
           <SidebarNavItem to="/costs" label="Costs" icon={DollarSign} />
           <SidebarNavItem to="/activity" label="Activity" icon={History} />
+          <SidebarNavItem to="/instance/activity" label="Audit Log" icon={ShieldCheck} />
           <SidebarNavItem to="/company/settings" label="Settings" icon={Settings} />
         </SidebarSection>
 

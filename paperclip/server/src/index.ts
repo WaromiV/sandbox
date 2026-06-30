@@ -29,6 +29,10 @@ import { loadConfig } from "./config.js";
 import { logger } from "./middleware/logger.js";
 import { setupLiveEventsWebSocketServer } from "./realtime/live-events-ws.js";
 import {
+  attachWorkspaceProxyUpgrade,
+  type WorkspaceUserResolver,
+} from "./services/workspace-containers/proxy.js";
+import {
   feedbackService,
   heartbeatService,
   instanceSettingsService,
@@ -517,6 +521,10 @@ export async function startServer(): Promise<StartedServer> {
     resolveSession = (req) => resolveBetterAuthSession(auth, req);
     resolveSessionFromHeaders = (headers) => resolveBetterAuthSessionFromHeaders(auth, headers);
     await initializeBoardClaimChallenge(db as any, { deploymentMode: config.deploymentMode });
+    if (config.allSsoUsersAdmin) {
+      const { promoteAllUsersToInstanceAdmin } = await import("./auth/oidc-bootstrap.js");
+      await promoteAllUsersToInstanceAdmin(db as any);
+    }
     authReady = true;
   }
 
@@ -593,6 +601,21 @@ export async function startServer(): Promise<StartedServer> {
     }
   };
   const pluginWorkerManager = createPluginWorkerManager();
+  // Resolve a paperclip session from raw request headers — used by the per-user
+  // workspace proxy (/editor, /openclaw) for both HTTP and WS upgrades.
+  const workspaceUserResolver: WorkspaceUserResolver = async (nodeHeaders) => {
+    if (!resolveSessionFromHeaders) return null;
+    const headers = new Headers();
+    for (const [key, raw] of Object.entries(nodeHeaders)) {
+      if (raw === undefined) continue;
+      if (Array.isArray(raw)) for (const v of raw) headers.append(key, v);
+      else headers.set(key, raw);
+    }
+    const session = await resolveSessionFromHeaders(headers);
+    return session?.user?.id
+      ? { userId: session.user.id, email: session.user.email ?? null }
+      : null;
+  };
   const app = await createApp(db as any, {
     uiMode,
     serverPort: listenPort,
@@ -616,9 +639,15 @@ export async function startServer(): Promise<StartedServer> {
     pluginMigrationDb: pluginMigrationDb as any,
     betterAuthHandler,
     resolveSession,
+    workspaceUserResolver: config.workspaceContainers ? workspaceUserResolver : undefined,
+    workspaceContainers: config.workspaceContainers,
     pluginWorkerManager,
   });
   const server = createServer(app as unknown as Parameters<typeof createServer>[0]);
+  // Per-user workspace WebSocket proxy: code-server + gateway both use WS.
+  if (config.workspaceContainers) {
+    attachWorkspaceProxyUpgrade(server, workspaceUserResolver);
+  }
 
   // Increase keep-alive timeouts to safely outlive default idle timeouts
   // of common reverse proxies and load balancers (like AWS ALB, Nginx, or Traefik).
@@ -656,9 +685,10 @@ export async function startServer(): Promise<StartedServer> {
     resolveSessionFromHeaders,
   });
 
-  // code-server's editor WebSocket is no longer proxied through paperclip —
-  // the reverse proxy (nginx) serves /editor straight to code-server (no auth)
-  // behind Authentik forward-auth. See AGENTS.md ("Auth model").
+  // /editor (code-server) and /openclaw (gateway) WebSockets are proxied per
+  // user to that user's own container by attachWorkspaceProxyUpgrade above.
+  // Identity comes from the paperclip session; nginx forwards these prefixes
+  // to paperclip behind Authentik forward-auth. See AGENTS.md ("Auth model").
 
   void reconcilePersistedRuntimeServicesOnStartup(db as any)
     .then((result) => {

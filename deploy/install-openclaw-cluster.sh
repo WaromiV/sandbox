@@ -312,6 +312,13 @@ sub "Compose: ${C_BOLD}${DOCKER_COMPOSE}${C_RESET}"
 systemctl enable --now docker
 ok "Docker enabled"
 
+# paperclip provisions per-user workspace containers via the docker CLI, so the
+# service user needs docker access. (Service restart below picks up the group.)
+if [ -n "${TARGET_USER:-}" ] && ! id -nG "$TARGET_USER" 2>/dev/null | tr ' ' '\n' | grep -qx docker; then
+  usermod -aG docker "$TARGET_USER"
+  ok "Added $TARGET_USER to the docker group"
+fi
+
 # pnpm + corepack — paperclip's prod systemd unit runs `pnpm dev`
 if ! command -v pnpm >/dev/null 2>&1; then
   step "Installing pnpm via corepack"
@@ -506,6 +513,20 @@ done
 [ -f "$SOURCE_DIR/openclaw/dist/index.js" ]              || die "openclaw artifact missing dist/index.js"
 [ -f "$SOURCE_DIR/code-server/out/node/entry.js" ]       || die "code-server artifact missing out/node/entry.js"
 [ -d "$SOURCE_DIR/paperclip/node_modules" ]              || die "paperclip artifact missing node_modules"
+[ -d "$SOURCE_DIR/openclaw/node_modules" ]               || die "openclaw artifact missing node_modules (needed for the workspace image)"
+
+# ---------------------------------------------------------------------------
+#  Per-user workspace image (openclaw gateway + code-server). One container
+#  per human worker is launched at runtime by paperclip; this builds the image
+#  they share. Context = repo root so the Dockerfile can copy openclaw/ + the
+#  entrypoint. See deploy/workspace/Dockerfile.
+# ---------------------------------------------------------------------------
+banner "Building per-user workspace image"
+# Context = repo root; the repo-root .dockerignore narrows it to openclaw/ and
+# bypasses openclaw's own .dockerignore (which excludes node_modules/dist).
+docker build -f "$SOURCE_DIR/deploy/workspace/Dockerfile" -t openclaw-workspace:latest "$SOURCE_DIR" \
+  && ok "Built openclaw-workspace:latest" \
+  || die "workspace image build failed"
 
 # ---------------------------------------------------------------------------
 #  Authentik — first bring-up with PLACEHOLDER local URLs (TLS not ready yet)
@@ -627,6 +648,7 @@ server {
   location ^~ /api/llms          { proxy_pass http://127.0.0.1:3110; }
   location ^~ /api/instance      { proxy_pass http://127.0.0.1:3110; }
   location ^~ /api/openclaw      { proxy_pass http://127.0.0.1:3110; }
+  location ^~ /api/me            { proxy_pass http://127.0.0.1:3110; }
 
   # ----- paperclip UI surfaces ------------------------------------------
   location ^~ /issues  { proxy_pass http://127.0.0.1:3110; }
@@ -654,10 +676,11 @@ server {
     return 302 /outpost.goauthentik.io/start?rd=\$scheme://\$http_host\$request_uri;
   }
 
-  # ----- code-server (no built-in auth; Authentik forward-auth gate) ----
-  # Prefix stripped so code-server sees root-relative paths; it emits relative
-  # URLs (see relativeRoot in code-server/src/node/http.ts) that resolve under
-  # /editor/ in the browser.
+  # ----- code-server (per-user container; routed by paperclip) ----------
+  # Forward-auth gates at the edge; paperclip then proxies /editor to the
+  # requesting user's OWN container (resolved from their session) and strips
+  # the prefix itself. The prefix is preserved here (no rewrite) so paperclip
+  # can tell /editor from /openclaw and its own routes.
   location ^~ /editor/ {
     auth_request     /outpost.goauthentik.io/auth/nginx;
     error_page       401 = @goauthentik_proxy_signin;
@@ -667,14 +690,11 @@ server {
     auth_request_set \$authentik_email    \$upstream_http_x_authentik_email;
     proxy_set_header X-authentik-username \$authentik_username;
     proxy_set_header X-authentik-email    \$authentik_email;
-    proxy_set_header X-Forwarded-Prefix   /editor;
-
-    rewrite ^/editor/(.*)\$ /\$1 break;
-    proxy_pass http://127.0.0.1:8090;
+    proxy_pass http://127.0.0.1:3110;
   }
   location = /editor { return 301 /editor/; }
 
-  # ----- openclaw gateway (no built-in auth; Authentik forward-auth gate) -
+  # ----- openclaw gateway (per-user container; routed by paperclip) ------
   location /openclaw/ {
     auth_request     /outpost.goauthentik.io/auth/nginx;
     error_page       401 = @goauthentik_proxy_signin;
@@ -684,9 +704,7 @@ server {
     auth_request_set \$authentik_email    \$upstream_http_x_authentik_email;
     proxy_set_header X-authentik-username \$authentik_username;
     proxy_set_header X-authentik-email    \$authentik_email;
-
-    rewrite ^/openclaw/(.*)\$ /\$1 break;
-    proxy_pass http://127.0.0.1:18789;
+    proxy_pass http://127.0.0.1:3110;
   }
   location = /openclaw {
     return 301 /openclaw/;
@@ -786,6 +804,13 @@ PAPERCLIP_LISTEN_PORT=3110
 PAPERCLIP_PUBLIC_URL=https://$DOMAIN
 PAPERCLIP_ALLOWED_HOSTNAMES=$DOMAIN
 BETTER_AUTH_SECRET=$BA_SECRET
+# Trust+audit posture: every SSO worker gets instance_admin (full cross-company
+# access, governed only by attribution + audit). See server/src/config.ts.
+ALL_SSO_USERS_ADMIN=true
+# Per-user workspace containers: each worker gets an always-on Docker container
+# (openclaw gateway + code-server), proxied at /editor and /openclaw, with the
+# bridge multiplexer mirroring each container's agents. See deploy/workspace/.
+WORKSPACE_CONTAINERS=true
 # openclaw gateway runs with --auth none; the bridge needs only the URL (no
 # token). Per-agent paperclip API keys are minted by the bridge itself.
 OPENCLAW_GATEWAY_URL=ws://127.0.0.1:18789

@@ -11,10 +11,17 @@ Single host. In dev (`bring-up.sh`) everything binds `127.0.0.1`; in prod
 
 | Service     | Port    | Browser-facing? | Built-in auth |
 | ----------- | ------- | --------------- | ------------- |
-| paperclip   | `:3110` | yes             | yes — Authentik OIDC client + role authority (owns the users table) |
-| code-server | `:8090` | via reverse proxy `/editor` | **none** (`--auth none`, loopback) |
-| openclaw    | `:18789`| via reverse proxy `/openclaw` | **none** (`--auth none`, loopback) |
+| paperclip   | `:3110` | yes             | yes — Authentik OIDC client + role authority (owns the users table); also routes `/editor` + `/openclaw` per user |
+| code-server | per-user container `:8090` | via paperclip `/editor` | **none** (`--auth none`) |
+| openclaw    | per-user container `:18789`| via paperclip `/openclaw` | **none** (`--auth none`) |
 | Authentik   | `:9000` | yes             | the IdP itself |
+
+When `WORKSPACE_CONTAINERS=true` (the default for `deploy/install-openclaw-cluster.sh`),
+each human worker gets an **always-on Docker container** running its own openclaw
+gateway + code-server on a `/workspace` volume. nginx forwards `/editor` and
+`/openclaw` to paperclip, which resolves the session → that user's container and
+proxies (HTTP + WS). The bridge runs one mirror per container (multiplexer). When
+unset, the legacy single shared gateway/editor model applies.
 
 ## Auth model
 
@@ -36,10 +43,23 @@ no per-service OIDC clients for these two) — that was removed deliberately.
   `openclaw-forward-auth` application in the Authentik admin UI. Do not try to
   enforce roles inside openclaw/code-server — they have no auth layer any more.
 
-Why this shape: the editor is full shell on the host and the gateway is the
-backend; centralizing the gate in Authentik (instead of per-service tokens or
-OIDC clients) means one place to reason about access. paperclip stays a real
-OIDC client because it owns identity and the role DB.
+Why this shape: the editor is full shell and the gateway is the backend;
+centralizing the gate in Authentik (instead of per-service tokens or OIDC
+clients) means one place to reason about access. paperclip stays a real OIDC
+client because it owns identity and the role DB.
+
+### Per-user workspaces (`WORKSPACE_CONTAINERS=true`)
+
+The edge still forward-auth gates `/editor` + `/openclaw`, but those locations
+now `proxy_pass` to **paperclip** (`:3110`), not directly to a shared service.
+paperclip resolves the request's session → the caller's container (registry at
+`~/.openclaw/workspaces/registry.json`), starts it if needed (`docker run`,
+always-on), and proxies to that container's code-server / gateway. So isolation
+is real (one container, one uid, one volume per user) and the gate is still
+Authentik — paperclip only adds **per-user routing**, not a second auth layer.
+Worker→worker isolation is the container boundary; this is the trust+audit
+posture where every SSO user is `instance_admin` and the audit log
+(`/instance/activity`) is the control. paperclip needs docker access for this.
 
 ### Reverse proxy is mandatory for openclaw + code-server
 

@@ -131,6 +131,10 @@ if [ -d paperclip ]; then
     paperclip_env+=(
       "PAPERCLIP_PUBLIC_URL=http://${BIND_HOST}:${PC_PORT}"
       "PAPERCLIP_ALLOWED_HOSTNAMES=${BIND_HOST},localhost,127.0.0.1"
+      # Trust+audit posture: every SSO worker is instance_admin (see config.ts).
+      "ALL_SSO_USERS_ADMIN=true"
+      # Per-user workspace containers (editor + gateway proxied per user).
+      "WORKSPACE_CONTAINERS=true"
     )
     echo "    (OIDC config present — paperclip will start in authenticated mode)"
   fi

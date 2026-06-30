@@ -86,6 +86,8 @@ export interface Config {
   heartbeatSchedulerEnabled: boolean;
   heartbeatSchedulerIntervalMs: number;
   companyDeletionEnabled: boolean;
+  allSsoUsersAdmin: boolean;
+  workspaceContainers: boolean;
   telemetryEnabled: boolean;
 }
 
@@ -244,6 +246,16 @@ export function loadConfig(): Config {
     companyDeletionEnvRaw !== undefined
       ? companyDeletionEnvRaw === "true"
       : deploymentMode === "local_trusted";
+  // When true, every SSO-provisioned user is granted instance_admin (full
+  // cross-company access, governed only by attribution + audit). Off by default
+  // so other deployments keep first-login-wins admin. Security boundary — must
+  // be opted into explicitly.
+  const allSsoUsersAdmin = process.env.ALL_SSO_USERS_ADMIN === "true";
+  // Per-user workspace containers: each user gets an always-on Docker container
+  // (openclaw gateway + code-server). Enables the /editor + /openclaw per-user
+  // proxy and the bridge multiplexer. Off by default — legacy single shared
+  // gateway when unset.
+  const workspaceContainers = process.env.WORKSPACE_CONTAINERS === "true";
   const databaseBackupEnabled =
     process.env.PAPERCLIP_DB_BACKUP_ENABLED !== undefined
       ? process.env.PAPERCLIP_DB_BACKUP_ENABLED === "true"
@@ -332,6 +344,8 @@ export function loadConfig(): Config {
     heartbeatSchedulerEnabled: process.env.HEARTBEAT_SCHEDULER_ENABLED !== "false",
     heartbeatSchedulerIntervalMs: Math.max(10000, Number(process.env.HEARTBEAT_SCHEDULER_INTERVAL_MS) || 30000),
     companyDeletionEnabled,
+    allSsoUsersAdmin,
+    workspaceContainers,
     telemetryEnabled: fileConfig?.telemetry?.enabled ?? true,
   };
 }

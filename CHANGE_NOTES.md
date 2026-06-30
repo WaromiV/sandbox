@@ -6,7 +6,7 @@ This is intentionally separate from OpenClaw's own `openclaw/package.json` versi
 (`2026.5.x-beta`, upstream CalVer) — this file versions *our integration stack*.
 
 - **Repo:** https://github.com/WaromiV/sandbox  (`origin`, branch `main`)
-- **Current version:** `1.0.0`
+- **Current version:** `2.0.0`
 - **Versioning:** SemVer `MAJOR.MINOR.PATCH`
   - **MAJOR** — breaking deploy/config contract or a migration requiring manual steps.
   - **MINOR** — new backward-compatible feature (ships default-off / opt-in).
@@ -33,6 +33,58 @@ git -C <repo> pull origin main && pnpm -C <repo>/openclaw install && pnpm -C <re
   && systemctl restart openclaw   # (or your gateway unit)
 ```
 A feature's *code* is only live once the gateway runs a build that **contains its commit**.
+
+---
+
+## v2.0.0 — 2026-06-30 — Per-user workspaces: unified worker UI + isolated containers
+
+**Summary.** Turns the stack into a multi-worker tool. Every SSO user is an
+`instance_admin` (full cross-company access, governed only by attribution +
+audit), gets their own always-on Docker workspace container (openclaw gateway +
+code-server on a `/workspace` volume), and a unified UI exposing **their chats**,
+**their workspace**, and **all companies** with an audit log.
+
+> **Breaking** deploy/config contract → **MAJOR**. paperclip now needs docker
+> access; nginx repoints `/editor` + `/openclaw` to paperclip; a per-user image
+> is built at install. The server feature is opt-in via `WORKSPACE_CONTAINERS`
+> (default off), but the canonical installer turns it on. See migration below.
+
+**What changed.**
+- **P0 — access + chats (no infra):** new `ALL_SSO_USERS_ADMIN` flag promotes
+  every SSO user to `instance_admin` (create-hook + idempotent startup backfill,
+  `auth/oidc-bootstrap.ts`). `MyIssues` now uses the server `touchedByUserId=me`
+  filter instead of fetch-all + client-filter.
+- **P2 — per-user containers:** new `deploy/workspace/Dockerfile` (openclaw +
+  code-server, inlined entrypoint, `--bind lan`). paperclip
+  `services/workspace-containers/` owns a registry (`~/.openclaw/workspaces/
+  registry.json`), a docker-CLI manager (deterministic `ws-<id>` names +
+  allocated host ports, always-on), and a per-user HTTP+WS proxy for `/editor`
+  + `/openclaw`. Routing is by paperclip session — no njs needed.
+- **P3 — bridge multiplexer:** one bridge per container instead of one shared
+  gateway (`openclaw-bridge/multiplexer.ts`, watches the registry). External
+  agent ids + uuids are namespaced per user (no cross-user collisions), retire
+  is scoped per-company, and token/skill staging moves from shared-fs writes to
+  `docker exec` (no shared filesystem assumed).
+- **P4 — unified UI:** `GET /api/me/issues` (cross-company "my chats"),
+  `POST /api/me/workspace/ensure`, `GET /api/instance/activity` (cross-company
+  audit). New pages **My Workspace** (embedded editor), **My Chats**, **Audit
+  Log**, plus a "Personal" sidebar section.
+- **deploy:** installer adds the service user to the `docker` group, builds
+  `openclaw-workspace:latest`, repoints nginx `/editor` + `/openclaw` to
+  paperclip (`:3110`, prefix preserved), allowlists `/api/me`, and sets
+  `ALL_SSO_USERS_ADMIN=true` + `WORKSPACE_CONTAINERS=true`. Repo-root
+  `.dockerignore` narrows the build context to `openclaw/`.
+
+> P1 (a throwaway single-host `?folder=` editor) was intentionally folded into
+> P2 — the container delivers the per-user editor properly.
+
+**Migrate.** Pull, rebuild paperclip + openclaw, ensure docker is installed and
+the paperclip service user is in the `docker` group, build the workspace image
+(`docker build -f deploy/workspace/Dockerfile -t openclaw-workspace:latest .`),
+reload nginx with the new `/editor` + `/openclaw` → `:3110` routing, and set
+`WORKSPACE_CONTAINERS=true` + `ALL_SSO_USERS_ADMIN=true` in paperclip.env. The
+installer does all of this. Containers + volumes are created lazily on first
+login. The legacy single shared gateway/editor still works with the flag unset.
 
 ---
 

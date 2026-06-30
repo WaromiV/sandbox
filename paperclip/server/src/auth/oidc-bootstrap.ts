@@ -60,6 +60,19 @@ export async function maybeClaimFirstAdmin(
   }
 }
 
+// One-time, idempotent backfill: promote every existing user to instance_admin.
+// Runs at startup only when ALL_SSO_USERS_ADMIN=true (the trust+audit posture
+// where every worker has full cross-company access). New users are handled by
+// the better-auth create hook; this catches users created before the flag.
+export async function promoteAllUsersToInstanceAdmin(db: Db): Promise<void> {
+  await db.execute(sql`
+    INSERT INTO "instance_user_roles" ("user_id", "role")
+    SELECT "id", 'instance_admin' FROM "user"
+    ON CONFLICT ("user_id", "role") DO NOTHING
+  `);
+  logger.info("ALL_SSO_USERS_ADMIN=true — backfilled all existing users to instance_admin");
+}
+
 // Used by /api/admin/users/:id/promote and /api/admin/users/:id/demote.
 export async function setInstanceAdmin(
   db: Db,
