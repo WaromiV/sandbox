@@ -28,17 +28,24 @@ export function meRoutes(db: Db): Router {
     assertBoard(req);
     const userId = req.actor.userId;
     if (!userId) throw forbidden("Board user required");
-    const companyIds = req.actor.companyIds ?? [];
     const limit = clampLimit(req.query.limit, 100, 500);
 
+    // Admins (the trust+audit posture) span every company; others just their
+    // memberships. "Touched" filters below keep the result personal either way.
     const companyInfo = new Map<string, { name: string; issuePrefix: string }>();
-    if (companyIds.length > 0) {
+    if (req.actor.isInstanceAdmin) {
+      const rows = await db
+        .select({ id: companies.id, name: companies.name, issuePrefix: companies.issuePrefix })
+        .from(companies);
+      for (const row of rows) companyInfo.set(row.id, { name: row.name, issuePrefix: row.issuePrefix });
+    } else if ((req.actor.companyIds ?? []).length > 0) {
       const rows = await db
         .select({ id: companies.id, name: companies.name, issuePrefix: companies.issuePrefix })
         .from(companies)
-        .where(inArray(companies.id, companyIds));
+        .where(inArray(companies.id, req.actor.companyIds!));
       for (const row of rows) companyInfo.set(row.id, { name: row.name, issuePrefix: row.issuePrefix });
     }
+    const companyIds = [...companyInfo.keys()];
 
     const merged: Array<Record<string, unknown>> = [];
     for (const companyId of companyIds) {

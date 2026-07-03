@@ -15,6 +15,7 @@ import { ExternalLink } from "lucide-react";
 import { Identity } from "./Identity";
 import { RunChatSurface } from "./RunChatSurface";
 import { useLiveRunTranscripts } from "./transcript/useLiveRunTranscripts";
+import { t } from "../lib/i18n";
 
 function RunCardRecoveryChip({ action }: { action: IssueRecoveryAction }) {
   const state = deriveActiveRecoveryDisplayState(action);
@@ -27,7 +28,7 @@ function RunCardRecoveryChip({ action }: { action: IssueRecoveryAction }) {
       data-recovery-state={state}
       role="status"
       aria-label={tone.label}
-      title={`${tone.label} — open the source issue to act.`}
+      title={`${tone.label} — ${t("open the source issue to act.")}`}
       className={cn(
         "inline-flex shrink-0 items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-[10px] font-medium",
         tone.className,
@@ -65,13 +66,13 @@ interface ActiveAgentsPanelProps {
 
 export function ActiveAgentsPanel({
   companyId,
-  title = "Agents",
+  title = t("Agents"),
   minRunCount = MIN_DASHBOARD_RUNS,
   fetchLimit,
   cardLimit = DASHBOARD_RUN_CARD_LIMIT,
   gridClassName,
   cardClassName,
-  emptyMessage = "No recent agent runs.",
+  emptyMessage = t("No recent agent runs."),
   queryScope = "dashboard",
   showMoreLink = true,
 }: ActiveAgentsPanelProps) {
@@ -143,7 +144,7 @@ export function ActiveAgentsPanel({
       {showMoreLink && hiddenRunCount > 0 && (
         <div className="mt-3 flex justify-end text-xs text-muted-foreground">
           <Link to="/dashboard/live" className="hover:text-foreground hover:underline">
-            {hiddenRunCount} more active/recent run{hiddenRunCount === 1 ? "" : "s"}
+            {t("More active/recent runs:")} {hiddenRunCount}
           </Link>
         </div>
       )}
@@ -191,7 +192,7 @@ const AgentRunCard = memo(function AgentRunCard({
               <Identity name={run.agentName} size="sm" className="[&>span:last-child]:!text-[11px]" />
             </div>
             <div className="mt-2 flex items-center gap-2 text-[11px] text-muted-foreground">
-              <span>{isActive ? "Live now" : run.finishedAt ? `Finished ${relativeTime(run.finishedAt)}` : `Started ${relativeTime(run.createdAt)}`}</span>
+              <span>{isActive ? t("Live now") : run.finishedAt ? `${t("Finished")} ${relativeTime(run.finishedAt)}` : `${t("Started")} ${relativeTime(run.createdAt)}`}</span>
             </div>
           </div>
 

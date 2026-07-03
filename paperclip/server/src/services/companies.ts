@@ -124,17 +124,20 @@ export function companyService(db: Db) {
     return "A".repeat(attempt - 1);
   }
 
-  function isIssuePrefixConflict(error: unknown) {
-    const constraint = typeof error === "object" && error !== null && "constraint" in error
+  function isIssuePrefixConflict(error: unknown): boolean {
+    if (typeof error !== "object" || error === null) return false;
+    const constraint = "constraint" in error
       ? (error as { constraint?: string }).constraint
-      : typeof error === "object" && error !== null && "constraint_name" in error
+      : "constraint_name" in error
         ? (error as { constraint_name?: string }).constraint_name
         : undefined;
-    return typeof error === "object"
-      && error !== null
-      && "code" in error
-      && (error as { code?: string }).code === "23505"
-      && constraint === "companies_issue_prefix_idx";
+    if ((error as { code?: string }).code === "23505" && constraint === "companies_issue_prefix_idx") {
+      return true;
+    }
+    // Drizzle wraps driver errors ("Failed query: ...") with the original pg
+    // error on .cause — unwrap so the unique-prefix retry actually fires.
+    const cause = (error as { cause?: unknown }).cause;
+    return cause !== undefined && cause !== error && isIssuePrefixConflict(cause);
   }
 
   async function createCompanyWithUniquePrefix(data: typeof companies.$inferInsert) {

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { CompanySecret, EnvBinding, SecretVersionSelector } from "@paperclipai/shared";
 import { AlertCircle, X } from "lucide-react";
 import { cn } from "../lib/utils";
+import { t } from "../lib/i18n";
 
 const inputClass =
   "w-full rounded-md border border-border px-2.5 py-1.5 bg-transparent outline-none text-sm font-mono placeholder:text-muted-foreground/40";
@@ -157,7 +158,7 @@ export function EnvVarEditor({
     if (!key || plain.length === 0) return;
 
     const suggested = defaultSecretName(key) || "secret";
-    const name = window.prompt("Secret name", suggested)?.trim();
+    const name = window.prompt(t("Secret name"), suggested)?.trim();
     if (!name) return;
 
     try {
@@ -165,7 +166,7 @@ export function EnvVarEditor({
       const created = await onCreateSecret(name, plain);
       updateRow(index, { source: "secret", secretId: created.id });
     } catch (error) {
-      setSealError(error instanceof Error ? error.message : "Failed to create secret");
+      setSealError(error instanceof Error ? error.message : t("Failed to create secret"));
     }
   }
 
@@ -195,8 +196,8 @@ export function EnvVarEditor({
                 })
               }
             >
-              <option value="plain">Plain</option>
-              <option value="secret">Secret</option>
+              <option value="plain">{t("Plain")}</option>
+              <option value="secret">{t("Secret")}</option>
             </select>
             {row.source === "secret" ? (
               <>
@@ -205,9 +206,9 @@ export function EnvVarEditor({
                   value={row.secretId}
                   onChange={(event) => updateRow(index, { secretId: event.target.value })}
                 >
-                  <option value="">Select secret...</option>
+                  <option value="">{t("Select secret...")}</option>
                   {row.secretId && !secrets.some((s) => s.id === row.secretId) ? (
-                    <option value={row.secretId}>Missing ({row.secretId.slice(0, 8)}…)</option>
+                    <option value={row.secretId}>{t("Missing")} ({row.secretId.slice(0, 8)}…)</option>
                   ) : null}
                   {secrets.map((secret) => (
                     <option key={secret.id} value={secret.id}>
@@ -224,9 +225,9 @@ export function EnvVarEditor({
                     updateRow(index, { version: raw === "latest" ? "latest" : Number.parseInt(raw, 10) });
                   }}
                   disabled={!row.secretId}
-                  aria-label="Version"
+                  aria-label={t("Version")}
                 >
-                  <option value="latest">latest</option>
+                  <option value="latest">{t("latest")}</option>
                   {(() => {
                     const selected = secrets.find((s) => s.id === row.secretId);
                     if (!selected) return null;
@@ -246,16 +247,16 @@ export function EnvVarEditor({
                   className="inline-flex items-center rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent/50 transition-colors shrink-0"
                   onClick={() => sealRow(index)}
                   disabled={!row.key.trim() || !row.plainValue}
-                  title="Create secret from current plain value"
+                  title={t("Create secret from current plain value")}
                 >
-                  New
+                  {t("New")}
                 </button>
               </>
             ) : (
               <>
                 <input
                   className={cn(inputClass, "flex-[3]")}
-                  placeholder="value"
+                  placeholder={t("value")}
                   value={row.plainValue}
                   onChange={(event) => updateRow(index, { plainValue: event.target.value })}
                 />
@@ -264,9 +265,9 @@ export function EnvVarEditor({
                   className="inline-flex items-center rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent/50 transition-colors shrink-0"
                   onClick={() => sealRow(index)}
                   disabled={!row.key.trim() || !row.plainValue}
-                  title="Store value as secret and replace with reference"
+                  title={t("Store value as secret and replace with reference")}
                 >
-                  Seal
+                  {t("Seal")}
                 </button>
               </>
             )}
@@ -301,22 +302,21 @@ export function EnvVarEditor({
           <p className="text-[11px] text-amber-700 dark:text-amber-400 inline-flex items-start gap-1">
             <AlertCircle className="h-3 w-3 mt-0.5 shrink-0" />
             <span>
-              {issues.length} secret binding{issues.length === 1 ? "" : "s"} need attention:{" "}
+              {t("Secret bindings need attention")} ({issues.length}):{" "}
               {issues.map((issue, idx) => (
                 <span key={idx} className="font-mono">
                   {issue.key}
-                  <span className="text-muted-foreground"> ({issue.reason})</span>
+                  <span className="text-muted-foreground"> ({t(issue.reason)})</span>
                   {idx < issues.length - 1 ? ", " : ""}
                 </span>
               ))}
-              . Runs will fail until you remap or re-enable.
+              . {t("Runs will fail until you remap or re-enable.")}
             </span>
           </p>
         );
       })()}
       <p className="text-[11px] text-muted-foreground/60">
-        Set KEY to the env var name the process expects, for example GH_TOKEN. Choose Secret to resolve a stored
-        value at run start. PAPERCLIP_* variables are injected automatically.
+        {t("Set KEY to the env var name the process expects, for example GH_TOKEN. Choose Secret to resolve a stored value at run start. PAPERCLIP_* variables are injected automatically.")}
       </p>
     </div>
   );

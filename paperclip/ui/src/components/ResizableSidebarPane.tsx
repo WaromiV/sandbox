@@ -8,6 +8,7 @@ import {
   type PointerEvent,
   type ReactNode,
 } from "react";
+import { t } from "../lib/i18n";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_SIDEBAR_WIDTH = 240;
@@ -151,7 +152,7 @@ export function ResizableSidebarPane({
       {resizable && open ? (
         <div
           role="separator"
-          aria-label="Resize sidebar"
+          aria-label={t("Resize sidebar")}
           aria-orientation="vertical"
           aria-valuemin={MIN_SIDEBAR_WIDTH}
           aria-valuemax={MAX_SIDEBAR_WIDTH}

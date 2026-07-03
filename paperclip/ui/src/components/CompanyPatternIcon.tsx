@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { cn } from "../lib/utils";
+import { t } from "../lib/i18n";
 
 const BAYER_4X4 = [
   [0, 8, 2, 10],
@@ -189,7 +190,7 @@ export function CompanyPatternIcon({
       {logo ? (
         <img
           src={logo}
-          alt={`${companyName} logo`}
+          alt={`${companyName} ${t("logo")}`}
           onError={() => setImageError(true)}
           className={cn(
             "absolute inset-0 h-full w-full",

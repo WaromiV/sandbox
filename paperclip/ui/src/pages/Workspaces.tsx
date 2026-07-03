@@ -13,6 +13,7 @@ import { useCompany } from "../context/CompanyContext";
 import { buildProjectWorkspaceSummaries, type ProjectWorkspaceSummary } from "../lib/project-workspaces-tab";
 import { queryKeys } from "../lib/queryKeys";
 import { projectRouteRef } from "../lib/utils";
+import { t } from "../lib/i18n";
 
 type ProjectWorkspaceGroup = {
   project: Project;
@@ -103,7 +104,7 @@ export function Workspaces() {
   });
 
   useEffect(() => {
-    setBreadcrumbs([{ label: "Workspaces" }]);
+    setBreadcrumbs([{ label: t("Workspaces") }]);
   }, [setBreadcrumbs]);
 
   const groups = useMemo(
@@ -121,11 +122,11 @@ export function Workspaces() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold">Workspaces</h2>
+        <h2 className="text-xl font-bold">{t("Workspaces")}</h2>
       </div>
 
       {groups.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No workspace activity yet.</p>
+        <p className="text-sm text-muted-foreground">{t("No workspace activity yet.")}</p>
       ) : (
         <div className="space-y-8">
           {groups.map((group) => (
@@ -145,7 +146,7 @@ export function Workspaces() {
                   ) : null}
                 </div>
                 <span className="text-xs text-muted-foreground">
-                  {group.summaries.length} workspace{group.summaries.length === 1 ? "" : "s"}
+                  {group.summaries.length} {group.summaries.length === 1 ? t("workspace") : t("workspaces")}
                 </span>
               </div>
               <ProjectWorkspacesContent

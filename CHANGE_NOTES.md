@@ -74,6 +74,28 @@ code-server on a `/workspace` volume), and a unified UI exposing **their chats**
   paperclip (`:3110`, prefix preserved), allowlists `/api/me`, and sets
   `ALL_SSO_USERS_ADMIN=true` + `WORKSPACE_CONTAINERS=true`. Repo-root
   `.dockerignore` narrows the build context to `openclaw/`.
+- **container internals (validated live):** gateway runs `--auth none` on
+  loopback + a node TCP forwarder exposes `0.0.0.0:18790` for the published
+  port (openclaw refuses non-loopback bind without auth; trusted-proxy mode
+  needs device pairing for non-browser clients). First-boot `config set`
+  bootstraps `gateway.mode=local`, `bind=loopback`,
+  `agents.defaults.workspace=/workspace` (agents work in the exact root the
+  editor serves). Proxy + bridge + adapter stamp `x-paperclip-user` (inert for
+  mode=none, ready for trusted-proxy).
+- **hardening fixes found while validating live:** `assertCompanyAccess` now
+  honors `isInstanceAdmin` for cross-company access (was membership-gated);
+  company-create unique-prefix retry now unwraps drizzle's `.cause` (second
+  "Workspace — …" company used to fail on the `WOR` prefix conflict); bridge
+  re-resolves its mirror company on each sync (was start-only, stuck
+  roster-only after one failure); live-events WS upgrade handler yields
+  `/editor` + `/openclaw` sockets to the workspace proxy instead of destroying
+  them (workbench 1006); UI company-prefix router learned the `workspace`/`my`
+  roots and `instance/activity` moved to the global route tree.
+- **Russian by default:** paperclip UI ships a minimal i18n layer
+  (`ui/src/lib/i18n.ts` + `ui/src/locales/ru/`) with **locale defaulting to
+  `ru`** (`localStorage["paperclip-locale"]="en"` reverts per browser);
+  workspace containers bake the Open VSX Russian language pack and run
+  code-server with `--locale ru`.
 
 > P1 (a throwaway single-host `?folder=` editor) was intentionally folded into
 > P2 — the container delivers the per-user editor properly.

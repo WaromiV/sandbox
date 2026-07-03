@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { t } from "../lib/i18n";
 
 function centsInputValue(value: number) {
   return (value / 100).toFixed(2);
@@ -18,11 +19,11 @@ function parseDollarInput(value: string) {
 }
 
 function incidentStateLabel(incident: BudgetIncident) {
-  if (incident.status === "resolved") return "Resolved";
-  if (incident.status === "dismissed") return "Dismissed";
-  if (incident.approvalStatus === "revision_requested") return "Escalated";
-  if (incident.approvalStatus === "pending") return "Pending approval";
-  return "Open";
+  if (incident.status === "resolved") return t("Resolved");
+  if (incident.status === "dismissed") return t("Dismissed");
+  if (incident.approvalStatus === "revision_requested") return t("Escalated");
+  if (incident.approvalStatus === "pending") return t("Pending approval");
+  return t("Open");
 }
 
 export function BudgetIncidentCard({
@@ -49,7 +50,7 @@ export function BudgetIncidentCard({
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <div className="text-[11px] uppercase tracking-[0.22em] text-red-200/80">
-                {incident.scopeType} hard stop
+                {t("Hard stop:")} {incident.scopeType}
               </div>
               <Badge variant={incident.status === "resolved" ? "outline" : "secondary"}>
                 {stateLabel}
@@ -57,7 +58,7 @@ export function BudgetIncidentCard({
             </div>
             <CardTitle className="mt-1 text-base text-red-50">{incident.scopeName}</CardTitle>
             <CardDescription className="mt-1 text-red-100/70">
-              Spending reached {formatCents(incident.amountObserved)} against a limit of {formatCents(incident.amountLimit)}.
+              {t("Spending reached")} {formatCents(incident.amountObserved)} {t("against a limit of")} {formatCents(incident.amountLimit)}.
             </CardDescription>
           </div>
           <div className="rounded-full border border-red-400/30 bg-red-500/10 p-2 text-red-200">
@@ -70,14 +71,14 @@ export function BudgetIncidentCard({
           <PauseCircle className="mt-0.5 h-4 w-4 shrink-0" />
           <div>
             {incident.scopeType === "project"
-              ? "Project execution is paused. New work in this project will not start until you resolve the budget incident."
-              : "This scope is paused. New heartbeats will not start until you resolve the budget incident."}
+              ? t("Project execution is paused. New work in this project will not start until you resolve the budget incident.")
+              : t("This scope is paused. New heartbeats will not start until you resolve the budget incident.")}
           </div>
         </div>
 
         <div className="rounded-xl border border-border/60 bg-background/60 p-3">
           <label className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-            New budget (USD)
+            {t("New budget (USD)")}
           </label>
           <div className="mt-2 flex flex-col gap-3 sm:flex-row">
             <Input
@@ -94,19 +95,19 @@ export function BudgetIncidentCard({
               }}
             >
               <ArrowUpRight className="h-4 w-4" />
-              {isMutating ? "Applying..." : "Raise budget & resume"}
+              {isMutating ? t("Applying...") : t("Raise budget & resume")}
             </Button>
           </div>
           {parsed !== null && parsed <= incident.amountObserved ? (
             <p className="mt-2 text-xs text-red-200/80">
-              The new budget must exceed current observed spend.
+              {t("The new budget must exceed current observed spend.")}
             </p>
           ) : null}
         </div>
 
         <div className="flex justify-end">
           <Button variant="ghost" className="text-muted-foreground" disabled={isMutating} onClick={onKeepPaused}>
-            Keep paused
+            {t("Keep paused")}
           </Button>
         </div>
       </CardContent>

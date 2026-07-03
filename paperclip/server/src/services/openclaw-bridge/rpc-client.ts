@@ -32,6 +32,8 @@ type Pending = {
 export type RpcClientOptions = {
   url: string;
   token: string;
+  /** Extra headers for the WS upgrade (e.g. x-paperclip-user for gateways in trusted-proxy auth mode). */
+  headers?: Record<string, string>;
   /** Reconnect delay when the socket drops. */
   reconnectDelayMs?: number;
   /** Per-request timeout. */
@@ -82,7 +84,7 @@ export class OpenclawRpcClient {
       // The gateway accepts `?token=` for browser-style connect.
       url.searchParams.set("token", this.opts.token);
       const ws = new WebSocket(url.toString(), {
-        headers: { "X-OpenClaw-Token": this.opts.token },
+        headers: { "X-OpenClaw-Token": this.opts.token, ...(this.opts.headers ?? {}) },
       });
       let settled = false;
       ws.once("open", () => {

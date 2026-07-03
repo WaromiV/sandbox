@@ -1,4 +1,5 @@
 import { DollarSign } from "lucide-react";
+import { t } from "../lib/i18n";
 
 export type BudgetSidebarMarkerLevel = "healthy" | "warning" | "critical";
 
@@ -21,7 +22,7 @@ export function BudgetSidebarMarker({
   title?: string;
   level?: BudgetSidebarMarkerLevel;
 }) {
-  const accessibleTitle = title ?? defaultTitles[level];
+  const accessibleTitle = title ?? t(defaultTitles[level]);
 
   return (
     <span

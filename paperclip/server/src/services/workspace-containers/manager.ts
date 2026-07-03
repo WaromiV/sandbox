@@ -64,7 +64,9 @@ async function startContainer(entry: WorkspaceEntry): Promise<void> {
     "--name", entry.containerName,
     "--restart", "unless-stopped",
     "-v", `${entry.volumeName}:/workspace`,
-    "-p", `127.0.0.1:${entry.gatewayPort}:18789`,
+    // 18790 = in-container forwarder to the loopback-bound gateway (see
+    // deploy/workspace/Dockerfile).
+    "-p", `127.0.0.1:${entry.gatewayPort}:18790`,
     "-p", `127.0.0.1:${entry.codeServerPort}:8090`,
     "-e", "OPENCLAW_HOME=/workspace/.openclaw",
     image(),

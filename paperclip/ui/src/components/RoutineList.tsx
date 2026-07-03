@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { MoreHorizontal, Play } from "lucide-react";
 import { Link } from "@/lib/router";
+import { t } from "../lib/i18n";
 import { AgentIcon } from "@/components/AgentIconPicker";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,13 +36,13 @@ export type RoutineListRowItem = {
 };
 
 export function formatLastRunTimestamp(value: Date | string | null | undefined) {
-  if (!value) return "Never";
+  if (!value) return t("Never");
   return new Date(value).toLocaleString();
 }
 
 export function formatRoutineRunStatus(value: string | null | undefined) {
   if (!value) return null;
-  return value.replaceAll("_", " ");
+  return t(value.replaceAll("_", " "));
 }
 
 export function nextRoutineStatus(currentStatus: string, enabled: boolean) {
@@ -56,7 +57,7 @@ export function RoutineListRow<TRoutine extends RoutineListRowItem>({
   runningRoutineId,
   statusMutationRoutineId,
   href,
-  configureLabel = "Edit",
+  configureLabel = t("Edit"),
   managedByLabel,
   secondaryDetails,
   runNowButton = false,
@@ -102,7 +103,7 @@ export function RoutineListRow<TRoutine extends RoutineListRowItem>({
           <span className="truncate text-sm font-medium">{routine.title}</span>
           {(isArchived || routine.status === "paused" || isDraft) ? (
             <span className="text-xs text-muted-foreground">
-              {isArchived ? "archived" : isDraft ? "draft" : "paused"}
+              {isArchived ? t("archived") : isDraft ? t("draft") : t("paused")}
             </span>
           ) : null}
           {managedByLabel ? (
@@ -115,11 +116,11 @@ export function RoutineListRow<TRoutine extends RoutineListRowItem>({
               className="h-2.5 w-2.5 shrink-0 rounded-sm"
               style={{ backgroundColor: project?.color ?? "#64748b" }}
             />
-            <span>{routine.projectId ? (project?.name ?? "Unknown project") : "No project"}</span>
+            <span>{routine.projectId ? (project?.name ?? t("Unknown project")) : t("No project")}</span>
           </span>
           <span className="flex items-center gap-2">
             {agent?.icon ? <AgentIcon icon={agent.icon} className="h-3.5 w-3.5 shrink-0" /> : null}
-            <span>{routine.assigneeAgentId ? (agent?.name ?? "Unknown agent") : "No default agent"}</span>
+            <span>{routine.assigneeAgentId ? (agent?.name ?? t("Unknown agent")) : t("No default agent")}</span>
           </span>
           <span>
             {formatLastRunTimestamp(routine.lastRun?.triggeredAt)}
@@ -140,7 +141,7 @@ export function RoutineListRow<TRoutine extends RoutineListRowItem>({
             onClick={() => onRunNow(routine)}
           >
             <Play className="h-3.5 w-3.5" />
-            {runningRoutineId === routine.id ? "Running..." : "Run now"}
+            {runningRoutineId === routine.id ? t("Running...") : t("Run now")}
           </Button>
         ) : null}
 
@@ -150,16 +151,16 @@ export function RoutineListRow<TRoutine extends RoutineListRowItem>({
             checked={enabled}
             onCheckedChange={() => onToggleEnabled(routine, enabled)}
             disabled={isStatusPending || isArchived || disableToggle}
-            aria-label={enabled ? `Disable ${routine.title}` : `Enable ${routine.title}`}
+            aria-label={enabled ? `${t("Disable")} ${routine.title}` : `${t("Enable")} ${routine.title}`}
           />
           <span className="w-12 text-xs text-muted-foreground">
-            {isArchived ? "Archived" : isDraft ? "Draft" : enabled ? "On" : "Off"}
+            {isArchived ? t("Archived") : isDraft ? t("Draft") : enabled ? t("On") : t("Off")}
           </span>
         </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon-sm" aria-label={`More actions for ${routine.title}`}>
+            <Button variant="ghost" size="icon-sm" aria-label={`${t("More actions for")} ${routine.title}`}>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -171,21 +172,21 @@ export function RoutineListRow<TRoutine extends RoutineListRowItem>({
               disabled={runDisabled}
               onClick={() => onRunNow(routine)}
             >
-              {runningRoutineId === routine.id ? "Running..." : "Run now"}
+              {runningRoutineId === routine.id ? t("Running...") : t("Run now")}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => onToggleEnabled(routine, enabled)}
               disabled={isStatusPending || isArchived || disableToggle}
             >
-              {enabled ? "Pause" : "Enable"}
+              {enabled ? t("Pause") : t("Enable")}
             </DropdownMenuItem>
             {!hideArchiveAction && onToggleArchived ? (
               <DropdownMenuItem
                 onClick={() => onToggleArchived(routine)}
                 disabled={isStatusPending}
               >
-                {routine.status === "archived" ? "Restore" : "Archive"}
+                {routine.status === "archived" ? t("Restore") : t("Archive")}
               </DropdownMenuItem>
             ) : null}
           </DropdownMenuContent>

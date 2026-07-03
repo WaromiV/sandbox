@@ -14,6 +14,7 @@ import { cn } from "../lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { User, Eye, ShieldCheck } from "lucide-react";
 import { AgentIcon } from "./AgentIconPicker";
+import { t } from "../lib/i18n";
 
 type StageType = "review" | "approval";
 
@@ -68,7 +69,7 @@ export function ExecutionParticipantPicker({
 
   const participantLabel = (value: string) => {
     if (value.startsWith("agent:")) return agentName(value.slice("agent:".length));
-    if (value.startsWith("user:")) return userLabel(value.slice("user:".length)) ?? "User";
+    if (value.startsWith("user:")) return userLabel(value.slice("user:".length)) ?? t("User");
     return value;
   };
 
@@ -89,7 +90,7 @@ export function ExecutionParticipantPicker({
     updatePolicy(next);
   };
 
-  const label = stageType === "review" ? "Reviewers" : "Approvers";
+  const label = stageType === "review" ? t("Reviewers") : t("Approvers");
   const Icon = stageType === "review" ? Eye : ShieldCheck;
 
   return (
@@ -116,7 +117,7 @@ export function ExecutionParticipantPicker({
       <PopoverContent className="p-1 w-56" align="start" collisionPadding={16}>
         <input
           className="w-full px-2 py-1.5 text-xs bg-transparent outline-none border-b border-border mb-1 placeholder:text-muted-foreground/50"
-          placeholder={`Search ${label.toLowerCase()}...`}
+          placeholder={stageType === "review" ? t("Search reviewers...") : t("Search approvers...")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           autoFocus
@@ -129,7 +130,7 @@ export function ExecutionParticipantPicker({
             )}
             onClick={() => updatePolicy([])}
           >
-            No {label.toLowerCase()}
+            {stageType === "review" ? t("No reviewers") : t("No approvers")}
           </button>
           {currentUserId && (
             <button
@@ -140,7 +141,7 @@ export function ExecutionParticipantPicker({
               onClick={() => toggle(`user:${currentUserId}`)}
             >
               <User className="h-3 w-3 shrink-0 text-muted-foreground" />
-              Assign to me
+              {t("Assign to me")}
             </button>
           )}
           {issue.createdByUserId && issue.createdByUserId !== currentUserId && (
@@ -152,7 +153,7 @@ export function ExecutionParticipantPicker({
               onClick={() => toggle(`user:${issue.createdByUserId}`)}
             >
               <User className="h-3 w-3 shrink-0 text-muted-foreground" />
-              {creatorUserLabel ?? "Requester"}
+              {creatorUserLabel ?? t("Requester")}
             </button>
           )}
           {otherUserOptions

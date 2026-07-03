@@ -25,6 +25,9 @@ const PREFIXES: Record<string, WorkspaceTarget> = {
   "/openclaw": "gateway",
 };
 
+/** Identity header the container gateway trusts (auth mode trusted-proxy). */
+export const USER_HEADER = "x-paperclip-user";
+
 function targetForUrl(url: string): { prefix: string; target: WorkspaceTarget } | null {
   for (const [prefix, target] of Object.entries(PREFIXES)) {
     if (url === prefix || url.startsWith(prefix + "/") || url.startsWith(prefix + "?")) {
@@ -71,13 +74,17 @@ export function createWorkspaceProxyRouter(resolveUser: WorkspaceUserResolver): 
       const forwardPath = stripPrefix(match.prefix, req.originalUrl);
       const headers: http.OutgoingHttpHeaders = {};
       for (const [name, value] of Object.entries(req.headers)) {
-        if (name === "host" || name === "connection" || name === "content-length") continue;
+        // x-paperclip-user is the trusted-proxy identity — never forward the
+        // client's copy; we stamp our own below.
+        if (name === "host" || name === "connection" || name === "content-length" || name === USER_HEADER) continue;
         if (value !== undefined) headers[name] = value as string | string[];
       }
       headers["host"] = `127.0.0.1:${port}`;
       headers["x-forwarded-proto"] = (req.headers["x-forwarded-proto"] as string) ?? "http";
       headers["x-forwarded-host"] = (req.headers["x-forwarded-host"] as string) ?? req.headers.host ?? "";
       headers["x-forwarded-prefix"] = match.prefix;
+      // The container gateway runs auth mode trusted-proxy keyed on this header.
+      headers[USER_HEADER] = who.email ?? who.userId;
 
       const upstreamReq = http.request(
         { host: "127.0.0.1", port, method: req.method, path: forwardPath, headers },
@@ -125,14 +132,23 @@ export function attachWorkspaceProxyUpgrade(
       const forwardPath = stripPrefix(match.prefix, url);
       const upstreamSocket = net.connect(port, "127.0.0.1", () => {
         const lines: string[] = [];
+        const origHost = (req.headers["x-forwarded-host"] as string) ?? req.headers.host ?? "";
         lines.push(`${req.method} ${forwardPath} HTTP/1.1`);
         lines.push(`Host: 127.0.0.1:${port}`);
         for (const [name, value] of Object.entries(req.headers)) {
-          if (name === "host" || name === "content-length") continue;
+          // Drop the client Host (rewritten above) and x-forwarded-host (re-set
+          // below) so code-server's origin check sees a consistent host.
+          if (name === "host" || name === "content-length" || name === USER_HEADER || name === "x-forwarded-host") continue;
           if (Array.isArray(value)) for (const v of value) lines.push(`${name}: ${v}`);
           else if (value !== undefined) lines.push(`${name}: ${value as string}`);
         }
+        // code-server rejects a WS whose Origin host != getHost() (wsRouter).
+        // getHost prefers X-Forwarded-Host, so forward the browser's host here
+        // to match the browser's Origin.
+        lines.push(`X-Forwarded-Host: ${origHost}`);
+        lines.push(`X-Forwarded-Proto: ${(req.headers["x-forwarded-proto"] as string) ?? "http"}`);
         lines.push(`X-Forwarded-Prefix: ${match.prefix}`);
+        lines.push(`${USER_HEADER}: ${who.email ?? who.userId}`);
         lines.push("");
         lines.push("");
         upstreamSocket.write(lines.join("\r\n"));

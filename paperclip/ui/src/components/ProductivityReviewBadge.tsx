@@ -1,6 +1,7 @@
 import { Eye } from "lucide-react";
 import type { IssueProductivityReview } from "@paperclipai/shared";
 import { Link } from "../lib/router";
+import { t } from "../lib/i18n";
 import { cn } from "../lib/utils";
 import { createIssueDetailPath } from "../lib/issueDetailBreadcrumb";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
@@ -22,8 +23,8 @@ const REVIEW_STATUS_LABELS: Record<string, string> = {
 export function productivityReviewTriggerLabel(
   trigger: IssueProductivityReview["trigger"],
 ): string {
-  if (!trigger) return "Productivity review";
-  return TRIGGER_LABELS[trigger] ?? "Productivity review";
+  if (!trigger) return t("Productivity review");
+  return t(TRIGGER_LABELS[trigger] ?? "Productivity review");
 }
 
 export function ProductivityReviewBadge({
@@ -38,7 +39,7 @@ export function ProductivityReviewBadge({
   const label = productivityReviewTriggerLabel(review.trigger);
   const reviewIdentifier = review.reviewIdentifier ?? review.reviewIssueId.slice(0, 8);
   const reviewPath = createIssueDetailPath(review.reviewIdentifier ?? review.reviewIssueId);
-  const statusLabel = REVIEW_STATUS_LABELS[review.status] ?? review.status.replace(/_/g, " ");
+  const statusLabel = t(REVIEW_STATUS_LABELS[review.status] ?? review.status.replace(/_/g, " "));
 
   return (
     <Tooltip>
@@ -52,23 +53,23 @@ export function ProductivityReviewBadge({
           aria-label={`Under review · productivity review ${reviewIdentifier} (${label})`}
         >
           <Eye className="h-3 w-3" aria-hidden />
-          {hideLabel ? null : <span>Under review</span>}
+          {hideLabel ? null : <span>{t("Under review")}</span>}
         </Link>
       </TooltipTrigger>
       <TooltipContent>
         <div className="space-y-1 text-xs">
-          <div className="font-semibold">Productivity review open</div>
+          <div className="font-semibold">{t("Productivity review open")}</div>
           <div>
-            <span className="text-muted-foreground">Trigger:</span> {label}
+            <span className="text-muted-foreground">{t("Trigger:")}</span> {label}
           </div>
           {typeof review.noCommentStreak === "number" && review.noCommentStreak > 0 ? (
             <div>
-              <span className="text-muted-foreground">No-comment streak:</span>{" "}
-              {review.noCommentStreak} runs
+              <span className="text-muted-foreground">{t("No-comment streak:")}</span>{" "}
+              {review.noCommentStreak} {t("runs")}
             </div>
           ) : null}
           <div>
-            <span className="text-muted-foreground">Review:</span> {reviewIdentifier} ({statusLabel})
+            <span className="text-muted-foreground">{t("Review:")}</span> {reviewIdentifier} ({statusLabel})
           </div>
         </div>
       </TooltipContent>

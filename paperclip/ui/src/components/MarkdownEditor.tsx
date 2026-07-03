@@ -41,6 +41,7 @@ import { looksLikeMarkdownPaste } from "../lib/markdownPaste";
 import { normalizeMarkdown } from "../lib/normalize-markdown";
 import { pasteNormalizationPlugin } from "../lib/paste-normalization";
 import { cn } from "../lib/utils";
+import { t } from "../lib/i18n";
 import { useEditorAutocomplete, type SkillCommandOption } from "../context/EditorAutocompleteContext";
 
 /* ---- Mention types ---- */
@@ -724,7 +725,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorRef, MarkdownEditorProps>
             }, 100);
             return src;
           } catch (err) {
-            const message = err instanceof Error ? err.message : "Image upload failed";
+            const message = err instanceof Error ? err.message : t("Image upload failed");
             setUploadError(message);
             throw err;
           }
@@ -1029,7 +1030,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorRef, MarkdownEditorProps>
         )}
       >
         <div className="flex items-start justify-between gap-3 px-3 pt-2 text-xs text-muted-foreground">
-          <p>Rich editor unavailable for this markdown. Showing raw source instead.</p>
+          <p>{t("Rich editor unavailable for this markdown. Showing raw source instead.")}</p>
           <button
             type="button"
             className="shrink-0 underline underline-offset-2 hover:text-foreground"
@@ -1037,7 +1038,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorRef, MarkdownEditorProps>
               setRichEditorError(null);
             }}
           >
-            Retry rich editor
+            {t("Retry rich editor")}
           </button>
         </div>
         <textarea
@@ -1274,17 +1275,17 @@ export const MarkdownEditor = forwardRef<MarkdownEditorRef, MarkdownEditorProps>
                 <span>{option.kind === "skill" ? `/${option.slug}` : option.name}</span>
                 {option.kind === "project" && option.projectId && (
                   <span className="ml-auto text-[10px] uppercase tracking-wide text-muted-foreground">
-                    Project
+                    {t("Project")}
                   </span>
                 )}
                 {option.kind === "user" && (
                   <span className="ml-auto text-[10px] uppercase tracking-wide text-muted-foreground">
-                    User
+                    {t("User")}
                   </span>
                 )}
                 {option.kind === "skill" && (
                   <span className="ml-auto text-[10px] uppercase tracking-wide text-muted-foreground">
-                    Skill
+                    {t("Skill")}
                   </span>
                 )}
               </button>
@@ -1300,7 +1301,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorRef, MarkdownEditorProps>
             !bordered && "inset-0 rounded-sm",
           )}
         >
-          Drop {onDropFile ? "file" : "image"} to upload
+          {onDropFile ? t("Drop file to upload") : t("Drop image to upload")}
         </div>
       )}
       {uploadError && (

@@ -61,6 +61,13 @@ Worker→worker isolation is the container boundary; this is the trust+audit
 posture where every SSO user is `instance_admin` and the audit log
 (`/instance/activity`) is the control. paperclip needs docker access for this.
 
+Inside each container the gateway keeps `--auth none` **on loopback** (openclaw
+refuses non-loopback bind without auth, and its trusted-proxy mode forces a
+device-pairing dance on non-browser clients); a tiny node TCP forwarder exposes
+it as `0.0.0.0:18790` for docker's `127.0.0.1`-published host port. Containers
+ship Russian by default (code-server `--locale ru` + the Open VSX Russian
+language pack baked into `deploy/workspace/Dockerfile`).
+
 ### Reverse proxy is mandatory for openclaw + code-server
 
 Because those two have no auth, exposing their ports directly = unauthenticated

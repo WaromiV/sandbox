@@ -8,6 +8,7 @@ import {
   formatDateTime,
   providerDisplayName,
 } from "@/lib/utils";
+import { t } from "../lib/i18n";
 
 interface FinanceTimelineCardProps {
   rows: FinanceEvent[];
@@ -16,13 +17,13 @@ interface FinanceTimelineCardProps {
 
 export function FinanceTimelineCard({
   rows,
-  emptyMessage = "No financial events in this period.",
+  emptyMessage = t("No financial events in this period."),
 }: FinanceTimelineCardProps) {
   return (
     <Card>
       <CardHeader className="px-4 pt-4 pb-1">
-        <CardTitle className="text-base">Recent financial events</CardTitle>
-        <CardDescription>Top-ups, fees, credits, commitments, and other non-request charges.</CardDescription>
+        <CardTitle className="text-base">{t("Recent financial events")}</CardTitle>
+        <CardDescription>{t("Top-ups, fees, credits, commitments, and other non-request charges.")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-3 px-4 pb-4 pt-3">
         {rows.length === 0 ? (
@@ -50,16 +51,16 @@ export function FinanceTimelineCard({
                   {(row.description || row.externalInvoiceId || row.region || row.pricingTier) && (
                     <div className="space-y-1 text-xs text-muted-foreground">
                       {row.description ? <div>{row.description}</div> : null}
-                      {row.externalInvoiceId ? <div>invoice {row.externalInvoiceId}</div> : null}
-                      {row.region ? <div>region {row.region}</div> : null}
-                      {row.pricingTier ? <div>tier {row.pricingTier}</div> : null}
+                      {row.externalInvoiceId ? <div>{t("invoice")} {row.externalInvoiceId}</div> : null}
+                      {row.region ? <div>{t("region")} {row.region}</div> : null}
+                      {row.pricingTier ? <div>{t("tier")} {row.pricingTier}</div> : null}
                     </div>
                   )}
                 </div>
                 <div className="text-right tabular-nums">
                   <div className="text-sm font-semibold">{formatCents(row.amountCents)}</div>
                   <div className="text-xs text-muted-foreground">{row.currency}</div>
-                  {row.estimated ? <div className="text-[11px] uppercase tracking-[0.12em] text-amber-600">estimated</div> : null}
+                  {row.estimated ? <div className="text-[11px] uppercase tracking-[0.12em] text-amber-600">{t("estimated")}</div> : null}
                 </div>
               </div>
             </div>

@@ -146,7 +146,6 @@ function boardRoutes() {
       <Route path="activity" element={<Activity />} />
       <Route path="workspace" element={<MyWorkspace />} />
       <Route path="my/chats" element={<MyChats />} />
-      <Route path="instance/activity" element={<InstanceActivity />} />
       <Route path="inbox" element={<InboxRootRedirect />} />
       <Route path="inbox/mine" element={<Inbox />} />
       <Route path="inbox/recent" element={<Inbox />} />
@@ -367,6 +366,11 @@ export function App() {
             <Route path="plugins/:pluginId" element={<PluginSettings />} />
             <Route path="adapters" element={<AdapterManager />} />
           </Route>
+          {/* Instance-level audit timeline — global (unprefixed) like the
+              instance settings tree; "instance" is a GLOBAL_ROUTE_ROOT. */}
+          <Route path="instance/activity" element={<Layout />}>
+            <Route index element={<InstanceActivity />} />
+          </Route>
           <Route path="companies" element={<UnprefixedBoardRedirect />} />
           <Route path="issues" element={<UnprefixedBoardRedirect />} />
           <Route path="issues/:issueId" element={<UnprefixedBoardRedirect />} />
@@ -390,6 +394,8 @@ export function App() {
           <Route path="projects/:projectId/workspaces/:workspaceId" element={<UnprefixedBoardRedirect />} />
           <Route path="projects/:projectId/configuration" element={<UnprefixedBoardRedirect />} />
           <Route path="workspaces" element={<UnprefixedBoardRedirect />} />
+          <Route path="workspace" element={<UnprefixedBoardRedirect />} />
+          <Route path="my/chats" element={<UnprefixedBoardRedirect />} />
           <Route path="execution-workspaces/:workspaceId" element={<UnprefixedBoardRedirect />} />
           <Route path="execution-workspaces/:workspaceId/services" element={<UnprefixedBoardRedirect />} />
           <Route path="execution-workspaces/:workspaceId/configuration" element={<UnprefixedBoardRedirect />} />

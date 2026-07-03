@@ -217,10 +217,24 @@ export function createOpenclawBridge(
   const client = new OpenclawRpcClient({
     url: config.url,
     token: config.token,
+    // Container gateways run auth mode trusted-proxy; the bridge authenticates
+    // by stamping the identity header (ignored by mode=none gateways).
+    headers: { "x-paperclip-user": "paperclip-bridge" },
     log,
   });
 
   async function fetchRosterOnce(): Promise<OpenclawRoster> {
+    // Company resolution may have failed at start() (db hiccup, prefix
+    // conflict). Re-resolve lazily so the mirror heals on a later sync
+    // instead of staying roster-only until a process restart.
+    if (deps.db && !resolvedCompanyId) {
+      try {
+        resolvedCompanyId = await resolveCompanyId(deps.db, config, log);
+        log(`mirror target: company id ${resolvedCompanyId} ("${config.companyName}")`);
+      } catch (err) {
+        log("company resolution failed; mirroring deferred", { err: String(err) });
+      }
+    }
     const result = (await client.request<GatewayListResult>("agents.list", {})) as GatewayListResult;
     const agents = (result.agents ?? []).map((a) => normaliseAgent(a, deps.namespace ?? null));
     const next: OpenclawRoster = {

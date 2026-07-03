@@ -1,0 +1,293 @@
+// Russian dictionary — slice 1 (owned by its translation pass; English source → Russian).
+// Covers pages: IssueDetail, Issues, MyIssues, MyChats, MyWorkspace,
+// InstanceActivity, Search, NotFound. Keys already provided by part0
+// (e.g. "Issues", "Search", "My Chats", "My Workspace", "Audit Log",
+// "Activity") are intentionally not duplicated here.
+export const part1: Record<string, string> = {
+  // MyIssues
+  "My Issues": "Мои задачи",
+  "Select a company to view your issues.": "Выберите компанию, чтобы просмотреть свои задачи.",
+  "No issues assigned to you.": "Вам не назначено ни одной задачи.",
+
+  // MyChats
+  "No chats yet.": "Чатов пока нет.",
+
+  // MyWorkspace
+  "Starting your workspace…": "Запуск вашего рабочего пространства…",
+  "Workspace not ready:": "Рабочее пространство не готово:",
+
+  // InstanceActivity
+  "No activity recorded yet.": "Активность пока не зафиксирована.",
+
+  // NotFound
+  "Not Found": "Не найдено",
+  "Company not found": "Компания не найдена",
+  "Page not found": "Страница не найдена",
+  "No company matches prefix": "Нет компании с префиксом",
+  "unknown": "неизвестно",
+  "This route does not exist.": "Такого маршрута не существует.",
+  "Requested path:": "Запрошенный путь:",
+  "Open dashboard": "Открыть панель управления",
+  "Go home": "На главную",
+
+  // Issues
+  "Select a company to view issues.": "Выберите компанию, чтобы просмотреть задачи.",
+
+  // Search
+  "All": "Все",
+  "Comments": "Комментарии",
+  "Documents": "Документы",
+  "Agents": "Агенты",
+  "Projects": "Проекты",
+  "All scopes": "Все области",
+  "Unknown error": "Неизвестная ошибка",
+  "Search issues, comments, documents, agents, projects…": "Поиск по задачам, комментариям, документам, агентам, проектам…",
+  "Search query": "Поисковый запрос",
+  "Clear search": "Очистить поиск",
+  "Type to search company memory.": "Начните вводить, чтобы искать по памяти компании.",
+  "Issues, comments, plan documents, agents, projects — same surface, ranked by relevance.":
+    "Задачи, комментарии, документы планов, агенты, проекты — единая выдача, отсортированная по релевантности.",
+  "Recent searches": "Недавние запросы",
+  "Identifier lookup:": "Поиск по идентификатору:",
+  "type": "введите",
+  "to jump straight to an issue.": "— и вы сразу перейдёте к задаче.",
+  "Quoted phrases:": "Фразы в кавычках:",
+  "wrap a phrase in quotes to match the exact sequence.": "заключите фразу в кавычки, чтобы найти точное совпадение.",
+  "reopens the command palette pre-seeded with your current query.": "снова открывает палитру команд с вашим текущим запросом.",
+  "Couldn’t run that search": "Не удалось выполнить поиск",
+  "The server returned": "Сервер вернул",
+  "The request failed.": "Запрос не выполнен.",
+  "Your input and filters are still here, so you can retry or fall back to the Issues filter.":
+    "Ваш запрос и фильтры сохранены: можно повторить попытку или перейти к фильтру задач.",
+  "Retry": "Повторить",
+  "Open Issues filter view": "Открыть фильтр задач",
+  "Searching for": "Поиск по запросу",
+  "No results for": "Ничего не найдено по запросу",
+  "We couldn’t find a match in": "Совпадений не найдено в разделе",
+  "Try widening the scope or rephrasing your query.": "Попробуйте расширить область поиска или переформулировать запрос.",
+  "Search all scopes": "Искать во всех областях",
+  "Create issue from this query": "Создать задачу из этого запроса",
+  "Try fewer tokens or a single distinctive term.": "Попробуйте меньше слов или один характерный термин.",
+  "Use an identifier shortcut like": "Используйте идентификатор, например",
+  "Wrap multi-word phrases in quotes.": "Заключайте фразы из нескольких слов в кавычки.",
+  "1 result": "1 результат",
+  "results": "результатов",
+  "sorted by relevance": "отсортировано по релевантности",
+  "Updating…": "Обновление…",
+
+  // IssueDetail — subtree/work controls
+  "Pause subtree": "Приостановить поддерево",
+  "Resume subtree": "Возобновить поддерево",
+  "Cancel subtree": "Отменить поддерево",
+  "Restore subtree": "Восстановить поддерево",
+  "Pause work": "Приостановить работу",
+  "Resume work": "Возобновить работу",
+  "Pause active execution in this issue subtree until an explicit resume.":
+    "Приостановить активное выполнение в поддереве этой задачи до явного возобновления.",
+  "Release the active subtree pause hold so held work can continue.":
+    "Снять активную паузу поддерева, чтобы удержанная работа могла продолжиться.",
+  "Cancel non-terminal issues in this subtree and stop queued/running work where possible.":
+    "Отменить незавершённые задачи в этом поддереве и по возможности остановить работу в очереди и в процессе выполнения.",
+  "Restore issues cancelled by this subtree operation so work can resume.":
+    "Восстановить задачи, отменённые этой операцией над поддеревом, чтобы работа могла возобновиться.",
+  "Pause active execution on this issue until an explicit resume.":
+    "Приостановить активное выполнение этой задачи до явного возобновления.",
+  "Release the active pause hold so this issue can continue.":
+    "Снять активную паузу, чтобы работа над этой задачей могла продолжиться.",
+  "Only board users can preview subtree controls.": "Предпросмотр управления поддеревом доступен только участникам правления.",
+  "Preview is stale because subtree hold state changed. Retry to refresh.":
+    "Предпросмотр устарел: состояние удержания поддерева изменилось. Повторите, чтобы обновить.",
+  "This subtree action is currently invalid for the selected issues.":
+    "Это действие над поддеревом сейчас недоступно для выбранных задач.",
+  "Unable to load preview.": "Не удалось загрузить предпросмотр.",
+  "No active subtree pause hold is available to resume.": "Нет активной паузы поддерева для возобновления.",
+
+  // IssueDetail — identities
+  "System": "Система",
+  "Board": "Правление",
+  "Unknown": "Неизвестно",
+  "Me": "Я",
+
+  // IssueDetail — header, badges, toolbar
+  "Issue": "Задача",
+  "Routine": "Рутина",
+  "No project": "Без проекта",
+  "Live": "Выполняется",
+  "Planning": "Планирование",
+  "This issue is in planning mode.": "Эта задача в режиме планирования.",
+  "Productivity review": "Проверка продуктивности",
+  "This task is a productivity review.": "Эта задача — проверка продуктивности.",
+  "Blocked by parked work": "Заблокировано отложенной работой",
+  "Blocked by parked work — at least one assigned blocker is in backlog and will not wake its assignee.":
+    "Заблокировано отложенной работой — как минимум один назначенный блокер находится в бэклоге и не разбудит своего исполнителя.",
+  "Back to inbox": "Назад во входящие",
+  "Archive from inbox": "Архивировать из входящих",
+  "More actions": "Ещё действия",
+  "More issue actions": "Ещё действия с задачей",
+  "Copy as markdown": "Копировать как Markdown",
+  "Copy issue as markdown": "Копировать задачу как Markdown",
+  "Properties": "Свойства",
+  "Show properties": "Показать свойства",
+  "Hide this issue": "Скрыть эту задачу",
+  "Hide this Issue": "Скрыть эту задачу",
+  "This issue is hidden": "Эта задача скрыта",
+  "Copied to clipboard": "Скопировано в буфер обмена",
+
+  // IssueDetail — pause banner
+  "Paused": "Приостановлено",
+  "Paused by board.": "Приостановлено правлением.",
+  "Subtree pause is active.": "Пауза поддерева активна.",
+  "Issue execution is held until resume. Human comments can still wake the assignee for triage.":
+    "Выполнение задачи удерживается до возобновления. Комментарии людей по-прежнему могут разбудить исполнителя для разбора.",
+  "Root and descendant execution is held until resume. Human comments can still wake assignees for triage.":
+    "Выполнение корневой задачи и потомков удерживается до возобновления. Комментарии людей по-прежнему могут разбудить исполнителей для разбора.",
+  "1 issue held": "Удерживается 1 задача",
+  "descendant": "потомок",
+  "descendants": "потомков",
+  "held": "удерживается",
+  "started": "начато",
+  "View affected": "Показать затронутые",
+  "This issue is paused by ancestor": "Эта задача приостановлена предком",
+  "Resume from the root issue to deliver deferred work.": "Возобновите корневую задачу, чтобы доставить отложенную работу.",
+  "Sending this comment will wake": "Отправка этого комментария разбудит",
+  "the assignee": "исполнителя",
+  "for triage while the subtree remains paused.": "для разбора, пока поддерево остаётся на паузе.",
+  "Assign an agent to wake them for triage while the subtree remains paused.":
+    "Назначьте агента, чтобы разбудить его для разбора, пока поддерево остаётся на паузе.",
+
+  // IssueDetail — chat & comments
+  "Loading earlier comments...": "Загрузка предыдущих комментариев...",
+  "Load earlier comments": "Загрузить предыдущие комментарии",
+  "Pausing...": "Приостановка...",
+  "Comment failed": "Не удалось отправить комментарий",
+  "Unable to post comment": "Не удалось опубликовать комментарий",
+  "Queued comment canceled": "Комментарий из очереди отменён",
+  "The queued message was restored to the composer.": "Сообщение из очереди возвращено в поле ввода.",
+  "Unable to cancel the queued comment": "Не удалось отменить комментарий в очереди",
+  "Interrupt requested": "Запрошено прерывание",
+  "The active run is stopping so queued comments can continue next.":
+    "Активный запуск останавливается, чтобы комментарии из очереди могли продолжить работу.",
+  "Interrupt failed": "Не удалось прервать",
+  "Unable to interrupt the active run": "Не удалось прервать активный запуск",
+
+  // IssueDetail — cost summary
+  "Cost Summary": "Сводка расходов",
+  "No cost data yet.": "Данных о расходах пока нет.",
+  "This issue": "Эта задача",
+  "Tokens": "Токены",
+  "in": "вход",
+  "out": "выход",
+  "cached": "кэш",
+  "Runtime": "Время выполнения",
+  "run": "запуск",
+  "runs": "запусков",
+  "No direct cost data.": "Нет данных о прямых расходах.",
+  "Including sub-issues": "Включая подзадачи",
+  "issue": "задача",
+  "issues": "задач",
+
+  // IssueDetail — toasts
+  "Issue update failed": "Не удалось обновить задачу",
+  "Unable to save issue changes": "Не удалось сохранить изменения задачи",
+  "Unable to save sub-issue changes": "Не удалось сохранить изменения подзадачи",
+  "Recovery resolution failed": "Не удалось завершить восстановление",
+  "Unable to resolve recovery action": "Не удалось обработать действие восстановления",
+  "Work resumed": "Работа возобновлена",
+  "Subtree resumed": "Поддерево возобновлено",
+  "Work paused": "Работа приостановлена",
+  "Subtree paused": "Поддерево приостановлено",
+  "applied": "— применено",
+  "Active issue pause released.": "Пауза задачи снята.",
+  "Active subtree pause released.": "Пауза поддерева снята.",
+  "Work paused.": "Работа приостановлена.",
+  "Subtree paused.": "Поддерево приостановлено.",
+  "cancelled.": "отменено.",
+  "Subtree control applied.": "Управление поддеревом применено.",
+  "Unable to apply subtree control": "Не удалось применить управление поддеревом",
+  "Please try again.": "Пожалуйста, попробуйте ещё раз.",
+  "Work paused. This issue is held until resume.": "Работа приостановлена. Задача удерживается до возобновления.",
+  "Unable to pause work": "Не удалось приостановить работу",
+  "Monitor check queued": "Проверка монитора поставлена в очередь",
+  "Monitor check failed": "Проверка монитора не удалась",
+  "Unable to trigger the monitor right now": "Сейчас не удаётся запустить монитор",
+  "Approval approved": "Согласование одобрено",
+  "Approval rejected": "Согласование отклонено",
+  "Approval failed": "Не удалось одобрить",
+  "Rejection failed": "Не удалось отклонить согласование",
+  "Unable to update approval": "Не удалось обновить согласование",
+  "Cancel failed": "Не удалось отменить",
+  "Request confirmed": "Запрос подтверждён",
+  "Accepted": "Принято",
+  "draft": "черновик",
+  "drafts": "черновиков",
+  "and skipped": "и пропущено",
+  "Suggested tasks accepted": "Предложенные задачи приняты",
+  "Accept failed": "Не удалось принять",
+  "Unable to accept the suggested tasks": "Не удалось принять предложенные задачи",
+  "Request declined": "Запрос отклонён",
+  "Suggestion rejected": "Предложение отклонено",
+  "Reject failed": "Не удалось отклонить",
+  "Unable to reject the suggested tasks": "Не удалось отклонить предложенные задачи",
+  "Answers submitted": "Ответы отправлены",
+  "Submit failed": "Не удалось отправить",
+  "Unable to submit answers": "Не удалось отправить ответы",
+  "Question cancelled": "Вопрос отменён",
+  "Unable to cancel the question": "Не удалось отменить вопрос",
+  "Feedback saved. Future votes will share": "Отзыв сохранён. Будущие оценки будут отправляться",
+  "Feedback saved. Future votes will stay local": "Отзыв сохранён. Будущие оценки останутся локальными",
+  "Feedback saved and sharing enabled": "Отзыв сохранён, передача данных включена",
+  "Feedback saved": "Отзыв сохранён",
+  "Failed to save feedback": "Не удалось сохранить отзыв",
+  "No company selected": "Компания не выбрана",
+  "Upload failed": "Не удалось загрузить",
+  "Document import failed": "Не удалось импортировать документ",
+  "Delete failed": "Не удалось удалить",
+  "Issue archived from inbox": "Задача архивирована из входящих",
+  "Archive failed": "Не удалось архивировать",
+  "Unable to archive this issue from the inbox": "Не удалось архивировать эту задачу из входящих",
+
+  // IssueDetail — description, sub-issues, attachments
+  "Add a description...": "Добавьте описание...",
+  "Sub-issues": "Подзадачи",
+  "Sub-issue": "Подзадача",
+  "New Sub-issue": "Новая подзадача",
+  "Attachments": "Вложения",
+  "Uploading...": "Загрузка...",
+  "Upload attachment": "Загрузить вложение",
+  "Upload": "Загрузить",
+  "attachment": "вложение",
+  "Delete?": "Удалить?",
+  "Yes": "Да",
+  "No": "Нет",
+  "Delete attachment": "Удалить вложение",
+
+  // IssueDetail — tabs
+  "Chat": "Чат",
+  "Related work": "Связанная работа",
+
+  // IssueDetail — menu actions
+  "Pause work...": "Приостановить работу...",
+  "Pause subtree...": "Приостановить поддерево...",
+  "Cancel subtree...": "Отменить поддерево...",
+  "Restore subtree...": "Восстановить поддерево...",
+
+  // IssueDetail — tree control dialog
+  "Cancelling a subtree is destructive. Non-terminal issues will be marked cancelled, and running or queued work will be interrupted where possible.":
+    "Отмена поддерева — необратимое действие. Незавершённые задачи будут помечены как отменённые, а выполняющаяся или ожидающая работа по возможности будет прервана.",
+  "Reason (optional)": "Причина (необязательно)",
+  "Explain why this subtree control is being applied...": "Объясните, почему применяется это управление поддеревом...",
+  "Wake affected agents": "Разбудить затронутых агентов",
+  "No assigned agents are eligible to wake from this preview.":
+    "В этом предпросмотре нет назначенных агентов, которых можно разбудить.",
+  "Wake assigned agents after this operation completes.": "Разбудить назначенных агентов после завершения этой операции.",
+  "I understand this will cancel": "Я понимаю, что это отменит",
+  "issues.": "задач(и).",
+  "Retry preview": "Повторить предпросмотр",
+  "Complete": "Завершено",
+  "Preview unavailable.": "Предпросмотр недоступен.",
+  "Close": "Закрыть",
+  "Applying...": "Применение...",
+  "Pause and stop work": "Приостановить и остановить работу",
+  "Cancel": "Отмена",
+  "Restore": "Восстановить",
+};

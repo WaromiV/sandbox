@@ -23,6 +23,7 @@ import { Identity } from "./Identity";
 import type { Issue } from "@paperclipai/shared";
 import { AlertTriangle } from "lucide-react";
 import { isSuccessfulRunHandoffRequired } from "../lib/successful-run-handoff";
+import { t } from "../lib/i18n";
 
 const boardStatuses = [
   "backlog",
@@ -74,7 +75,7 @@ function KanbanColumn({
         {(!isEmpty || isOver) && (
           <>
             <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              {statusLabel(status)}
+              {t(statusLabel(status))}
             </span>
             <span className="text-xs text-muted-foreground/60 ml-auto tabular-nums">
               {issues.length}
@@ -164,11 +165,11 @@ function KanbanCard({
           {isSuccessfulRunHandoffRequired(issue) ? (
             <span
               className="inline-flex items-center gap-1 rounded-full border border-amber-400/45 bg-amber-50/60 px-1.5 py-0.5 text-[10px] font-medium text-amber-700 dark:border-amber-300/35 dark:bg-amber-400/10 dark:text-amber-300"
-              title="This issue needs a next step"
-              aria-label="Needs next step"
+              title={t("This issue needs a next step")}
+              aria-label={t("Needs next step")}
             >
               <AlertTriangle className="h-3 w-3" />
-              Next step
+              {t("Next step")}
             </span>
           ) : null}
           {isLive && (

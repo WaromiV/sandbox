@@ -242,6 +242,11 @@ export function setupLiveEventsWebSocketServer(
     const url = new URL(req.url, "http://localhost");
     const companyId = parseCompanyId(url.pathname);
     if (!companyId) {
+      // /editor + /openclaw upgrades belong to the per-user workspace proxy
+      // (attachWorkspaceProxyUpgrade) — leave the socket for its handler.
+      if (/^\/(editor|openclaw)([/?]|$)/.test(req.url)) {
+        return;
+      }
       socket.destroy();
       return;
     }

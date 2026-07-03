@@ -12,6 +12,7 @@ import {
 import { statusBadge, statusBadgeDefault } from "../lib/status-colors";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
+import { t } from "../lib/i18n";
 
 // -- Tree types --------------------------------------------------------------
 
@@ -216,18 +217,18 @@ export function parseFrontmatter(content: string): { data: FrontmatterData; body
 }
 
 export const FRONTMATTER_FIELD_LABELS: Record<string, string> = {
-  name: "Name",
-  title: "Title",
-  kind: "Kind",
-  reportsTo: "Reports to",
-  skills: "Skills",
-  status: "Status",
-  description: "Description",
-  priority: "Priority",
-  assignee: "Assignee",
-  project: "Project",
-  recurring: "Recurring",
-  targetDate: "Target date",
+  name: t("Name"),
+  title: t("Title"),
+  kind: t("Kind"),
+  reportsTo: t("Reports to"),
+  skills: t("Skills"),
+  status: t("Status"),
+  description: t("Description"),
+  priority: t("Priority"),
+  assignee: t("Assignee"),
+  project: t("Project"),
+  recurring: t("Recurring"),
+  targetDate: t("Target date"),
 };
 
 // -- File tree component -----------------------------------------------------
@@ -274,7 +275,7 @@ export function FileTree({
   loading = false,
   error,
   empty,
-  ariaLabel = "Files",
+  ariaLabel = t("Files"),
 }: FileTreeProps) {
   const effectiveCheckedFiles = checkedFiles ?? new Set<string>();
   const visibleNodes = useMemo(
@@ -363,13 +364,13 @@ export function FileTree({
                 statusBadge.error ?? statusBadgeDefault,
               )}
             >
-              error
+              {t("error")}
             </span>
             <span className="min-w-0 text-destructive">{error.message}</span>
           </div>
           {error.retry && (
             <Button type="button" size="xs" variant="outline" onClick={error.retry}>
-              Retry
+              {t("Retry")}
             </Button>
           )}
         </div>
@@ -381,9 +382,9 @@ export function FileTree({
     return (
       <div aria-label={ariaLabel} role="tree" className="p-3">
         <div className="rounded-md border border-dashed border-border px-4 py-8 text-center">
-          <div className="text-sm font-medium">{empty?.title ?? "No files"}</div>
+          <div className="text-sm font-medium">{empty?.title ?? t("No files")}</div>
           <div className="mt-1 text-xs text-muted-foreground">
-            {empty?.description ?? "Files will appear here when they are available."}
+            {empty?.description ?? t("Files will appear here when they are available.")}
           </div>
         </div>
       </div>
@@ -483,7 +484,7 @@ export function FileTree({
                   event.stopPropagation();
                   onToggleDir(node.path);
                 }}
-                aria-label={expanded ? `Collapse ${node.name}` : `Expand ${node.name}`}
+                aria-label={expanded ? `${t("Collapse")} ${node.name}` : `${t("Expand")} ${node.name}`}
               >
                 {expanded ? (
                   <ChevronDown className="h-3.5 w-3.5" />

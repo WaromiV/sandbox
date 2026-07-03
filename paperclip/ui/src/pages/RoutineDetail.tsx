@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "@/lib/router";
+import { t } from "../lib/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Activity as ActivityIcon,
@@ -71,19 +72,19 @@ const triggerKinds = ["schedule", "webhook"];
 const signingModes = ["bearer", "hmac_sha256", "github_hmac", "none"];
 const routineTabs = ["triggers", "runs", "activity", "history"] as const;
 const concurrencyPolicyDescriptions: Record<string, string> = {
-  coalesce_if_active: "Keep one follow-up run queued while an active run is still working.",
-  always_enqueue: "Queue every trigger occurrence, even if several runs stack up.",
-  skip_if_active: "Drop overlapping trigger occurrences while the routine is already active.",
+  coalesce_if_active: t("Keep one follow-up run queued while an active run is still working."),
+  always_enqueue: t("Queue every trigger occurrence, even if several runs stack up."),
+  skip_if_active: t("Drop overlapping trigger occurrences while the routine is already active."),
 };
 const catchUpPolicyDescriptions: Record<string, string> = {
-  skip_missed: "Ignore schedule windows that were missed while the routine or scheduler was paused.",
-  enqueue_missed_with_cap: "Catch up missed schedule windows in capped batches after recovery.",
+  skip_missed: t("Ignore schedule windows that were missed while the routine or scheduler was paused."),
+  enqueue_missed_with_cap: t("Catch up missed schedule windows in capped batches after recovery."),
 };
 const signingModeDescriptions: Record<string, string> = {
-  bearer: "Expect a shared bearer token in the Authorization header.",
-  hmac_sha256: "Expect an HMAC SHA-256 signature over the request using the shared secret.",
-  github_hmac: "Accept GitHub-style X-Hub-Signature-256 header (HMAC over raw body, no timestamp).",
-  none: "No authentication — the webhook URL itself acts as a shared secret.",
+  bearer: t("Expect a shared bearer token in the Authorization header."),
+  hmac_sha256: t("Expect an HMAC SHA-256 signature over the request using the shared secret."),
+  github_hmac: t("Accept GitHub-style X-Hub-Signature-256 header (HMAC over raw body, no timestamp)."),
+  none: t("No authentication — the webhook URL itself acts as a shared secret."),
 };
 const SIGNING_MODES_WITHOUT_REPLAY_WINDOW = new Set(["github_hmac", "none"]);
 
@@ -186,16 +187,16 @@ function TriggerEditor({
         </div>
         <span className="text-xs text-muted-foreground">
           {trigger.kind === "schedule" && trigger.nextRunAt
-            ? `Next: ${new Date(trigger.nextRunAt).toLocaleString()}`
+            ? `${t("Next:")} ${new Date(trigger.nextRunAt).toLocaleString()}`
             : trigger.kind === "webhook"
-              ? "Webhook"
-              : "API"}
+              ? t("Webhook")
+              : t("API")}
         </span>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         <div className="space-y-1.5">
-          <Label className="text-xs">Label</Label>
+          <Label className="text-xs">{t("Label")}</Label>
           <Input
             value={draft.label}
             onChange={(event) => setDraft((current) => ({ ...current, label: event.target.value }))}
@@ -203,7 +204,7 @@ function TriggerEditor({
         </div>
         {trigger.kind === "schedule" && (
           <div className="md:col-span-2 space-y-1.5">
-            <Label className="text-xs">Schedule</Label>
+            <Label className="text-xs">{t("Schedule")}</Label>
             <ScheduleEditor
               value={draft.cronExpression}
               onChange={(cronExpression) => setDraft((current) => ({ ...current, cronExpression }))}
@@ -213,7 +214,7 @@ function TriggerEditor({
         {trigger.kind === "webhook" && (
           <>
             <div className="space-y-1.5">
-              <Label className="text-xs">Signing mode</Label>
+              <Label className="text-xs">{t("Signing mode")}</Label>
               <Select
                 value={draft.signingMode}
                 onValueChange={(signingMode) => setDraft((current) => ({ ...current, signingMode }))}
@@ -230,7 +231,7 @@ function TriggerEditor({
             </div>
             {!SIGNING_MODES_WITHOUT_REPLAY_WINDOW.has(draft.signingMode) && (
               <div className="space-y-1.5">
-                <Label className="text-xs">Replay window (seconds)</Label>
+                <Label className="text-xs">{t("Replay window (seconds)")}</Label>
                 <Input
                   value={draft.replayWindowSec}
                   onChange={(event) => setDraft((current) => ({ ...current, replayWindowSec: event.target.value }))}
@@ -242,12 +243,12 @@ function TriggerEditor({
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        {trigger.lastResult && <span className="text-xs text-muted-foreground">Last: {trigger.lastResult}</span>}
+        {trigger.lastResult && <span className="text-xs text-muted-foreground">{t("Last:")} {trigger.lastResult}</span>}
         <div className="ml-auto flex items-center gap-2">
           {trigger.kind === "webhook" && (
             <Button variant="outline" size="sm" onClick={() => onRotate(trigger.id)}>
               <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-              Rotate secret
+              {t("Rotate secret")}
             </Button>
           )}
           <Button
@@ -256,7 +257,7 @@ function TriggerEditor({
             onClick={() => onSave(trigger.id, buildRoutineTriggerPatch(trigger, draft, getLocalTimezone()))}
           >
             <Save className="mr-1.5 h-3.5 w-3.5" />
-            Save trigger
+            {t("Save trigger")}
           </Button>
           <Button
             variant="ghost"
@@ -431,11 +432,11 @@ export function RoutineDetail() {
   const copySecretValue = async (label: string, value: string) => {
     try {
       await navigator.clipboard.writeText(value);
-      pushToast({ title: `${label} copied`, tone: "success" });
+      pushToast({ title: `${label} ${t("copied")}`, tone: "success" });
     } catch (error) {
       pushToast({
-        title: `Failed to copy ${label.toLowerCase()}`,
-        body: error instanceof Error ? error.message : "Clipboard access was denied.",
+        title: `${t("Failed to copy")} ${label.toLowerCase()}`,
+        body: error instanceof Error ? error.message : t("Clipboard access was denied."),
         tone: "error",
       });
     }
@@ -481,15 +482,15 @@ export function RoutineDetail() {
       if (error instanceof ApiError && error.status === 409) {
         setSaveConflict(true);
         pushToast({
-          title: "Routine changed",
-          body: "Someone else updated this routine. Reload to see the latest revision.",
+          title: t("Routine changed"),
+          body: t("Someone else updated this routine. Reload to see the latest revision."),
           tone: "warn",
         });
         return;
       }
       pushToast({
-        title: "Failed to save routine",
-        body: error instanceof Error ? error.message : "Paperclip could not save the routine.",
+        title: t("Failed to save routine"),
+        body: error instanceof Error ? error.message : t("Paperclip could not save the routine."),
         tone: "error",
       });
     },
@@ -510,7 +511,7 @@ export function RoutineDetail() {
           : {}),
       }),
     onSuccess: async () => {
-      pushToast({ title: "Routine run started", tone: "success" });
+      pushToast({ title: t("Routine run started"), tone: "success" });
       setRunVariablesOpen(false);
       setActiveTab("runs");
       await Promise.all([
@@ -522,8 +523,8 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Routine run failed",
-        body: error instanceof Error ? error.message : "Paperclip could not start the routine run.",
+        title: t("Routine run failed"),
+        body: error instanceof Error ? error.message : t("Paperclip could not start the routine run."),
         tone: "error",
       });
     },
@@ -533,8 +534,8 @@ export function RoutineDetail() {
     mutationFn: (status: string) => routinesApi.update(routineId!, { status }),
     onSuccess: async (_data, status) => {
       pushToast({
-        title: "Routine saved",
-        body: status === "paused" ? "Automation paused." : "Automation enabled.",
+        title: t("Routine saved"),
+        body: status === "paused" ? t("Automation paused.") : t("Automation enabled."),
         tone: "success",
       });
       await Promise.all([
@@ -544,8 +545,8 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to update routine",
-        body: error instanceof Error ? error.message : "Paperclip could not update the routine.",
+        title: t("Failed to update routine"),
+        body: error instanceof Error ? error.message : t("Paperclip could not update the routine."),
         tone: "error",
       });
     },
@@ -572,7 +573,7 @@ export function RoutineDetail() {
     onSuccess: async (result) => {
       if (result.secretMaterial) {
         setSecretMessage({
-          title: "Webhook trigger created",
+          title: t("Webhook trigger created"),
           entries: [{
             webhookUrl: result.secretMaterial.webhookUrl,
             webhookSecret: result.secretMaterial.webhookSecret,
@@ -580,8 +581,8 @@ export function RoutineDetail() {
         });
       } else {
         pushToast({
-          title: "Trigger added",
-          body: "The routine schedule was saved.",
+          title: t("Trigger added"),
+          body: t("The routine schedule was saved."),
           tone: "success",
         });
       }
@@ -593,8 +594,8 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to add trigger",
-        body: error instanceof Error ? error.message : "Paperclip could not create the trigger.",
+        title: t("Failed to add trigger"),
+        body: error instanceof Error ? error.message : t("Paperclip could not create the trigger."),
         tone: "error",
       });
     },
@@ -604,8 +605,8 @@ export function RoutineDetail() {
     mutationFn: ({ id, patch }: { id: string; patch: Record<string, unknown> }) => routinesApi.updateTrigger(id, patch),
     onSuccess: async () => {
       pushToast({
-        title: "Trigger saved",
-        body: "The routine cadence update was saved.",
+        title: t("Trigger saved"),
+        body: t("The routine cadence update was saved."),
         tone: "success",
       });
       await Promise.all([
@@ -616,8 +617,8 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to update trigger",
-        body: error instanceof Error ? error.message : "Paperclip could not update the trigger.",
+        title: t("Failed to update trigger"),
+        body: error instanceof Error ? error.message : t("Paperclip could not update the trigger."),
         tone: "error",
       });
     },
@@ -627,7 +628,7 @@ export function RoutineDetail() {
     mutationFn: (id: string) => routinesApi.deleteTrigger(id),
     onSuccess: async () => {
       pushToast({
-        title: "Trigger deleted",
+        title: t("Trigger deleted"),
         tone: "success",
       });
       await Promise.all([
@@ -638,8 +639,8 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to delete trigger",
-        body: error instanceof Error ? error.message : "Paperclip could not delete the trigger.",
+        title: t("Failed to delete trigger"),
+        body: error instanceof Error ? error.message : t("Paperclip could not delete the trigger."),
         tone: "error",
       });
     },
@@ -649,7 +650,7 @@ export function RoutineDetail() {
     mutationFn: (id: string): Promise<RotateRoutineTriggerResponse> => routinesApi.rotateTriggerSecret(id),
     onSuccess: async (result) => {
       setSecretMessage({
-        title: "Webhook secret rotated",
+        title: t("Webhook secret rotated"),
         entries: [{
           webhookUrl: result.secretMaterial.webhookUrl,
           webhookSecret: result.secretMaterial.webhookSecret,
@@ -662,8 +663,8 @@ export function RoutineDetail() {
     },
     onError: (error) => {
       pushToast({
-        title: "Failed to rotate webhook secret",
-        body: error instanceof Error ? error.message : "Paperclip could not rotate the webhook secret.",
+        title: t("Failed to rotate webhook secret"),
+        body: error instanceof Error ? error.message : t("Paperclip could not rotate the webhook secret."),
         tone: "error",
       });
     },
@@ -1110,7 +1111,7 @@ export function RoutineDetail() {
               </div>
               {newTrigger.kind === "schedule" && (
                 <div className="md:col-span-2 space-y-1.5">
-                  <Label className="text-xs">Schedule</Label>
+                  <Label className="text-xs">{t("Schedule")}</Label>
                   <ScheduleEditor
                     value={newTrigger.cronExpression}
                     onChange={(cronExpression) => setNewTrigger((current) => ({ ...current, cronExpression }))}

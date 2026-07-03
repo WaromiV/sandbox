@@ -7,6 +7,7 @@ import { queryKeys } from "@/lib/queryKeys";
 import { useCompany } from "@/context/CompanyContext";
 import { useSidebar } from "@/context/SidebarContext";
 import { SidebarNavItem } from "./SidebarNavItem";
+import { t } from "../lib/i18n";
 
 export function CompanySettingsSidebar() {
   const { selectedCompany, selectedCompanyId } = useCompany();
@@ -41,34 +42,34 @@ export function CompanySettingsSidebar() {
           className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground"
         >
           <ChevronLeft className="h-3.5 w-3.5 shrink-0" />
-          <span className="truncate">{selectedCompany?.name ?? "Company"}</span>
+          <span className="truncate">{selectedCompany?.name ?? t("Company")}</span>
         </Link>
         <div className="flex items-center gap-2 px-2 py-1">
           <Settings className="h-4 w-4 text-muted-foreground shrink-0" />
           <span className="flex-1 truncate text-sm font-bold text-foreground">
-            Company Settings
+            {t("Company Settings")}
           </span>
         </div>
       </div>
 
       <nav className="flex-1 min-h-0 overflow-y-auto scrollbar-auto-hide px-3 py-2">
         <div className="flex flex-col gap-0.5">
-          <SidebarNavItem to="/company/settings" label="General" icon={SlidersHorizontal} end />
+          <SidebarNavItem to="/company/settings" label={t("General")} icon={SlidersHorizontal} end />
           <SidebarNavItem
             to="/company/settings/environments"
-            label="Environments"
+            label={t("Environments")}
             icon={MonitorCog}
             end
           />
           <SidebarNavItem
             to="/company/settings/access"
-            label="Access"
+            label={t("Access")}
             icon={Shield}
             badge={badges?.joinRequests ?? 0}
             end
           />
-          <SidebarNavItem to="/company/settings/invites" label="Invites" icon={MailPlus} end />
-          <SidebarNavItem to="/company/settings/secrets" label="Secrets" icon={KeyRound} end />
+          <SidebarNavItem to="/company/settings/invites" label={t("Invites")} icon={MailPlus} end />
+          <SidebarNavItem to="/company/settings/secrets" label={t("Secrets")} icon={KeyRound} end />
         </div>
       </nav>
     </aside>

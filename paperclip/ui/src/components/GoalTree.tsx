@@ -3,6 +3,7 @@ import { Link } from "@/lib/router";
 import { StatusBadge } from "./StatusBadge";
 import { ChevronRight } from "lucide-react";
 import { cn } from "../lib/utils";
+import { t } from "../lib/i18n";
 import { useState } from "react";
 
 interface GoalTreeProps {
@@ -43,7 +44,7 @@ function GoalNode({ goal, children, allGoals, depth, goalLink, onSelect }: GoalN
       ) : (
         <span className="w-4" />
       )}
-      <span className="text-xs text-muted-foreground capitalize">{goal.level}</span>
+      <span className="text-xs text-muted-foreground capitalize">{t(goal.level)}</span>
       <span className="flex-1 truncate">{goal.title}</span>
       <StatusBadge status={goal.status} />
     </>
@@ -96,7 +97,7 @@ export function GoalTree({ goals, goalLink, onSelect }: GoalTreeProps) {
   const roots = goals.filter((g) => !g.parentId || !goalIds.has(g.parentId));
 
   if (goals.length === 0) {
-    return <p className="text-sm text-muted-foreground">No goals.</p>;
+    return <p className="text-sm text-muted-foreground">{t("No goals.")}</p>;
   }
 
   return (

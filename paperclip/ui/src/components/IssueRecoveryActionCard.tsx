@@ -7,6 +7,7 @@ import type {
   IssueRecoveryActionStatus,
 } from "@paperclipai/shared";
 import { Eye, OctagonAlert, RefreshCw, Sparkles, TriangleAlert } from "lucide-react";
+import { t } from "../lib/i18n";
 import { Link } from "@/lib/router";
 import { Button } from "@/components/ui/button";
 import {
@@ -165,12 +166,12 @@ function readWakePolicySummary(action: IssueRecoveryAction): string | null {
   if (!policy) return null;
   const type = readEvidenceString(policy.type);
   if (!type) return null;
-  if (type === "wake_owner") return "Corrective wake queued";
-  if (type === "board_escalation") return "Escalated to board";
-  if (type === "manual") return "Manual";
+  if (type === "wake_owner") return t("Corrective wake queued");
+  if (type === "board_escalation") return t("Escalated to board");
+  if (type === "manual") return t("Manual");
   if (type === "monitor") {
     const interval = readEvidenceString(policy.intervalLabel);
-    return interval ? `Monitor scheduled · ${interval}` : "Monitor scheduled";
+    return interval ? `${t("Monitor scheduled")} · ${interval}` : t("Monitor scheduled");
   }
   return type.replaceAll("_", " ");
 }
@@ -237,7 +238,7 @@ function AgentLink({
     return fallback ? <span>{fallback}</span> : <MissingValue />;
   }
   const agent = agentMap?.get(agentId);
-  const label = agent?.name ?? `agent ${agentId.slice(0, 8)}`;
+  const label = agent?.name ?? `${t("agent")} ${agentId.slice(0, 8)}`;
   if (agent) {
     return (
       <Link
@@ -265,7 +266,7 @@ function RunChip({
   const inner = (
     <>
       <code className="rounded bg-background/80 px-1.5 py-0.5 font-mono text-[11px] text-foreground/80">
-        run {short}
+        {t("run")} {short}
       </code>
       {status ? (
         <span className="font-sans text-[11px] text-muted-foreground">{status}</span>
@@ -332,9 +333,9 @@ export function IssueRecoveryActionCard({
 
   const headline = useMemo(() => {
     if (cardState === "resolved" && action.outcome) {
-      return `Recovery resolved as ${OUTCOME_LABEL[action.outcome] ?? action.outcome}.`;
+      return `${t("Recovery resolved as")} ${t(OUTCOME_LABEL[action.outcome] ?? action.outcome)}.`;
     }
-    return KIND_HEADLINE[action.kind] ?? KIND_HEADLINE.missing_disposition;
+    return t(KIND_HEADLINE[action.kind] ?? KIND_HEADLINE.missing_disposition);
   }, [action.kind, action.outcome, cardState]);
 
   const wakeSummary = readWakePolicySummary(action);
@@ -371,7 +372,7 @@ export function IssueRecoveryActionCard({
   return (
     <section
       role="status"
-      aria-label={`Recovery action: ${ariaState}`}
+      aria-label={`${t("Recovery action:")} ${t(ariaState)}`}
       data-recovery-state={cardState}
       data-recovery-kind={action.kind}
       className={cn(
@@ -392,10 +393,10 @@ export function IssueRecoveryActionCard({
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] font-semibold uppercase tracking-[0.14em]">
-            <span className={tone.labelClass}>{tone.label}</span>
+            <span className={tone.labelClass}>{t(tone.label)}</span>
             <span className="text-muted-foreground/60" aria-hidden>·</span>
             <code className="rounded bg-background/70 px-1.5 py-0.5 font-mono text-[11px] tracking-normal text-muted-foreground">
-              {KIND_LABEL[action.kind] ?? action.kind}
+              {t(KIND_LABEL[action.kind] ?? action.kind)}
             </code>
             {updatedAtLabel ? (
               <>
@@ -410,67 +411,67 @@ export function IssueRecoveryActionCard({
         </div>
       </header>
       <dl className={cn("border-t bg-background/40 dark:bg-background/20", tone.divider)}>
-        <MetadataRow label="Owner">
+        <MetadataRow label={t("Owner")}>
           <span className="inline-flex flex-wrap items-center gap-1.5">
             {action.ownerType === "agent" && action.ownerAgentId ? (
               <>
-                <span className="text-muted-foreground">Recovery:</span>
+                <span className="text-muted-foreground">{t("Recovery:")}</span>
                 <AgentLink agentId={action.ownerAgentId} agentMap={agentMap} />
               </>
             ) : action.ownerType === "board" ? (
-              <span className="font-medium">Board</span>
+              <span className="font-medium">{t("Board")}</span>
             ) : action.ownerType === "user" && action.ownerUserId ? (
-              <span className="font-medium">user {action.ownerUserId.slice(0, 6)}</span>
+              <span className="font-medium">{t("user")} {action.ownerUserId.slice(0, 6)}</span>
             ) : action.ownerType === "system" ? (
-              <span className="font-medium">System</span>
+              <span className="font-medium">{t("System")}</span>
             ) : (
-              <span className="text-muted-foreground">unassigned — pick one to wake them</span>
+              <span className="text-muted-foreground">{t("unassigned — pick one to wake them")}</span>
             )}
             {action.returnOwnerAgentId ? (
               <>
-                <span className="text-muted-foreground">→ Returns to:</span>
+                <span className="text-muted-foreground">{t("→ Returns to:")}</span>
                 <AgentLink agentId={action.returnOwnerAgentId} agentMap={agentMap} />
               </>
             ) : null}
           </span>
         </MetadataRow>
-        <MetadataRow label="Source run">
+        <MetadataRow label={t("Source run")}>
           <RunChip runId={sourceRunId} agentId={action.previousOwnerAgentId} />
         </MetadataRow>
         {correctiveRunId ? (
-          <MetadataRow label="Corrective run">
+          <MetadataRow label={t("Corrective run")}>
             <RunChip runId={correctiveRunId} agentId={action.previousOwnerAgentId} />
           </MetadataRow>
         ) : null}
-        <MetadataRow label="Evidence">
+        <MetadataRow label={t("Evidence")}>
           {evidenceSummary ? (
             <span className="break-words font-mono text-[11px] text-foreground/80">{evidenceSummary}</span>
           ) : (
             <MissingValue />
           )}
         </MetadataRow>
-        <MetadataRow label="Next action">
+        <MetadataRow label={t("Next action")}>
           {action.nextAction ? <span>{action.nextAction}</span> : <MissingValue />}
         </MetadataRow>
-        <MetadataRow label="Wake">
+        <MetadataRow label={t("Wake")}>
           <span className="inline-flex flex-wrap items-center gap-1.5">
             {wakeSummary ? <span>{wakeSummary}</span> : <MissingValue />}
             {showAttempt ? (
               <span className="rounded-md border border-border/50 bg-background/60 px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                attempt {action.attemptCount} of {action.maxAttempts}
+                {t("attempt")} {action.attemptCount} {t("of")} {action.maxAttempts}
               </span>
             ) : null}
             {showTimeoutInline ? (
               <span className="rounded-md border border-border/50 bg-background/60 px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                Times out {formatTimeShort(action.timeoutAt) ?? "soon"}
+                {t("Times out")} {formatTimeShort(action.timeoutAt) ?? t("soon")}
               </span>
             ) : null}
           </span>
         </MetadataRow>
         {cardState === "resolved" && action.outcome ? (
-          <MetadataRow label="Resolution">
+          <MetadataRow label={t("Resolution")}>
             <span className={cn("font-medium", tone.labelClass)}>
-              Resolved as {OUTCOME_LABEL[action.outcome]}
+              {t("Resolved as")} {t(OUTCOME_LABEL[action.outcome])}
               {action.resolvedAt ? ` · ${formatTimeShort(action.resolvedAt) ?? ""}` : ""}
             </span>
           </MetadataRow>
@@ -485,9 +486,9 @@ export function IssueRecoveryActionCard({
                 size="sm"
                 variant="default"
                 data-testid="recovery-action-resolve-trigger"
-                aria-label="Resolve recovery"
+                aria-label={t("Resolve recovery")}
               >
-                Resolve…
+                {t("Resolve…")}
               </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -496,7 +497,7 @@ export function IssueRecoveryActionCard({
               className="w-72 p-1.5"
             >
               <div className="px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                Resolve recovery
+                {t("Resolve recovery")}
               </div>
               <div className="flex flex-col">
                 {visibleResolveOptions.map((option) => (
@@ -510,8 +511,8 @@ export function IssueRecoveryActionCard({
                       option.destructive ? "text-destructive" : null,
                     )}
                   >
-                    <span className="font-medium leading-5">{option.label}</span>
-                    <span className="text-[11px] leading-4 text-muted-foreground">{option.description}</span>
+                    <span className="font-medium leading-5">{t(option.label)}</span>
+                    <span className="text-[11px] leading-4 text-muted-foreground">{t(option.description)}</span>
                   </button>
                 ))}
               </div>
@@ -519,11 +520,11 @@ export function IssueRecoveryActionCard({
           </Popover>
           {cardState === "observe_only" ? (
             <span className="text-[11px] text-muted-foreground">
-              Recovery is observing without interrupting the live run.
+              {t("Recovery is observing without interrupting the live run.")}
             </span>
           ) : (
             <span className="text-[11px] text-muted-foreground">
-              The card stays open until an explicit decision is recorded.
+              {t("The card stays open until an explicit decision is recorded.")}
             </span>
           )}
         </div>

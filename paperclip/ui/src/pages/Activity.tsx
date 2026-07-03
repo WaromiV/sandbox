@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { t } from "../lib/i18n";
 import type { ActivityEvent, Agent } from "@paperclipai/shared";
 import { activityApi } from "../api/activity";
 import { accessApi } from "../api/access";
@@ -49,7 +50,7 @@ export function Activity() {
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    setBreadcrumbs([{ label: "Activity" }]);
+    setBreadcrumbs([{ label: t("Activity") }]);
   }, [setBreadcrumbs]);
 
   const { data, isLoading, error } = useQuery({
@@ -101,7 +102,7 @@ export function Activity() {
   }, [data]);
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={History} message="Select a company to view activity." />;
+    return <EmptyState icon={History} message={t("Select a company to view activity.")} />;
   }
 
   if (isLoading) {
@@ -122,13 +123,13 @@ export function Activity() {
       <div className="flex items-center justify-end">
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="w-[140px] h-8 text-xs">
-            <SelectValue placeholder="Filter by type" />
+            <SelectValue placeholder={t("Filter by type")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All types</SelectItem>
+            <SelectItem value="all">{t("All types")}</SelectItem>
             {entityTypes.map((type) => (
               <SelectItem key={type} value={type}>
-                {type.charAt(0).toUpperCase() + type.slice(1)}
+                {t(type.charAt(0).toUpperCase() + type.slice(1))}
               </SelectItem>
             ))}
           </SelectContent>
@@ -138,7 +139,7 @@ export function Activity() {
       {error && <p className="text-sm text-destructive">{error.message}</p>}
 
       {filtered && filtered.length === 0 && (
-        <EmptyState icon={History} message="No activity yet." />
+        <EmptyState icon={History} message={t("No activity yet.")} />
       )}
 
       {filtered && filtered.length > 0 && (

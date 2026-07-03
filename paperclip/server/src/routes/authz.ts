@@ -45,6 +45,11 @@ export function assertCompanyAccess(req: Request, companyId: string) {
     throw forbidden("Agent key cannot access another company");
   }
   if (req.actor.type === "board" && req.actor.source !== "local_implicit") {
+    // Trust+audit posture: instance admins have full cross-company access
+    // (reads AND writes); attribution + the activity log are the control.
+    if (req.actor.isInstanceAdmin) {
+      return;
+    }
     const allowedCompanies = req.actor.companyIds ?? [];
     if (!allowedCompanies.includes(companyId)) {
       throw forbidden("User does not have access to this company");

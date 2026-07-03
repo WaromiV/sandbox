@@ -4,6 +4,7 @@ import { MarkdownBody } from "./MarkdownBody";
 import { MarkdownEditor, type MarkdownEditorRef, type MentionOption } from "./MarkdownEditor";
 import { useAutosaveIndicator } from "../hooks/useAutosaveIndicator";
 import { FoldCurtain } from "./FoldCurtain";
+import { t } from "../lib/i18n";
 
 interface InlineEditorProps {
   value: string;
@@ -48,7 +49,7 @@ export function InlineEditor({
   onSave,
   as: Tag = "span",
   className,
-  placeholder = "Click to edit...",
+  placeholder = t("Click to edit..."),
   multiline = false,
   nullable = false,
   imageUploadHandler,
@@ -350,12 +351,12 @@ export function InlineEditor({
             )}
           >
             {autosaveState === "saving"
-              ? "Autosaving..."
+              ? t("Autosaving...")
               : autosaveState === "saved"
-                ? "Saved"
+                ? t("Saved")
                 : autosaveState === "error"
-                  ? "Could not save"
-                  : "Idle"}
+                  ? t("Could not save")
+                  : t("Idle")}
           </span>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { MonitorSmartphone } from "lucide-react";
+import { t } from "../lib/i18n";
 import { meApi } from "../api/me";
 import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { EmptyState } from "../components/EmptyState";
@@ -13,7 +14,7 @@ export function MyWorkspace() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setBreadcrumbs([{ label: "My Workspace" }]);
+    setBreadcrumbs([{ label: t("My Workspace") }]);
   }, [setBreadcrumbs]);
 
   useEffect(() => {
@@ -39,14 +40,14 @@ export function MyWorkspace() {
   }, []);
 
   if (state === "loading") {
-    return <EmptyState icon={MonitorSmartphone} message="Starting your workspace…" />;
+    return <EmptyState icon={MonitorSmartphone} message={t("Starting your workspace…")} />;
   }
   if (state === "error") {
-    return <EmptyState icon={MonitorSmartphone} message={`Workspace not ready: ${error}`} />;
+    return <EmptyState icon={MonitorSmartphone} message={`${t("Workspace not ready:")} ${error}`} />;
   }
   return (
     <iframe
-      title="My Workspace"
+      title={t("My Workspace")}
       src="/editor/"
       className="w-full border border-border"
       style={{ height: "calc(100vh - 7rem)" }}

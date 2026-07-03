@@ -86,6 +86,9 @@ function buildAdapterConfig(
   return {
     url: config.url,
     authToken: config.token,
+    // Container gateways run auth mode trusted-proxy — the adapter forwards
+    // these headers on its WS connect (ignored by mode=none gateways).
+    headers: { "x-paperclip-user": "paperclip-bridge" },
     sessionKeyStrategy: "issue",
     paperclipApiUrl: config.paperclipApiUrl,
     claimedApiKeyPath,

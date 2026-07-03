@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { IssueRelationIssueSummary } from "@paperclipai/shared";
 import { Link } from "@/lib/router";
 import { cn } from "../lib/utils";
+import { t } from "../lib/i18n";
 import { StatusIcon } from "./StatusIcon";
 
 export function IssueReferencePill({
@@ -37,7 +38,7 @@ export function IssueReferencePill({
         data-mention-kind="issue"
         className={classNames}
         title={issue.title}
-        aria-label={`Issue: ${issue.title}`}
+        aria-label={`${t("Issue")}: ${issue.title}`}
       >
         {content}
       </span>
@@ -50,7 +51,7 @@ export function IssueReferencePill({
       data-mention-kind="issue"
       className={classNames}
       title={issue.title}
-      aria-label={`Issue ${issueLabel}: ${issue.title}`}
+      aria-label={`${t("Issue")} ${issueLabel}: ${issue.title}`}
     >
       {content}
     </Link>

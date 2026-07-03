@@ -1,5 +1,6 @@
 import type { QuotaWindow } from "@paperclipai/shared";
 import { cn, quotaSourceDisplayName } from "@/lib/utils";
+import { t } from "../lib/i18n";
 
 interface ClaudeSubscriptionPanelProps {
   windows: QuotaWindow[];
@@ -31,7 +32,7 @@ function detailText(window: QuotaWindow): string | null {
       minute: "2-digit",
       timeZoneName: "short",
     });
-    return `Resets ${formatted}`;
+    return `${t("Resets")} ${formatted}`;
   }
   return null;
 }
@@ -63,10 +64,10 @@ export function ClaudeSubscriptionPanel({
       <div className="flex items-start justify-between gap-3 border-b border-border pb-3">
         <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Anthropic subscription
+            {t("Anthropic subscription")}
           </div>
           <div className="mt-1 text-sm text-muted-foreground">
-            Live Claude quota windows.
+            {t("Live Claude quota windows.")}
           </div>
         </div>
         {source ? (
@@ -120,7 +121,7 @@ export function ClaudeSubscriptionPanel({
                 </div>
                 {window.usedPercent != null ? (
                   <div className="shrink-0 text-sm font-semibold tabular-nums text-foreground">
-                    {window.usedPercent}% used
+                    {window.usedPercent}% {t("used")}
                   </div>
                 ) : null}
               </div>

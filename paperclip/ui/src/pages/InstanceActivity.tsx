@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { History } from "lucide-react";
+import { t } from "../lib/i18n";
 import { meApi } from "../api/me";
 import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { EmptyState } from "../components/EmptyState";
@@ -12,7 +13,7 @@ import { formatDate } from "../lib/utils";
 export function InstanceActivity() {
   const { setBreadcrumbs } = useBreadcrumbs();
   useEffect(() => {
-    setBreadcrumbs([{ label: "Audit Log" }]);
+    setBreadcrumbs([{ label: t("Audit Log") }]);
   }, [setBreadcrumbs]);
 
   const { data: entries, isLoading, error } = useQuery({
@@ -27,7 +28,7 @@ export function InstanceActivity() {
   return (
     <div className="space-y-4">
       {error && <p className="text-sm text-destructive">{(error as Error).message}</p>}
-      {rows.length === 0 && <EmptyState icon={History} message="No activity recorded yet." />}
+      {rows.length === 0 && <EmptyState icon={History} message={t("No activity recorded yet.")} />}
       {rows.length > 0 && (
         <div className="border border-border text-sm">
           {rows.map((e) => (

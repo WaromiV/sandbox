@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { t } from "../lib/i18n";
 
 function statusDotColor(status?: string): string {
   switch (status) {
@@ -49,14 +50,14 @@ export function CompanySwitcher({ open: controlledOpen, onOpenChange }: CompanyS
               <span className={`h-2 w-2 rounded-full shrink-0 ${statusDotColor(selectedCompany.status)}`} />
             )}
             <span className="text-sm font-medium truncate">
-              {selectedCompany?.name ?? "Select company"}
+              {selectedCompany?.name ?? t("Select company")}
             </span>
           </div>
           <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-[220px]">
-        <DropdownMenuLabel>Companies</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("Companies")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {sidebarCompanies.map((company) => (
           <DropdownMenuItem
@@ -69,19 +70,19 @@ export function CompanySwitcher({ open: controlledOpen, onOpenChange }: CompanyS
           </DropdownMenuItem>
         ))}
         {sidebarCompanies.length === 0 && (
-          <DropdownMenuItem disabled>No companies</DropdownMenuItem>
+          <DropdownMenuItem disabled>{t("No companies")}</DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link to="/company/settings" className="no-underline text-inherit">
             <Settings className="h-4 w-4 mr-2" />
-            Company Settings
+            {t("Company Settings")}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link to="/companies" className="no-underline text-inherit">
             <Plus className="h-4 w-4 mr-2" />
-            Manage Companies
+            {t("Manage Companies")}
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -10,6 +10,7 @@ import { StatusBadge } from "../components/StatusBadge";
 import { EmptyState } from "../components/EmptyState";
 import { PageSkeleton } from "../components/PageSkeleton";
 import { formatDate, projectUrl } from "../lib/utils";
+import { t } from "../lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Hexagon, Plus } from "lucide-react";
 
@@ -19,7 +20,7 @@ export function Projects() {
   const { setBreadcrumbs } = useBreadcrumbs();
 
   useEffect(() => {
-    setBreadcrumbs([{ label: "Projects" }]);
+    setBreadcrumbs([{ label: t("Projects") }]);
   }, [setBreadcrumbs]);
 
   const { data: allProjects, isLoading, error } = useQuery({
@@ -33,7 +34,7 @@ export function Projects() {
   );
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={Hexagon} message="Select a company to view projects." />;
+    return <EmptyState icon={Hexagon} message={t("Select a company to view projects.")} />;
   }
 
   if (isLoading) {
@@ -45,7 +46,7 @@ export function Projects() {
       <div className="flex items-center justify-end">
         <Button size="sm" variant="outline" onClick={openNewProject}>
           <Plus className="h-4 w-4 mr-1" />
-          Add Project
+          {t("Add Project")}
         </Button>
       </div>
 
@@ -54,8 +55,8 @@ export function Projects() {
       {!isLoading && projects.length === 0 && (
         <EmptyState
           icon={Hexagon}
-          message="No projects yet."
-          action="Add Project"
+          message={t("No projects yet.")}
+          action={t("Add Project")}
           onAction={openNewProject}
         />
       )}

@@ -9,6 +9,7 @@ import { useCompany } from "../context/CompanyContext";
 import { queryKeys } from "../lib/queryKeys";
 import { StatusBadge } from "./StatusBadge";
 import { formatDate, cn, agentUrl } from "../lib/utils";
+import { t } from "../lib/i18n";
 import { Separator } from "@/components/ui/separator";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
@@ -62,7 +63,7 @@ function PickerButton({
               setOpen(false);
             }}
           >
-            {label(opt)}
+            {t(label(opt))}
           </Button>
         ))}
       </PopoverContent>
@@ -96,7 +97,7 @@ export function GoalProperties({ goal, onUpdate }: GoalPropertiesProps) {
   return (
     <div className="space-y-4">
       <div className="space-y-1">
-        <PropertyRow label="Status">
+        <PropertyRow label={t("Status")}>
           {onUpdate ? (
             <PickerButton
               current={goal.status}
@@ -110,21 +111,21 @@ export function GoalProperties({ goal, onUpdate }: GoalPropertiesProps) {
           )}
         </PropertyRow>
 
-        <PropertyRow label="Level">
+        <PropertyRow label={t("Level")}>
           {onUpdate ? (
             <PickerButton
               current={goal.level}
               options={GOAL_LEVELS}
               onChange={(level) => onUpdate({ level })}
             >
-              <span className="text-sm capitalize">{goal.level}</span>
+              <span className="text-sm capitalize">{t(goal.level)}</span>
             </PickerButton>
           ) : (
-            <span className="text-sm capitalize">{goal.level}</span>
+            <span className="text-sm capitalize">{t(goal.level)}</span>
           )}
         </PropertyRow>
 
-        <PropertyRow label="Owner">
+        <PropertyRow label={t("Owner")}>
           {ownerAgent ? (
             <Link
               to={agentUrl(ownerAgent)}
@@ -133,12 +134,12 @@ export function GoalProperties({ goal, onUpdate }: GoalPropertiesProps) {
               {ownerAgent.name}
             </Link>
           ) : (
-            <span className="text-sm text-muted-foreground">None</span>
+            <span className="text-sm text-muted-foreground">{t("None")}</span>
           )}
         </PropertyRow>
 
         {goal.parentId && (
-          <PropertyRow label="Parent Goal">
+          <PropertyRow label={t("Parent Goal")}>
             <Link
               to={`/goals/${goal.parentId}`}
               className="text-sm hover:underline"
@@ -152,10 +153,10 @@ export function GoalProperties({ goal, onUpdate }: GoalPropertiesProps) {
       <Separator />
 
       <div className="space-y-1">
-        <PropertyRow label="Created">
+        <PropertyRow label={t("Created")}>
           <span className="text-sm">{formatDate(goal.createdAt)}</span>
         </PropertyRow>
-        <PropertyRow label="Updated">
+        <PropertyRow label={t("Updated")}>
           <span className="text-sm">{formatDate(goal.updatedAt)}</span>
         </PropertyRow>
       </div>

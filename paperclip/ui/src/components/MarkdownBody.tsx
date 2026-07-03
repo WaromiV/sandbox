@@ -4,6 +4,7 @@ import { Check, Copy, ExternalLink, Github } from "lucide-react";
 import Markdown, { defaultUrlTransform, type Components, type Options } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { cn } from "../lib/utils";
+import { t } from "../lib/i18n";
 import { Link } from "@/lib/router";
 import { useTheme } from "../context/ThemeContext";
 import { mentionChipInlineStyle, parseMentionChipHref } from "../lib/mention-chips";
@@ -49,7 +50,7 @@ function MarkdownIssueLink({
   const identifier = data?.identifier ?? issuePathId;
   const title = data?.title ?? identifier;
   const status = data?.status;
-  const issueLabel = title !== identifier ? `Issue ${identifier}: ${title}` : `Issue ${identifier}`;
+  const issueLabel = title !== identifier ? `${t("Issue")} ${identifier}: ${title}` : `${t("Issue")} ${identifier}`;
 
   return (
     <Link
@@ -401,7 +402,7 @@ function CodeBlock({
     }, 1500);
   }, [children]);
 
-  const label = failed ? "Copy failed" : copied ? "Copied!" : "Copy";
+  const label = failed ? t("Copy failed") : copied ? t("Copied!") : t("Copy");
 
   return (
     <div className="paperclip-markdown-codeblock">
@@ -415,7 +416,7 @@ function CodeBlock({
       <button
         type="button"
         onClick={handleCopy}
-        aria-label="Copy code"
+        aria-label={t("Copy code")}
         title={label}
         className="paperclip-markdown-codeblock-copy"
         data-copied={copied || undefined}
@@ -460,7 +461,7 @@ function MermaidDiagramBlock({ source, darkMode }: { source: string; darkMode: b
         const message =
           err instanceof Error && err.message
             ? err.message
-            : "Failed to render Mermaid diagram.";
+            : t("Failed to render Mermaid diagram.");
         setError(message);
       });
 
@@ -476,7 +477,7 @@ function MermaidDiagramBlock({ source, darkMode }: { source: string; darkMode: b
       ) : (
         <>
           <p className={cn("paperclip-mermaid-status", error && "paperclip-mermaid-status-error")}>
-            {error ? `Unable to render Mermaid diagram: ${error}` : "Rendering Mermaid diagram..."}
+            {error ? `${t("Unable to render Mermaid diagram:")} ${error}` : t("Rendering Mermaid diagram...")}
           </p>
           <pre className="paperclip-mermaid-source">
             <code className="language-mermaid">{source}</code>
@@ -527,7 +528,7 @@ export function MarkdownBody({
       </blockquote>
     ),
     table: ({ node: _node, style: tableStyle, children: tableChildren, ...tableProps }) => (
-      <div className="paperclip-markdown-table-scroll" role="region" aria-label="Scrollable table" tabIndex={0}>
+      <div className="paperclip-markdown-table-scroll" role="region" aria-label={t("Scrollable table")} tabIndex={0}>
         <table {...tableProps} style={tableStyle as React.CSSProperties | undefined}>
           {tableChildren}
         </table>

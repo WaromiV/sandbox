@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { t } from "../lib/i18n";
 import { issuesApi } from "../api/issues";
 import { useCompany } from "../context/CompanyContext";
 import { useBreadcrumbs } from "../context/BreadcrumbContext";
@@ -17,7 +18,7 @@ export function MyIssues() {
   const { setBreadcrumbs } = useBreadcrumbs();
 
   useEffect(() => {
-    setBreadcrumbs([{ label: "My Issues" }]);
+    setBreadcrumbs([{ label: t("My Issues") }]);
   }, [setBreadcrumbs]);
 
   // Server-side per-user filter. touchedByUserId=me already matches issues the
@@ -30,7 +31,7 @@ export function MyIssues() {
   });
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={ListTodo} message="Select a company to view your issues." />;
+    return <EmptyState icon={ListTodo} message={t("Select a company to view your issues.")} />;
   }
 
   if (isLoading) {
@@ -46,7 +47,7 @@ export function MyIssues() {
       {error && <p className="text-sm text-destructive">{error.message}</p>}
 
       {myIssues.length === 0 && (
-        <EmptyState icon={ListTodo} message="No issues assigned to you." />
+        <EmptyState icon={ListTodo} message={t("No issues assigned to you.")} />
       )}
 
       {myIssues.length > 0 && (

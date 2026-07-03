@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { MessagesSquare } from "lucide-react";
+import { t } from "../lib/i18n";
 import { meApi } from "../api/me";
 import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { StatusIcon } from "../components/StatusIcon";
@@ -14,7 +15,7 @@ import { formatDate } from "../lib/utils";
 export function MyChats() {
   const { setBreadcrumbs } = useBreadcrumbs();
   useEffect(() => {
-    setBreadcrumbs([{ label: "My Chats" }]);
+    setBreadcrumbs([{ label: t("My Chats") }]);
   }, [setBreadcrumbs]);
 
   const { data: chats, isLoading, error } = useQuery({
@@ -29,7 +30,7 @@ export function MyChats() {
   return (
     <div className="space-y-4">
       {error && <p className="text-sm text-destructive">{(error as Error).message}</p>}
-      {rows.length === 0 && <EmptyState icon={MessagesSquare} message="No chats yet." />}
+      {rows.length === 0 && <EmptyState icon={MessagesSquare} message={t("No chats yet.")} />}
       {rows.length > 0 && (
         <div className="border border-border">
           {rows.map((issue) => {
