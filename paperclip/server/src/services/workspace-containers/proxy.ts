@@ -20,9 +20,11 @@ export type WorkspaceUserResolver = (
 
 export type WorkspaceTarget = "editor" | "gateway";
 
+// Only /editor is browser-facing. The gateway Control UI (/openclaw) is
+// deliberately NOT proxied to users — it is operator infra; the gateway is
+// reached only by the bridge + adapter on the internal container port.
 const PREFIXES: Record<string, WorkspaceTarget> = {
   "/editor": "editor",
-  "/openclaw": "gateway",
 };
 
 /** Identity header the container gateway trusts (auth mode trusted-proxy). */

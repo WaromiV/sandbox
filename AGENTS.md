@@ -11,17 +11,20 @@ Single host. In dev (`bring-up.sh`) everything binds `127.0.0.1`; in prod
 
 | Service     | Port    | Browser-facing? | Built-in auth |
 | ----------- | ------- | --------------- | ------------- |
-| paperclip   | `:3110` | yes             | yes — Authentik OIDC client + role authority (owns the users table); also routes `/editor` + `/openclaw` per user |
+| paperclip   | `:3110` | yes             | yes — Authentik OIDC client + role authority (owns the users table); also routes `/editor` per user |
 | code-server | per-user container `:8090` | via paperclip `/editor` | **none** (`--auth none`) |
-| openclaw    | per-user container `:18789`| via paperclip `/openclaw` | **none** (`--auth none`) |
+| openclaw    | per-user container `:18789`| **no** — backend only (bridge + adapter) | **none** (`--auth none`) |
 | Authentik   | `:9000` | yes             | the IdP itself |
 
 When `WORKSPACE_CONTAINERS=true` (the default for `deploy/install-openclaw-cluster.sh`),
 each human worker gets an **always-on Docker container** running its own openclaw
-gateway + code-server on a `/workspace` volume. nginx forwards `/editor` and
-`/openclaw` to paperclip, which resolves the session → that user's container and
-proxies (HTTP + WS). The bridge runs one mirror per container (multiplexer). When
-unset, the legacy single shared gateway/editor model applies.
+gateway + code-server on a `/workspace` volume. nginx forwards `/editor` to
+paperclip, which resolves the session → that user's container and proxies
+(HTTP + WS). The bridge runs one mirror per container (multiplexer). The raw
+openclaw gateway Control UI (`/openclaw`) is **not** browser-exposed — it is
+operator infra; paperclip is the only human UI and the gateway is reached only
+by the bridge + run-adapter on the internal container port. When unset, the
+legacy single shared gateway/editor model applies.
 
 ## Auth model
 
@@ -50,8 +53,9 @@ client because it owns identity and the role DB.
 
 ### Per-user workspaces (`WORKSPACE_CONTAINERS=true`)
 
-The edge still forward-auth gates `/editor` + `/openclaw`, but those locations
-now `proxy_pass` to **paperclip** (`:3110`), not directly to a shared service.
+The edge still forward-auth gates `/editor`, but that location now `proxy_pass`es
+to **paperclip** (`:3110`), not directly to a shared service. (`/openclaw`, the
+raw gateway Control UI, is no longer routed to browsers at all — operator infra.)
 paperclip resolves the request's session → the caller's container (registry at
 `~/.openclaw/workspaces/registry.json`), starts it if needed (`docker run`,
 always-on), and proxies to that container's code-server / gateway. So isolation

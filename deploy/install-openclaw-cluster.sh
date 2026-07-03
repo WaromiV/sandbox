@@ -694,21 +694,11 @@ server {
   }
   location = /editor { return 301 /editor/; }
 
-  # ----- openclaw gateway (per-user container; routed by paperclip) ------
-  location /openclaw/ {
-    auth_request     /outpost.goauthentik.io/auth/nginx;
-    error_page       401 = @goauthentik_proxy_signin;
-    auth_request_set \$auth_cookie \$upstream_http_set_cookie;
-    add_header       Set-Cookie \$auth_cookie;
-    auth_request_set \$authentik_username \$upstream_http_x_authentik_username;
-    auth_request_set \$authentik_email    \$upstream_http_x_authentik_email;
-    proxy_set_header X-authentik-username \$authentik_username;
-    proxy_set_header X-authentik-email    \$authentik_email;
-    proxy_pass http://127.0.0.1:3110;
-  }
-  location = /openclaw {
-    return 301 /openclaw/;
-  }
+  # NOTE: the raw openclaw gateway Control UI (/openclaw) is intentionally NOT
+  # exposed to browsers — it is operator infra (token, WebSocket URL, device
+  # pairing) that human workers must never see. paperclip is the only human UI;
+  # the gateway is reached only by the bridge + run-adapter on the internal
+  # container port. To debug the gateway UI, tunnel the container port over SSH.
 
   # ----- Authentik (catch-all at root) ----------------------------------
   location / {
