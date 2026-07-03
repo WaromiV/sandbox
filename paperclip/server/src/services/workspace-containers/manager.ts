@@ -8,7 +8,7 @@
  */
 import { execFile, spawn } from "node:child_process";
 import { promisify } from "node:util";
-import { ensureEntry, type WorkspaceEntry } from "./registry.js";
+import { ensureEntry, listEntries, type WorkspaceEntry } from "./registry.js";
 
 const exec = promisify(execFile);
 
@@ -83,13 +83,25 @@ export type EnsuredContainer = {
 };
 
 // Skip the docker round-trip for users already started this process lifetime.
-// Cleared by invalidateEnsured() when the proxy can't reach the container.
+// Cleared by invalidateEnsured() when the proxy can't reach the container or
+// the idle reaper stops it.
 const ensured = new Set<string>();
+
+// Last time each user's workspace saw traffic (proxy request / WS frame).
+// Drives the idle reaper. In-memory: on restart, unseen users get a fresh
+// grace window rather than being reaped immediately.
+const lastActiveAt = new Map<string, number>();
+
+/** Record activity for a user's workspace (keeps it off the idle reaper). */
+export function touchUser(userId: string): void {
+  lastActiveAt.set(userId, Date.now());
+}
 
 export async function ensureUserContainer(
   userId: string,
   email: string | null = null,
 ): Promise<EnsuredContainer> {
+  touchUser(userId);
   const entry = await ensureEntry(userId, email);
   if (!ensured.has(userId)) {
     await startContainer(entry);
@@ -106,4 +118,53 @@ export async function ensureUserContainer(
 /** Forget a user so the next ensure re-checks docker (e.g. after a refused connection). */
 export function invalidateEnsured(userId: string): void {
   ensured.delete(userId);
+}
+
+// ---------------------------------------------------------------------------
+//  Idle reaper — stop containers with no traffic for WORKSPACE_IDLE_TIMEOUT_MIN
+//  (default 60). The volume is kept, so the next visit `docker start`s it back
+//  in ~1s. Trades a bit of return latency for idle RAM.
+// ---------------------------------------------------------------------------
+function idleTimeoutMs(): number {
+  const min = Number(process.env.WORKSPACE_IDLE_TIMEOUT_MIN);
+  return (Number.isFinite(min) && min > 0 ? min : 60) * 60_000;
+}
+
+async function stopContainer(name: string): Promise<void> {
+  await exec("docker", ["stop", name]).catch(() => undefined);
+}
+
+/** Stop every workspace idle longer than `idleMs`. Exposed for tests. */
+export async function reapIdleWorkspaces(
+  idleMs: number = idleTimeoutMs(),
+  log?: (msg: string) => void,
+): Promise<number> {
+  const now = Date.now();
+  let stopped = 0;
+  for (const entry of await listEntries()) {
+    const last = lastActiveAt.get(entry.userId);
+    if (last === undefined) {
+      // First sighting (e.g. after a restart) — grant a fresh grace window.
+      lastActiveAt.set(entry.userId, now);
+      continue;
+    }
+    if (now - last < idleMs) continue;
+    if ((await containerState(entry.containerName)) !== "running") continue;
+    await stopContainer(entry.containerName);
+    invalidateEnsured(entry.userId);
+    lastActiveAt.delete(entry.userId);
+    stopped += 1;
+    log?.(`stopped idle workspace ${entry.containerName} (idle ${Math.round((now - last) / 60_000)}m); volume kept`);
+  }
+  return stopped;
+}
+
+/** Start the periodic idle reaper. Returns a stop function. */
+export function startWorkspaceIdleReaper(log?: (msg: string) => void): () => void {
+  const tickMs = Math.min(idleTimeoutMs(), 5 * 60_000);
+  const timer = setInterval(() => {
+    void reapIdleWorkspaces(undefined, log).catch(() => undefined);
+  }, tickMs);
+  timer.unref?.();
+  return () => clearInterval(timer);
 }

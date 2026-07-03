@@ -647,6 +647,8 @@ export async function startServer(): Promise<StartedServer> {
   // Per-user workspace WebSocket proxy: code-server + gateway both use WS.
   if (config.workspaceContainers) {
     attachWorkspaceProxyUpgrade(server, workspaceUserResolver);
+    const { startWorkspaceIdleReaper } = await import("./services/workspace-containers/manager.js");
+    startWorkspaceIdleReaper((msg) => logger.info(`[workspace-reaper] ${msg}`));
   }
 
   // Increase keep-alive timeouts to safely outlive default idle timeouts

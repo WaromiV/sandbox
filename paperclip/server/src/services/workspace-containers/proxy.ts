@@ -11,7 +11,7 @@
 import * as http from "node:http";
 import * as net from "node:net";
 import type { RequestHandler, Request } from "express";
-import { ensureUserContainer, invalidateEnsured } from "./manager.js";
+import { ensureUserContainer, invalidateEnsured, touchUser } from "./manager.js";
 
 export type WorkspaceUser = { userId: string; email: string | null };
 export type WorkspaceUserResolver = (
@@ -155,6 +155,9 @@ export function attachWorkspaceProxyUpgrade(
         if (head && head.length) upstreamSocket.write(head);
         upstreamSocket.pipe(clientSocket);
         clientSocket.pipe(upstreamSocket);
+        // Keep an actively-connected editor off the idle reaper (code-server
+        // sends periodic WS traffic even when the user is just looking).
+        clientSocket.on("data", () => touchUser(who.userId));
         clientSocket.resume();
       });
       upstreamSocket.on("error", () => {

@@ -68,6 +68,13 @@ it as `0.0.0.0:18790` for docker's `127.0.0.1`-published host port. Containers
 ship Russian by default (code-server `--locale ru` + the Open VSX Russian
 language pack baked into `deploy/workspace/Dockerfile`).
 
+**Idle stop:** a container with no proxy traffic for `WORKSPACE_IDLE_TIMEOUT_MIN`
+(default 60) is `docker stop`ped — the **volume is kept**, so the next visit
+`docker start`s it back in ~1s. So "always-on" is really "on-demand with a 1h
+idle window": idle users cost disk, not RAM. Set the env to `0`/unset to keep
+the default hour; raise it for stickier sessions. Active editors stay alive via
+their live WS traffic.
+
 ### Reverse proxy is mandatory for openclaw + code-server
 
 Because those two have no auth, exposing their ports directly = unauthenticated
