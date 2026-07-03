@@ -34,8 +34,10 @@ export type RpcClientOptions = {
   token: string;
   /** Extra headers for the WS upgrade (e.g. x-paperclip-user for gateways in trusted-proxy auth mode). */
   headers?: Record<string, string>;
-  /** Reconnect delay when the socket drops. */
+  /** Base reconnect delay when the socket drops; backs off exponentially. */
   reconnectDelayMs?: number;
+  /** Cap for the exponential reconnect backoff (default 60s). */
+  maxReconnectDelayMs?: number;
   /** Per-request timeout. */
   requestTimeoutMs?: number;
   onEvent?: (event: string, payload: unknown) => void;
@@ -51,10 +53,15 @@ export class OpenclawRpcClient {
   private closed = false;
   private reconnectTimer: NodeJS.Timeout | null = null;
   private readonly reconnectDelayMs: number;
+  private readonly maxReconnectDelayMs: number;
+  private reconnectAttempts = 0;
   private readonly requestTimeoutMs: number;
 
   constructor(private readonly opts: RpcClientOptions) {
     this.reconnectDelayMs = opts.reconnectDelayMs ?? 5_000;
+    // Cap at 60s: a returning user's idle-stopped container is remirrored
+    // within ~1 min, and the retries (fast ECONNREFUSED) are cheap.
+    this.maxReconnectDelayMs = opts.maxReconnectDelayMs ?? 60_000;
     this.requestTimeoutMs = opts.requestTimeoutMs ?? 20_000;
   }
 
@@ -95,6 +102,7 @@ export class OpenclawRpcClient {
           .then(() => {
             this.handshakeOk = true;
             settled = true;
+            this.reconnectAttempts = 0; // recovered — reset backoff
             this.opts.onConnect?.();
             this.log("openclaw rpc handshake ok");
             resolve();
@@ -119,6 +127,7 @@ export class OpenclawRpcClient {
         }
       });
       ws.on("close", () => {
+        const wasEstablished = this.handshakeOk;
         this.ws = null;
         this.handshakeOk = false;
         for (const pending of this.pending.values()) {
@@ -126,7 +135,11 @@ export class OpenclawRpcClient {
         }
         this.pending.clear();
         this.opts.onClose?.();
-        this.log("openclaw rpc closed");
+        // Only log a genuine drop of an established connection; repeated
+        // failed-connect closes are covered by the backoff announcement.
+        if (wasEstablished) {
+          this.log("openclaw rpc closed");
+        }
         if (!this.closed) {
           this.scheduleReconnect();
         }
@@ -158,15 +171,34 @@ export class OpenclawRpcClient {
     });
   }
 
+  /**
+   * Exponential backoff with ±20% jitter, capped at maxReconnectDelayMs. A
+   * gateway that's down (e.g. an idle-stopped workspace container) is retried
+   * ever less often instead of every 5s, which also keeps the logs quiet. The
+   * jitter stops many per-user bridges from reconnecting in lockstep.
+   */
+  private nextReconnectDelay(): number {
+    const exp = Math.min(
+      this.reconnectDelayMs * 2 ** this.reconnectAttempts,
+      this.maxReconnectDelayMs,
+    );
+    this.reconnectAttempts += 1;
+    const jitter = exp * 0.2 * (Math.random() * 2 - 1);
+    return Math.max(this.reconnectDelayMs, Math.round(exp + jitter));
+  }
+
   private scheduleReconnect() {
     if (this.reconnectTimer || this.closed) return;
+    const delay = this.nextReconnectDelay();
+    // Only announce the first attempt after a drop; further backed-off retries
+    // stay silent so a long-down gateway doesn't spam the log.
+    if (this.reconnectAttempts === 1) {
+      this.log("openclaw rpc disconnected; will retry with backoff", { firstDelayMs: delay });
+    }
     this.reconnectTimer = setTimeout(() => {
       this.reconnectTimer = null;
-      this.connect().catch((err) => {
-        this.log("openclaw rpc reconnect failed", { err: String(err) });
-        this.scheduleReconnect();
-      });
-    }, this.reconnectDelayMs);
+      this.connect().catch(() => this.scheduleReconnect());
+    }, delay);
   }
 
   async request<T = unknown>(method: string, params: unknown = {}): Promise<T> {
